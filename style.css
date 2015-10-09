@@ -17,8 +17,10 @@ body {
   height: 70px;
   /*background-color: rgba(255, 255, 0, 0.19);*/
   position: fixed;
-  top:0;
-  width: 100%;
+  top: 0px;
+  left: 0px;
+  right: 0px;
+
   border-bottom: 2px solid #cccccc;
 }
 
@@ -76,50 +78,66 @@ body {
   width: 300px;
   height: 100%;
   border-right: 2px solid #cccccc;
+  overflow: auto;
   /*background-color: rgba(255, 0, 255, .40);*/
 }
 
 .file-tile {
   height: 30px;
+  /*width: 100%;*/
   line-height: 30px;
   /*background-color: rgba(20, 20, 20, 0.2);*/
   /*border: 1px solid blue;*/
   color: #2c3d55;
   padding-left: 10px;
   font-family: 'Source Sans Pro', sans-serif;
+  cursor: pointer;
 
   /* truncate text */
   white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  width: auto;
+  /*overflow: visible;*/
+  /*text-overflow: ellipsis;*/
+}
+
+.file-tile:hover {
+  background-color: hsla(215,32%,95%,1);
+}
+
+.file-tile.file-tile-selected {
+  background-color: #2c3d55;
+  color: white;
+
 }
 
 .code-container {
   position: absolute;
   top: 0px;
   left: 300px;
+  right: 0px;
   height: 100%;
-  width: 100%;
   /*background-color: rgba(255, 100, 0, .40);*/
 }
 
 .code-top-bar {
   position: absolute;
   height: 30px;
-  width: 100%;
+  left: 0px;
+  right: 0px;
   background-color: #2c3d55;
 }
 
 .title-container {
-  margin-left: 50px;
+  position: absolute;
+  left: 41px;
+  right: 0px;
   padding-left: 10px;
   background-color: white;
   height: 27px;
   line-height: 27px;   /*Vertically center the filename*/
-  width: 100%;
   font-family: Source Sans Pro, sans-serif;
   font-weight: bold;
-  font-style: italic;
+  color: hsla(215,16%,37%,1);
 }
 
 .ace-container {

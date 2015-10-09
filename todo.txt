@@ -1,0 +1,2 @@
+- Fix the left sidebar horizontal scrolling bug
+- Find a way to protect yourself from zip bombs
