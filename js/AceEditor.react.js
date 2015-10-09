@@ -1,4 +1,6 @@
-class AceEditor extends React.Component {
+import {PropTypes, Component} from 'react'
+
+class AceEditor extends Component {
 
   componentDidMount() {
     var editor = ace.edit("editor");
@@ -22,8 +24,8 @@ class AceEditor extends React.Component {
 }
 
 AceEditor.propTypes = {
-  selectionPath: React.PropTypes.string.isRequired,
-  selectionType: React.PropTypes.string.isRequired,
+  selectionPath: PropTypes.string.isRequired,
+  selectionType: PropTypes.string.isRequired,
 };
 
 export default AceEditor;

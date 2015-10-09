@@ -1,2 +1,5 @@
 - Fix the left sidebar horizontal scrolling bug
 - Find a way to protect yourself from zip bombs
+
+- from django's site: "If you are serving your own static files, be sure that handlers like Apache’s mod_php, which would execute static files as code, are disabled. You don’t want users to be able to execute arbitrary code by uploading and requesting a specially crafted file."
+Make sure mod_php is disabled of the apache server on the vm

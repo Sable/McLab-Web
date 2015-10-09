@@ -1,45 +1,45 @@
 import SelectedFileStore from './stores/SelectedFileStore';
 import {FileExplorer} from './FileExplorer.react';
 import {Container} from 'flux/utils';
-
+import {Component} from 'react';
 
 type State = {
   tree: Object,
   selection: String,
 };
 
-class FileExplorerContainer extends React.Component {
+class FileExplorerContainer extends Component {
   static getStores() {
     return [SelectedFileStore];
   }
 
   static calculateState(prevState) {
     return {
-      tree: {
-        path: "Workspace",
-        directories: [
-          {
-            path: 'Workspace/foo',
-            directories: [
-              {
-                path: 'Workspace/foo/bar',
-                directories: [],
-                files: [],
-              }
-            ],
-            files: [
-              "one",
-              "two",
-              "three",
-            ]
-          }
-        ],
-        files: [
-          'cholesky.m',
-          'This title is so long it doesn\'t fit into this tiny sidebar',
-          'pagerank.m',
-        ]
-      },
+      // tree: {
+      //   path: "Workspace",
+      //   directories: [
+      //     {
+      //       path: 'Workspace/foo',
+      //       directories: [
+      //         {
+      //           path: 'Workspace/foo/bar',
+      //           directories: [],
+      //           files: [],
+      //         }
+      //       ],
+      //       files: [
+      //         "one",
+      //         "two",
+      //         "three",
+      //       ]
+      //     }
+      //   ],
+      //   files: [
+      //     'cholesky.m',
+      //     'This title is so long it doesn\'t fit into this tiny sidebar',
+      //     'pagerank.m',
+      //   ]
+      // },
       selection: SelectedFileStore.getSelectionPath(),
     };
   }

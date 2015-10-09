@@ -3,8 +3,9 @@ import {FileExplorer} from './FileExplorer.react';
 import CodeTopBar from './CodeTopBar.react';
 import AceEditor from './AceEditor.react';
 import {Container} from 'flux/utils';
+var React = require('react');
 
-class CodeContainer extends React.Component{
+class CodeContainer extends React.Component {
   static getStores() {
     return [SelectedFileStore];
   }

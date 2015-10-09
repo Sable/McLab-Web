@@ -1,6 +1,8 @@
+import Dropzone from 'react-dropzone';
 import SelectedFileStore from './stores/SelectedFileStore';
 import FileTile from './FileTile.react';
 import FolderTile from './FolderTile.react';
+import {PropTypes, Component} from 'react';
 
 const getDirectoryTitle = path => path.split('/').pop();
 
@@ -11,7 +13,7 @@ function joinPaths(path1, path2) {
   return path1 + separator + path2;
 }
 
-class Directory extends React.Component {
+class Directory extends Component {
   render() {
     const currentIndent = this.props.indent;
     const tree = this.props.tree;
@@ -53,24 +55,41 @@ class Directory extends React.Component {
 
 }
 
-class FileExplorer extends React.Component {
+class FileExplorer extends Component {
   render() {
-    // TOMAYBEDO: the selection prop looks really ugly ugh
-    return (
-      <div className="file-explorer">
+    let contents;
+    if (this.props.tree) {
+      contents = (
         <Directory
           tree={this.props.tree}
           indent={0}
           selection={this.props.selection}
         />
+      );
+    } else {
+      contents = (
+        <div className="file-explorer-upload">
+          <Dropzone
+            onDrop={(files) => console.log('Received files: ', files) }
+          >
+            Drag and drop a zip file to upload!
+          </Dropzone>
+        </div>
+
+      );
+    }
+    // TOMAYBEDO: the selection prop looks really ugly ugh
+    return (
+      <div className="file-explorer">
+        {contents}
       </div>
     );
   }
 }
 
 FileExplorer.propTypes = {
-  tree: React.PropTypes.object.isRequired,
-  selection: React.PropTypes.string.isRequired,
+  tree: PropTypes.object.isRequired,
+  selection: PropTypes.string.isRequired,
 }
 
 module.exports = {

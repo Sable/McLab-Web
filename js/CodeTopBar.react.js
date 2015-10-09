@@ -1,4 +1,6 @@
-class CodeTopBar extends React.Component {
+import {PropTypes, Component} from 'react';
+
+class CodeTopBar extends Component {
   render() {
     return (
       <div className="code-top-bar">
@@ -11,8 +13,8 @@ class CodeTopBar extends React.Component {
 }
 
 CodeTopBar.propTypes = {
-  selectionPath: React.PropTypes.string.isRequired,
-  selectionType: React.PropTypes.string.isRequired,
+  selectionPath: PropTypes.string.isRequired,
+  selectionType: PropTypes.string.isRequired,
 };
 
 export default CodeTopBar;

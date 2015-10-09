@@ -1,9 +1,10 @@
 import classNames from 'classNames';
 import Dispatcher from './Dispatcher';
+import {PropTypes, Component} from 'react';
 
 var one_indent = "\u00A0\u00A0";  // Non-breaking spaces
 
-class FolderTile extends React.Component {
+class FolderTile extends Component {
   render() {
 
     var indent_string = '';
@@ -33,10 +34,10 @@ class FolderTile extends React.Component {
 }
 
 FolderTile.propTypes = {
-  title: React.PropTypes.string.isRequired,
-  path: React.PropTypes.string.isRequired,
-  indent: React.PropTypes.number.isRequired,
-  selected: React.PropTypes.bool.isRequired,
+  title: PropTypes.string.isRequired,
+  path: PropTypes.string.isRequired,
+  indent: PropTypes.number.isRequired,
+  selected: PropTypes.bool.isRequired,
 
 }
 

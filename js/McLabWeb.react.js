@@ -1,12 +1,13 @@
-import FileExplorerContainer from './FileExplorerContainer.react'
-import CodeContainer from './CodeContainer.react'
+import FileExplorerContainer from './FileExplorerContainer.react';
+import CodeContainer from './CodeContainer.react';
+import React from 'react';
 
 var TopNav = React.createClass({
   render: function() {
     return (
       <div className="topnav">
         <div className="ml-logo-container">
-          <img src="mclab_logo_360.png" className="ml-logo" />
+          <img src="static/mclab_logo_360.png" className="ml-logo" />
           <div className="mclab-logo-text">MCLAB <strong>WEB</strong></div>
         </div>
         <div className="buttons-container">

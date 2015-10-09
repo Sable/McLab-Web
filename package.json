@@ -7,7 +7,8 @@
     "flux": "^2.1.1",
     "keymirror": "~0.1.0",
     "object-assign": "^1.0.0",
-    "react": "^0.13.3"
+    "react": "^0.13.3",
+    "react-dropzone": "^2.1.0"
   },
   "devDependencies": {
     "babelify": "^6.3.0",
@@ -19,13 +20,18 @@
     "watchify": "^2.1.1"
   },
   "scripts": {
-    "start": "watchify -o js/bundle.js -v -d js/app.js",
-    "build": "browserify -x react . -t [envify --NODE_ENV production] [babelify --stage 0]  | uglifyjs -cm > js/bundle.min.js"
+    "start": "watchify -o static/bundle.js -v -d js/app.js",
+    "build": "browserify -x react . -t [envify --NODE_ENV production] [babelify --stage 0]  | uglifyjs -cm > static/bundle.min.js"
   },
   "author": "Deepanjan Roy",
   "browserify": {
     "transform": [
-      ["babelify", { "stage": 0 }],
+      [
+        "babelify",
+        {
+          "stage": 0
+        }
+      ],
       "reactify",
       "envify"
     ]
