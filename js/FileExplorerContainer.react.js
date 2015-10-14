@@ -1,7 +1,10 @@
 import SelectedFileStore from './stores/SelectedFileStore';
+import FileTreeStore from './stores/FileTreeStore'
+import FileExplorerActions from './FileExplorerActions.js'
 import {FileExplorer} from './FileExplorer.react';
 import {Container} from 'flux/utils';
 import {Component} from 'react';
+import LS from './constants/LS'
 
 type State = {
   tree: Object,
@@ -10,7 +13,10 @@ type State = {
 
 class FileExplorerContainer extends Component {
   static getStores() {
-    return [SelectedFileStore];
+    return [
+      SelectedFileStore,
+      FileTreeStore,
+    ];
   }
 
   static calculateState(prevState) {
@@ -40,11 +46,22 @@ class FileExplorerContainer extends Component {
       //     'pagerank.m',
       //   ]
       // },
+      loadState: FileTreeStore.getLoadState(),
+      tree: FileTreeStore.getFileTree(),
       selection: SelectedFileStore.getSelectionPath(),
     };
   }
 
+  componentWillMount() {
+    // Send out an ajax call to fetch the filetree
+    FileExplorerActions.fetchFileTree();
+  }
+
   render() {
+    // LS.LOAD_ERROR should have special treatment
+    if (this.state.loadState !== LS.LOADED) {
+      return <pre>Loading...</pre>;
+    }
     return (
       <FileExplorer
         tree={this.state.tree}

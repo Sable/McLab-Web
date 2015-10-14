@@ -1,4 +1,5 @@
 import SelectedFileStore from './stores/SelectedFileStore';
+import FileContentsStore from './stores/FileContentsStore'
 import {FileExplorer} from './FileExplorer.react';
 import CodeTopBar from './CodeTopBar.react';
 import AceEditor from './AceEditor.react';
@@ -7,7 +8,10 @@ var React = require('react');
 
 class CodeContainer extends React.Component {
   static getStores() {
-    return [SelectedFileStore];
+    return [
+      SelectedFileStore,
+      FileContentsStore,
+    ];
   }
 
   static calculateState(prevState) {
@@ -16,23 +20,36 @@ class CodeContainer extends React.Component {
       return prevState;
     }
 
+    const filepath = SelectedFileStore.getSelectionPath();
+
     return {
-      selectionPath: SelectedFileStore.getSelectionPath(),
+      selectionPath: filepath,
       selectionType: SelectedFileStore.getSelectionType(),
+      fileContents: FileContentsStore.get(filepath),
     };
   }
 
   render() {
+    let codeContent;
+    if (!!this.state.fileContents) {
+      if (this.state.fileContents['error']) {
+        codeContent = <strong> Error loading file </strong>;
+      } else {
+        codeContent = <AceEditor codeText={this.state.fileContents['text']} />;
+      }
+    } else {
+      // TODO: differentiate between loading and not loaded
+      // TODO: Fix this monstrocity
+      codeContent = <div>Select a file</div>;
+    }
+
     return (
       <div className="code-container">
         <CodeTopBar
           selectionPath={this.state.selectionPath}
           selectionType={this.state.selectionType}
         />
-        <AceEditor
-          selectionPath={this.state.selectionPath}
-          selectionType={this.state.selectionType}
-        />
+        {codeContent}
       </div>
     );
   }

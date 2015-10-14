@@ -1,6 +1,7 @@
 import classNames from 'classNames';
 import Dispatcher from './Dispatcher';
 import {PropTypes, Component} from 'react';
+import AT from './constants/AT'
 
 var one_indent = "\u00A0\u00A0";  // Non-breaking spaces
 
@@ -20,7 +21,7 @@ class FolderTile extends Component {
           {'file-tile-selected': this.props.selected}
         )}
         onClick={() => Dispatcher.dispatch({
-          action: 'FILE_EXPLORER.SELECTION_CHANGED',
+          action: AT.FILE_EXPLORER.SELECTION_CHANGED,
           data: { selection: this.props.path, type: 'DIR' }
         })}
       >

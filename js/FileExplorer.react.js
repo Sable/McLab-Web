@@ -1,8 +1,10 @@
 import Dropzone from 'react-dropzone';
+import FileExplorerActions from './FileExplorerActions.js'
 import SelectedFileStore from './stores/SelectedFileStore';
 import FileTile from './FileTile.react';
 import FolderTile from './FolderTile.react';
 import {PropTypes, Component} from 'react';
+import request from 'superagent'
 
 const getDirectoryTitle = path => path.split('/').pop();
 
@@ -58,7 +60,8 @@ class Directory extends Component {
 class FileExplorer extends Component {
   render() {
     let contents;
-    if (this.props.tree) {
+    // check if tree is just an empty object
+    if (this.props.tree.path) {
       contents = (
         <Directory
           tree={this.props.tree}
@@ -70,7 +73,17 @@ class FileExplorer extends Component {
       contents = (
         <div className="file-explorer-upload">
           <Dropzone
-            onDrop={(files) => console.log('Received files: ', files) }
+            onDrop={
+              function(files){
+                var req = request.post('upload/');
+                files.forEach((file)=> {
+                    req.attach(file.name, file);
+                });
+                req.end(() => console.log("sent"));
+
+                FileExplorerActions.fetchFileTree();
+              }
+            }
           >
             Drag and drop a zip file to upload!
           </Dropzone>

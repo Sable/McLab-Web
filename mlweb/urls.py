@@ -15,9 +15,23 @@ Including another URLconf
 """
 from django.conf.urls import include, url
 from django.contrib import admin
+from django.shortcuts import redirect
 from mcserver import views
+import uuid
 
+def redirect_to_session(*args, **kwargs):
+    new_uuid = str(uuid.uuid4())
+    return redirect('/session/{0}/'.format(new_uuid))
+
+
+# Be careful about reordering these
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
-    url(r'^$', views.index, name='index'),
+    url(r'^$', redirect_to_session, name='index'),
+    url(r'^session/(?P<sessionid>[\w-]*?)/$', views.index, name='index_sessioned'),
+    url(r'^session/(?P<sessionid>[\w-]*?)/upload/$', views.upload, name='upload'),
+    url(r'^session/(?P<sessionid>[\w-]*?)/filetree/$', views.filetree, name='filetree'),
+    url(r'^session/(?P<sessionid>[\w-]*?)/readfile/(?P<filepath>.*?)$',
+        views.readfile, name='readfile'),
 ]
+

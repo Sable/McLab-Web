@@ -1,5 +1,6 @@
-var {Store} = require('flux/utils');
-var Dispatcher = require('../Dispatcher')
+import {Store} from 'flux/utils';
+import Dispatcher from '../Dispatcher'
+import AT from '../constants/AT'
 
 class SelectedFileStore extends Store {
 
@@ -11,7 +12,7 @@ class SelectedFileStore extends Store {
 
   __onDispatch(payload) {
     switch (payload.action) {
-      case "FILE_EXPLORER.SELECTION_CHANGED":
+      case AT.FILE_EXPLORER.SELECTION_CHANGED:
         this._selectionPath = payload.data.selection;
         this._selectionType = payload.data.type;
         this.__emitChange();
