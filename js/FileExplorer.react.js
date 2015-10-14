@@ -79,9 +79,7 @@ class FileExplorer extends Component {
                 files.forEach((file)=> {
                     req.attach(file.name, file);
                 });
-                req.end(() => console.log("sent"));
-
-                FileExplorerActions.fetchFileTree();
+                req.end(() => FileExplorerActions.fetchFileTree());
               }
             }
           >
