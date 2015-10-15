@@ -1,8 +1,12 @@
-- Fix the left sidebar horizontal scrolling bug
+- Fix the left sidebar horizontal scrolling bug (Have a file with long filename -> now the file explorer lets you scroll horizontally which is cool -> but the selection / hover highlights seem to not cover all the scrollable width.)
+
 - Find a way to protect yourself from zip bombs
 
 - from django's site: "If you are serving your own static files, be sure that handlers like Apache’s mod_php, which would execute static files as code, are disabled. You don’t want users to be able to execute arbitrary code by uploading and requesting a specially crafted file."
 Make sure mod_php is disabled of the apache server on the vm
 
-- check the filetype client-side?
+- check the filetype client-side maybe? We can reject non-zip files.
+
 - better error message when file fails to unzip
+
+- I have a strong suspicion that due to the way react works, we might be creating a new ace editor for every file we ever open. This is a memory leak, and could be worth fixing if this starts becoming a memory hog.
