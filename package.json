@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "description": "McLab Web IDE.",
   "main": "js/app.js",
+  "repository": "https://github.com/deepanjanroy/mclab-web",
   "dependencies": {
     "flux": "^2.1.1",
     "immutable": "^3.7.5",
