@@ -5,6 +5,7 @@
   "main": "js/app.js",
   "repository": "https://github.com/deepanjanroy/mclab-web",
   "dependencies": {
+    "classnames": "^2.2.0",
     "flux": "^2.1.1",
     "immutable": "^3.7.5",
     "keymirror": "^0.1.1",

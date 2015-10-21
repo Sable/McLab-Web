@@ -1,5 +1,6 @@
 import FileExplorerContainer from './FileExplorerContainer.react';
 import CodeContainer from './CodeContainer.react';
+import TerminalContainer from './TerminalContainer.react';
 import React from 'react';
 
 var TopNav = React.createClass({
@@ -26,7 +27,10 @@ var McLabWeb = React.createClass({
         <TopNav />
         <div className="body-container">
           <FileExplorerContainer />
-          <CodeContainer />
+          <div className="inner-body">
+            <CodeContainer />
+            <TerminalContainer />
+          </div>
         </div>
       </div>
     );
