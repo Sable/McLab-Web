@@ -73,6 +73,7 @@ body {
   top: 70px;
   bottom: 0px;
   width: 100%;
+  overflow: hidden;
 }
 
 .file-explorer {
@@ -118,11 +119,7 @@ body {
   left: 0px;
   right: 0px;
   height: 70%;
-  background-color: rgba(255, 100, 0, .40);
-}
-
-.code-container.side-panel-open {
-  right: 300px;
+  /*background-color: rgba(255, 100, 0, .40);*/
 }
 
 .code-top-bar {
@@ -195,18 +192,15 @@ body {
   font-size: 12px;
 }
 
-.terminal.side-panel-open {
-  right: 300px;
-}
-
 .terminal-line:hover {
   background-color: hsla(215,32%,94%,1);
 }
 
 .side-panel {
   float: right;
+  width: 30%;
   min-width: 300px;
-  max-width: 40%;
+  max-width: 600px;
   top: 0px;
   right: 0px;
   height: 100%;
@@ -215,11 +209,11 @@ body {
 
 .middle-container {
   /*clear: left;*/
-  float: left;
+  /*float: left;*/
   position: relative;
-  width: calc(100% - 600px);
+  overflow: hidden;
   height: 100%;
-  background-color: green;
+  /*background-color: green;*/
 }
 
 .file-explorer-inner-container {

@@ -32,8 +32,6 @@ var TopNav = React.createClass({
     );
   }
 });
-            // <CodeContainer />
-            // <TerminalContainer />
 
 
 var McLabWeb = React.createClass({
@@ -43,9 +41,11 @@ var McLabWeb = React.createClass({
         <TopNav />
         <div className="body-container">
           <FileExplorerContainer />
-          <div className="middle-container">
-          </div>
           <SidePanel />
+          <div className="middle-container">
+            <CodeContainer />
+            <TerminalContainer />
+          </div>
         </div>
       </div>
     );
