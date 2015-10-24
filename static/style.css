@@ -76,7 +76,7 @@ body {
 }
 
 .file-explorer {
-  position: absolute;
+  float:left;
   width: 300px;
   height: 100%;
   border-right: 2px solid #cccccc;
@@ -115,10 +115,14 @@ body {
 .code-container {
   position: absolute;
   top: 0px;
-  left: 300px;
+  left: 0px;
   right: 0px;
   height: 70%;
-  /*background-color: rgba(255, 100, 0, .40);*/
+  background-color: rgba(255, 100, 0, .40);
+}
+
+.code-container.side-panel-open {
+  right: 300px;
 }
 
 .code-top-bar {
@@ -147,7 +151,7 @@ body {
   top: 30px;
   bottom: 0;
   width: 100%;
-  /*background-color: rgba(0, 0, 0, .70);*/
+  background-color: rgba(0, 0, 0, .70);
 
 }
 
@@ -180,7 +184,7 @@ body {
   background-color: hsla(215,18%,97%,1);
   position: absolute;
   bottom: 0px;
-  left: 300px;
+  left: 0px;
   right: 0px;
   padding: 10px 10px;
   border-top: 4px solid #ccc;
@@ -191,6 +195,36 @@ body {
   font-size: 12px;
 }
 
+.terminal.side-panel-open {
+  right: 300px;
+}
+
 .terminal-line:hover {
   background-color: hsla(215,32%,94%,1);
+}
+
+.side-panel {
+  float: right;
+  min-width: 300px;
+  max-width: 40%;
+  top: 0px;
+  right: 0px;
+  height: 100%;
+  background-color: grey;
+}
+
+.middle-container {
+  /*clear: left;*/
+  float: left;
+  position: relative;
+  width: calc(100% - 600px);
+  height: 100%;
+  background-color: green;
+}
+
+.file-explorer-inner-container {
+  min-width: 100%;
+  width: intrinsic;           /* Safari/WebKit uses a non-standard name */
+  width: -moz-max-content;    /* Firefox/Gecko */
+  width: -webkit-max-content; /* Chrome */
 }

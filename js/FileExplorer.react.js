@@ -64,11 +64,13 @@ class FileExplorer extends Component {
     // check if tree is just an empty object
     if (this.props.tree.path) {
       contents = (
-        <Directory
-          tree={this.props.tree}
-          indent={0}
-          selection={this.props.selection}
-        />
+        <div className="file-explorer-inner-container">
+          <Directory
+            tree={this.props.tree}
+            indent={0}
+            selection={this.props.selection}
+          />
+        </div>
       );
     } else {
       contents = (

@@ -1,4 +1,4 @@
-import Dropzone from 'react-dropzone';
+import classnames from 'classnames';
 import FileExplorerActions from './FileExplorerActions.js'
 import SelectedFileStore from './stores/SelectedFileStore';
 import FileTile from './FileTile.react';
@@ -37,7 +37,10 @@ class Terminal extends Component {
     );
 
     return (
-      <div className="terminal">
+      <div className={classnames({
+        "terminal": true,
+        "side-panel-open": true,
+      })}>
         {lines}
       </div>
     );

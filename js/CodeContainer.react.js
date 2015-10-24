@@ -1,3 +1,4 @@
+import classnames from 'classnames';
 import SelectedFileStore from './stores/SelectedFileStore';
 import FileContentsStore from './stores/FileContentsStore'
 import {FileExplorer} from './FileExplorer.react';
@@ -44,7 +45,10 @@ class CodeContainer extends React.Component {
     }
 
     return (
-      <div className="code-container">
+      <div className={classnames({
+        "code-container": true,
+        "side-panel-open": true,
+      })}>
         <CodeTopBar
           selectionPath={this.state.selectionPath}
           selectionType={this.state.selectionType}

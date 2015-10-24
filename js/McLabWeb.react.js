@@ -1,6 +1,7 @@
 import FileExplorerContainer from './FileExplorerContainer.react';
 import CodeContainer from './CodeContainer.react';
 import TerminalContainer from './TerminalContainer.react';
+import SidePanel from './SidePanel.react'
 import React from 'react';
 import Dispatcher from './Dispatcher';
 import AT from './constants/AT';
@@ -31,6 +32,9 @@ var TopNav = React.createClass({
     );
   }
 });
+            // <CodeContainer />
+            // <TerminalContainer />
+
 
 var McLabWeb = React.createClass({
   render: function() {
@@ -39,10 +43,9 @@ var McLabWeb = React.createClass({
         <TopNav />
         <div className="body-container">
           <FileExplorerContainer />
-          <div className="inner-body">
-            <CodeContainer />
-            <TerminalContainer />
+          <div className="middle-container">
           </div>
+          <SidePanel />
         </div>
       </div>
     );
