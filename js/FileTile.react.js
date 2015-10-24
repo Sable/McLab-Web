@@ -1,9 +1,11 @@
 import classNames from 'classNames';
 import Dispatcher from './Dispatcher';
-import {PropTypes, Component} from 'react';
+import React from 'react';
 import AT from './constants/AT';
 import request from 'superagent';
 
+
+const {PropTypes, Component} = React;
 var one_indent = "\u00A0\u00A0";  // Non-breaking spaces
 
 class FileTile extends Component {

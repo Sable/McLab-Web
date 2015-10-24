@@ -3,7 +3,7 @@ import FileTreeStore from './stores/FileTreeStore'
 import FileExplorerActions from './FileExplorerActions.js'
 import {FileExplorer} from './FileExplorer.react';
 import {Container} from 'flux/utils';
-import {Component} from 'react';
+import React from 'react';
 import LS from './constants/LS'
 
 type State = {
@@ -11,7 +11,7 @@ type State = {
   selection: String,
 };
 
-class FileExplorerContainer extends Component {
+class FileExplorerContainer extends React.Component {
   static getStores() {
     return [
       SelectedFileStore,

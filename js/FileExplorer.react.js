@@ -3,9 +3,10 @@ import FileExplorerActions from './FileExplorerActions.js'
 import SelectedFileStore from './stores/SelectedFileStore';
 import FileTile from './FileTile.react';
 import FolderTile from './FolderTile.react';
-import {PropTypes, Component} from 'react';
+import React from 'react';
 import request from 'superagent'
 
+const {PropTypes, Component} = React;
 const getDirectoryTitle = path => path.split('/').pop();
 
 function joinPaths(path1, path2) {

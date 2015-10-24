@@ -24,7 +24,7 @@
   },
   "scripts": {
     "start": "watchify -o static/bundle.js -v -d js/app.js",
-    "build": "browserify -x react . -t [envify --NODE_ENV production] [babelify --stage 0]  | uglifyjs -cm > static/bundle.min.js"
+    "build": "browserify . -t [envify --NODE_ENV production] [babelify --stage 0]  | uglifyjs -cm > static/bundle.min.js"
   },
   "author": "Deepanjan Roy",
   "browserify": {

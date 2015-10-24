@@ -1,7 +1,9 @@
-import {PropTypes, Component} from 'react'
+import React from 'react'
 import {Container} from 'flux/utils'
 import SelectedFileStore from './stores/SelectedFileStore'
 import FileContentsStore from './stores/FileContentsStore'
+
+const {PropTypes, Component} = React;
 
 class AceEditor extends Component {
 

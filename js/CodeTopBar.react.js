@@ -1,4 +1,6 @@
-import {PropTypes, Component} from 'react';
+import React from 'react';
+
+const {PropTypes, Component} = React;
 
 class CodeTopBar extends Component {
   render() {
