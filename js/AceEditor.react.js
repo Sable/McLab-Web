@@ -8,8 +8,6 @@ const {PropTypes, Component} = React;
 class AceEditor extends Component {
 
   _configureEditor() {
-    console.log("reconfiguring");
-
     const editor = ace.edit('editor');
     editor.setTheme("ace/theme/tomorrow");
     editor.getSession().setMode("ace/mode/matlab");
@@ -18,7 +16,7 @@ class AceEditor extends Component {
     editor.setShowPrintMargin(false);
     editor.$blockScrolling = Infinity
     this.editor = editor;
-    console.log("here's your editor", editor);
+    window.debug_editor = editor;
   }
 
   componentDidMount(prevProps) {
@@ -31,6 +29,11 @@ class AceEditor extends Component {
   componentDidUpdate(prevProps) {
     this.editor.setValue(prevProps.codeText, 0);
     this.editor.navigateFileStart();
+
+    // This is a huge hack. The size panel must finish rendering before
+    // the editor container can know its true size.
+    // This is the glorious day when we run into a concurrency bug is javascript
+    setTimeout(() => this.editor.resize(), 0);
   }
 
   render() {
@@ -43,6 +46,16 @@ class AceEditor extends Component {
     );
   }
 
+}
+
+AceEditor.propTypes = {
+  codeText: PropTypes.string,
+
+  /* This prop is required because opening or closing the side panel
+   * triggers an editor refresh. Otherwise the editor does not resize
+   * properly.
+  */
+  sidePanelOpen: PropTypes.bool.isRequired,
 }
 
 export default AceEditor;

@@ -12,7 +12,7 @@ class SelectedFileStore extends Store {
 
   __onDispatch(payload) {
     switch (payload.action) {
-      case AT.FILE_EXPLORER.SELECTION_CHANGED:
+      case AT.FILE_EXPLORER.SELECT_FILE:
         this._selectionPath = payload.data.selection;
         this._selectionType = payload.data.type;
         this.__emitChange();

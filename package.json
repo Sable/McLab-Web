@@ -10,8 +10,11 @@
     "immutable": "^3.7.5",
     "keymirror": "^0.1.1",
     "object-assign": "^1.0.0",
-    "react": "^0.13.3",
+    "react": "^0.14.0",
+    "react-bootstrap": "^0.27.2",
+    "react-dom": "^0.14.0",
     "react-dropzone": "^2.1.0",
+    "react-select": "^0.8.2",
     "superagent": "^1.4.0"
   },
   "devDependencies": {

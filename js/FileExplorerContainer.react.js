@@ -1,6 +1,7 @@
 import SelectedFileStore from './stores/SelectedFileStore';
 import FileTreeStore from './stores/FileTreeStore'
 import FileExplorerActions from './FileExplorerActions.js'
+import FileExplorerSelectionModeStore from './stores/FileExplorerSelectionModeStore'
 import {FileExplorer} from './FileExplorer.react';
 import {Container} from 'flux/utils';
 import React from 'react';
@@ -16,6 +17,7 @@ class FileExplorerContainer extends React.Component {
     return [
       SelectedFileStore,
       FileTreeStore,
+      FileExplorerSelectionModeStore,
     ];
   }
 
@@ -49,6 +51,7 @@ class FileExplorerContainer extends React.Component {
       loadState: FileTreeStore.getLoadState(),
       tree: FileTreeStore.getFileTree(),
       selection: SelectedFileStore.getSelectionPath(),
+      selectionMode: FileExplorerSelectionModeStore.isInSelectionMode(),
     };
   }
 
@@ -66,6 +69,7 @@ class FileExplorerContainer extends React.Component {
       <FileExplorer
         tree={this.state.tree}
         selection={this.state.selection}
+        selectionMode={this.state.selectionMode}
       />
     );
   }

@@ -1,10 +1,12 @@
 import FileExplorerContainer from './FileExplorerContainer.react';
 import CodeContainer from './CodeContainer.react';
 import TerminalContainer from './TerminalContainer.react';
-import SidePanel from './SidePanel.react'
+import SidePanelContainer from './SidePanelContainer.react'
 import React from 'react';
+import ReactDOM from 'react-dom';
 import Dispatcher from './Dispatcher';
 import AT from './constants/AT';
+
 
 // TODO: Make it a ES6 React class
 var TopNav = React.createClass({
@@ -12,10 +14,7 @@ var TopNav = React.createClass({
 
     const fortranOnClick =
       () => Dispatcher.dispatch({
-        action: AT.TERMINAL.ADD_NEW_LINE,
-        data: {
-          newLine: <span style={{color:"green"}}>Please select a main file</span>,
-        },
+        action: AT.FORTRAN_COMPILE_PANEL.OPEN_PANEL,
       });
 
     return (
@@ -41,7 +40,7 @@ var McLabWeb = React.createClass({
         <TopNav />
         <div className="body-container">
           <FileExplorerContainer />
-          <SidePanel />
+          <SidePanelContainer />
           <div className="middle-container">
             <CodeContainer />
             <TerminalContainer />
@@ -52,7 +51,7 @@ var McLabWeb = React.createClass({
   }
 });
 
-React.render(
+ReactDOM.render(
   <McLabWeb />,
   document.getElementById('app-container')
 );

@@ -1,4 +1,5 @@
 import classnames from 'classnames';
+import ActiveSidePanelStore from './stores/ActiveSidePanelStore';
 import SelectedFileStore from './stores/SelectedFileStore';
 import FileContentsStore from './stores/FileContentsStore'
 import {FileExplorer} from './FileExplorer.react';
@@ -12,6 +13,7 @@ class CodeContainer extends React.Component {
     return [
       SelectedFileStore,
       FileContentsStore,
+      ActiveSidePanelStore,
     ];
   }
 
@@ -27,6 +29,7 @@ class CodeContainer extends React.Component {
       selectionPath: filepath,
       selectionType: SelectedFileStore.getSelectionType(),
       fileContents: FileContentsStore.get(filepath),
+      sidePanelOpen: ActiveSidePanelStore.isPanelOpen(),
     };
   }
 
@@ -36,7 +39,12 @@ class CodeContainer extends React.Component {
       if (this.state.fileContents['error']) {
         codeContent = <strong> Error loading file </strong>;
       } else {
-        codeContent = <AceEditor codeText={this.state.fileContents['text']} />;
+        codeContent = (
+          <AceEditor
+            codeText={this.state.fileContents['text']}
+            sidePanelOpen={this.state.sidePanelOpen}
+          />
+        );
       }
     } else {
       // TODO: differentiate between loading and not loaded
@@ -47,11 +55,9 @@ class CodeContainer extends React.Component {
     return (
       <div className={classnames({
         "code-container": true,
-        "side-panel-open": true,
       })}>
         <CodeTopBar
           selectionPath={this.state.selectionPath}
-          selectionType={this.state.selectionType}
         />
         {codeContent}
       </div>

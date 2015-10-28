@@ -2,17 +2,24 @@ console.log("Starting McLab Web");
 require('./McLabWeb.react');
 
 
+// Bootstrap select
+$('.selectpicker').selectpicker();
+
+
 // Debug stuff
 import React from 'react';
 
-import Dispatcher from './Dispatcher'
+import Dispatcher from './Dispatcher';
 window.debug_dispatcher = Dispatcher;
 
-import AT from './constants/AT'
+import AT from './constants/AT';
 window.debug_AT = AT;
 
-import TerminalBufferStore from './stores/TerminalBufferStore'
+import TerminalBufferStore from './stores/TerminalBufferStore';
 window.debug_TerminalBufferStore = TerminalBufferStore;
+
+import FileExplorerSelectionModeStore from './stores/FileExplorerSelectionModeStore';
+window.debug_FileExplorerSelectionModeStore = FileExplorerSelectionModeStore;
 
 const hm = <div>Look a link: <a href="http://google.com">Google</a></div>;
 // You could technically pass in a react container here. The possibilities are endless

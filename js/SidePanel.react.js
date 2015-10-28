@@ -1,19 +1,23 @@
-import Dropzone from 'react-dropzone';
-import FileExplorerActions from './FileExplorerActions.js'
-import SelectedFileStore from './stores/SelectedFileStore';
-import FileTile from './FileTile.react';
-import FolderTile from './FolderTile.react';
 import React from 'react';
+import SidePanelKeys from './constants/SidePanelKeys';
+import FortranCompilePanelContainer from './FortranCompilePanelContainer.react';
 
 const {PropTypes, Component} = React;
 
-class Terminal extends Component {
+const keyToModuleMap = new Map([
+  [SidePanelKeys.FORTRAN_COMPILE_PANEL, FortranCompilePanelContainer],
+]);
+
+class SidePanel extends Component {
   render() {
-    return <div className="side-panel"></div>;
+    if (!this.props.activePanel) {
+      return null;
+    }
+
+    const PanelContainer = keyToModuleMap.get(this.props.activePanel);
+
+    return <PanelContainer />;
   }
 }
 
-Terminal.propTypes = {
-}
-
-export default Terminal;
+export default SidePanel;

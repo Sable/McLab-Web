@@ -1,6 +1,7 @@
 body {
   box-sizing: border-box;
   font-family: 'Source Sans Pro', Helvetica, sans-serif;
+  overflow: hidden;
 }
 
 *, *:before, *:after {
@@ -67,6 +68,12 @@ body {
   font-weight: bold;
 }
 
+.topnav-button:hover {
+  text-decoration: none;
+  color: white;
+  background-color: hsla(215,32%,50%,1);
+}
+
 .body-container {
   /*background-color: rgba(0, 20, 0, .15);*/
   position: absolute;
@@ -77,13 +84,76 @@ body {
 }
 
 .file-explorer {
-  float:left;
-  width: 300px;
+  width: 100%;
   height: 100%;
   border-right: 2px solid #cccccc;
+  -webkit-transition: all 0.3s cubic-bezier(0.18, 0.89, 0.32, 1.28);
+  transition: all 0.3s cubic-bezier(0.18, 0.89, 0.32, 1.28);
   overflow: auto;
   /*background-color: rgba(255, 0, 255, .40);*/
 }
+
+.file-explorer-outer-container {
+  float: left;
+  position: relative;
+  height: 100%;
+  width: 300px;
+  -webkit-transition: all 0.3s cubic-bezier(0.18, 0.89, 0.32, 1.28);
+  transition: all 0.3s cubic-bezier(0.18, 0.89, 0.32, 1.28);
+}
+
+
+.file-explorer-inner-container {
+  top: 0px;
+  height: 100%;
+  position: relative;
+  min-width: 100%;
+  width: intrinsic;           /* Safari/WebKit uses a non-standard name */
+  width: -moz-max-content;    /* Firefox/Gecko */
+  width: -webkit-max-content; /* Chrome */
+}
+
+.file-explorer-outer-selection-mode {
+  box-shadow: 0px 0px 20px rgba(76, 144, 245, 0.63);
+  z-index: 100;
+}
+
+.file-explorer-inner-selection-mode {
+  background-color: hsla(64, 20%, 97%, 1);
+}
+
+.file-explorer-selection-banner {
+  background-color: hsla(216,89%,63%,1);
+  font-family: 'Lato', sans-serif;
+  color: white;
+  height: 0px;
+  padding: 0px 10px;
+  line-height: 30px;
+  bottom: -30px;
+  overflow: hidden;
+  /*font-style: italic;*/
+  -webkit-transition: height 0.3s;
+  transition: height 0.3s cubic-bezier(0.18, 0.89, 0.32, 1.28);
+  animation-direction: reverse;*/
+  /*border-bottom: 2px solid #2c3d55;*/
+}
+
+.file-explorer-selection-banner-open {
+  height: 30px;
+}
+
+.file-explorer-selection-close-button {
+  float: right;
+  color: inherit;
+  font-size: 20px;
+  font-weight: 200;
+  line-height: 18px;
+}
+
+.file-explorer-selection-close-button:hover {
+  font-weight: 400;
+}
+
 
 .file-tile {
   height: 30px;
@@ -176,6 +246,7 @@ body {
   margin: auto;
 }
 
+
 .terminal {
   height: 30%;
   background-color: hsla(215,18%,97%,1);
@@ -196,7 +267,7 @@ body {
   background-color: hsla(215,32%,94%,1);
 }
 
-.side-panel {
+.side-panel-container {
   float: right;
   width: 30%;
   min-width: 300px;
@@ -204,7 +275,61 @@ body {
   top: 0px;
   right: 0px;
   height: 100%;
-  background-color: grey;
+  /*border-left: 3px solid black;*/
+  box-shadow: -1px 0px 10px #2c3d55;
+  z-index: 100;
+  position: relative;
+  padding: 10px 10px;
+  font-family: 'Lato', sans-serif;
+}
+
+.side-panel-header {
+  font-size: 20px;
+  color: #2c3d55;
+  font-weight: 400;
+  height: 35px;
+  border-bottom: 2px solid hsla(215,32%,90%,1);
+  vertical-align: middle;
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+.side-panel-close-button {
+  float: right;
+  color: inherit;
+  font-size: 30px;
+  font-weight: 100;
+  line-height: 25px;
+}
+
+.side-panel-close-button:hover {
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.side-panel-card {
+  padding: 5px 5px;
+  color: #2c3d55;
+  overflow: visible;  /* To contain floating elements */
+}
+
+.side-panel-card:hover {
+  background-color: hsla(215,18%,97%,1);
+}
+
+.side-panel-card-header {
+  font-weight: bold;
+  float: left;
+  margin-right: 10px;
+}
+
+.fortran-compiler-select-main-file {
+  text-decoration: underline;
+  color: hsla(215,32%,50%,1);
+}
+
+.fortran-compiler-main-file-selector {
+  cursor: pointer;
 }
 
 .middle-container {
@@ -216,9 +341,6 @@ body {
   /*background-color: green;*/
 }
 
-.file-explorer-inner-container {
-  min-width: 100%;
-  width: intrinsic;           /* Safari/WebKit uses a non-standard name */
-  width: -moz-max-content;    /* Firefox/Gecko */
-  width: -webkit-max-content; /* Chrome */
+.argument-type-container {
+  /*background-color: hsla(43, 30%, 90%, 1);*/
 }

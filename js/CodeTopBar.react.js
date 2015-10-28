@@ -15,8 +15,7 @@ class CodeTopBar extends Component {
 }
 
 CodeTopBar.propTypes = {
-  selectionPath: PropTypes.string.isRequired,
-  selectionType: PropTypes.string.isRequired,
+  selectionPath: PropTypes.string,
 };
 
 export default CodeTopBar;

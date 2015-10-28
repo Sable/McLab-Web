@@ -7,11 +7,6 @@ import React from 'react';
 
 const {PropTypes, Component} = React;
 
-function newCoutner() {
-  let count = 0;
-  return () => ++count;
-}
-
 class TerminalLine extends Component {
   render() {
     return (

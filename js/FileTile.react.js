@@ -13,7 +13,7 @@ class FileTile extends Component {
   _onclick() {
     const path = this.props.path;
     Dispatcher.dispatch({
-      action: AT.FILE_EXPLORER.SELECTION_CHANGED,
+      action: AT.FILE_EXPLORER.SELECT_FILE,
       data: { selection: path, type: 'FILE' }
     });
 

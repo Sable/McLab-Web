@@ -1,10 +1,13 @@
+import AT from './constants/AT';
+import classnames from 'classnames';
+import Dispatcher from './Dispatcher';
 import Dropzone from 'react-dropzone';
 import FileExplorerActions from './FileExplorerActions.js'
-import SelectedFileStore from './stores/SelectedFileStore';
 import FileTile from './FileTile.react';
 import FolderTile from './FolderTile.react';
 import React from 'react';
 import request from 'superagent'
+
 
 const {PropTypes, Component} = React;
 const getDirectoryTitle = path => path.split('/').pop();
@@ -92,10 +95,33 @@ class FileExplorer extends Component {
 
       );
     }
+
     // TOMAYBEDO: the selection prop looks really ugly ugh
     return (
-      <div className="file-explorer">
-        {contents}
+      <div className={classnames({
+          "file-explorer-outer-container": true,
+          "file-explorer-outer-selection-mode": this.props.selectionMode,
+          })}>
+        <div className={classnames({
+          "file-explorer-selection-banner": true,
+          "file-explorer-selection-banner-open": this.props.selectionMode,
+          })}>
+          Select file here
+          <div
+            className="side-panel-close-button"
+            title="Close panel"
+            onClick={() =>
+            Dispatcher.dispatch({action: AT.FILE_EXPLORER.CLOSE_SELECTION_MODE})
+          }>
+            &times;
+          </div>
+        </div>
+        <div className={classnames({
+          "file-explorer": true,
+          "file-explorer-inner-selection-mode": this.props.selectionMode,
+        })}>
+          {contents}
+        </div>
       </div>
     );
   }
@@ -103,10 +129,15 @@ class FileExplorer extends Component {
 
 FileExplorer.propTypes = {
   tree: PropTypes.object.isRequired,
-  selection: PropTypes.string.isRequired,
+  selection: PropTypes.string,
+  selectionMode: PropTypes.bool.isRequired,
 }
 
 module.exports = {
   FileExplorer: FileExplorer,
   Directory: Directory
 };
+
+
+/*
+*/

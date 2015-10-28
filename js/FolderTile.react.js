@@ -22,7 +22,7 @@ class FolderTile extends Component {
           {'file-tile-selected': this.props.selected}
         )}
         onClick={() => Dispatcher.dispatch({
-          action: AT.FILE_EXPLORER.SELECTION_CHANGED,
+          action: AT.FILE_EXPLORER.SELECT_FILE,
           data: { selection: this.props.path, type: 'DIR' }
         })}
       >
