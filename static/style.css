@@ -343,4 +343,5 @@ body {
 
 .argument-type-container {
   /*background-color: hsla(43, 30%, 90%, 1);*/
+  display: block;
 }

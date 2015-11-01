@@ -4,15 +4,14 @@ import React from 'react';
 import Dispatcher from './Dispatcher';
 import DropdownSelect from './DropdownSelect.react';
 
-import { DropdownButton, MenuItem } from 'react-bootstrap';
+import { DropdownButton, Input, MenuItem } from 'react-bootstrap';
 
 const { PropTypes, Component } = React;
-
 
 const FortranCompileArgumentSelector = (props) => {
 
   const getCurrentArg = () => ({
-    mlClass: props.className,
+    mlClass: props.mlClass,
     numRows: props.numRows,
     numCols: props.numCols,
     realComplex: props.realComplex,
@@ -25,7 +24,7 @@ const FortranCompileArgumentSelector = (props) => {
     return () => (
       Dispatcher.dispatch({
         action: AT.FORTRAN_COMPILE_PANEL.EDIT_ARGUMENT,
-        data: { arg: arg },
+        data: { argIndex: props.argIndex, arg: arg },
       })
     );
   };
@@ -77,14 +76,51 @@ const FortranCompileArgumentSelector = (props) => {
 
   return (
     <div className="argument-type-container">
+      {'Argument ' + props.argIndex}
       <DropdownSelect value={props.mlClass.display}>
         {classMenuItems}
       </DropdownSelect>
 
-      <DropdownButton
-        title="Class"
-        >
-      </DropdownButton>
+      <Input
+        type="text"
+        bsStyle={isNaN(parseInt(props.numRows)) || parseInt(props.numRows) < 1
+          ? 'error' : null }
+        value={props.numRows}
+        onChange={(event) => {
+          const newValue = event.target.value;
+          Dispatcher.dispatch({
+            action: AT.FORTRAN_COMPILE_PANEL.EDIT_ARGUMENT,
+            data: {
+              argIndex: props.argIndex,
+              arg: {
+                mlClass: props.mlClass,
+                numRows: newValue,
+                numCols: props.numCols,
+                realComplex: props.realComplex,
+              },
+            }
+          });
+        }} />
+
+      <Input
+        type="text"
+        bsStyle={isNaN(parseInt(props.numCols)) ? 'error' : null }
+        value={props.numCols}
+        onChange={(event) => {
+          const newValue = event.target.value;
+          Dispatcher.dispatch({
+            action: AT.FORTRAN_COMPILE_PANEL.EDIT_ARGUMENT,
+            data: {
+              argIndex: props.argIndex,
+              arg: {
+                mlClass: props.mlClass,
+                numRows: props.numRows,
+                numCols: newValue,
+                realComplex: props.realComplex,
+              },
+            }
+          });
+        }} />
 
       <DropdownSelect value={props.realComplex.display}>
         {rcMenuItems}
@@ -94,17 +130,11 @@ const FortranCompileArgumentSelector = (props) => {
 };
 
 FortranCompileArgumentSelector.propTypes = {
-  mlClass: PropTypes.object,
-  numRows: PropTypes.number,
-  numCols: PropTypes.number,
-  realComplex: PropTypes.object,
-};
-
-FortranCompileArgumentSelector.defaultProps = {
-  mlClass: MatlabArgTypes.MatlabClass.DOUBLE,
-  numRows: 1,
-  numCols: 1,
-  realComplex: MatlabArgTypes.MatlabRealComplex.REAL,
+  argIndex: PropTypes.number.isRequired,
+  mlClass: PropTypes.object.isRequired,
+  numRows: PropTypes.string.isRequired,
+  numCols: PropTypes.string.isRequired,
+  realComplex: PropTypes.object.isRequired,
 };
 
 module.exports = FortranCompileArgumentSelector;

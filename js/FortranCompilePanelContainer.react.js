@@ -13,15 +13,20 @@ class FortranCompilePanelContainer extends Component {
   }
 
   static calculateState(prevState) {
+    console.log("Container receiving unconf path: ", FortranCompileConfigStore.getUnconfirmedMainFilePath());
     return {
-
+      mainFilePath: FortranCompileConfigStore.getMainFilePath(),
+      unconfirmedMainFilePath: FortranCompileConfigStore.getUnconfirmedMainFilePath(),
+      argumentList: FortranCompileConfigStore.getArgumentList(),
     };
   }
 
   render() {
     return (
       <FortranCompilePanel
-         argumentList={[]}
+         mainFilePath={this.state.mainFilePath}
+         unconfirmedMainFilePath={this.state.unconfirmedMainFilePath}
+         argumentList={this.state.argumentList}
       />
     );
   }
