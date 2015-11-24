@@ -345,3 +345,20 @@ body {
   /*background-color: hsla(43, 30%, 90%, 1);*/
   display: block;
 }
+
+.ace-marker-kind-analysis-function  {
+  background-color: hsla(80, 64%, 66%, 0.69);
+  position: absolute;
+  z-index: 4;  /* The marker should be above the current line strip */
+  border: 1px solid #AAA;
+  box-sizing: content-box;
+}
+
+.ace-marker-kind-analysis-variable  {
+  background-color: hsla(52, 64%, 66%, 0.69);
+  position: absolute;
+  z-index: 4;  /* The marker should be above the current line strip */
+  border: 1px solid #AAA;
+  box-sizing: content-box;
+}
+

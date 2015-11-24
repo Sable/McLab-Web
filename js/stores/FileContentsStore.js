@@ -19,7 +19,6 @@ class FileContentsStore extends MapStore {
       case 'AT.FILE_CONTENT.DATA_LOADED':
         const filepath = payload.data.filepath;
         if (payload.data.success) {
-          console.log("hello ", payload);
           return map.set(filepath, { text: payload.data.fileContents });
         } else {
           return map.set(filepath, { error: payload.data.error });

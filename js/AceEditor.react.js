@@ -1,7 +1,9 @@
-import React from 'react'
-import {Container} from 'flux/utils'
-import SelectedFileStore from './stores/SelectedFileStore'
-import FileContentsStore from './stores/FileContentsStore'
+import EditorMarkerStore from './stores/EditorMarkerStore';
+import React from 'react';
+import Immutable from 'immutable';
+
+
+const aceRange = ace.require('ace/range').Range;
 
 const {PropTypes, Component} = React;
 
@@ -16,32 +18,69 @@ class AceEditor extends Component {
     editor.setShowPrintMargin(false);
     editor.$blockScrolling = Infinity
     this.editor = editor;
+    this.markerIDs = Immutable.Set();
     window.debug_editor = editor;
   }
 
-  componentDidMount(prevProps) {
-    this._configureEditor();
+  _setEditorText() {
+    this.editor.setValue(this.props.codeText);
+    this.editor.navigateFileStart();
+  }
 
-    // This is because componentDidUpdate is not called on initial rendering
-    this.forceUpdate();
+  _renderMarkers() {
+    console.log("AceEditor:", "clearing markers!")
+    this.markerIDs.forEach(
+      id => this.editor.session.removeMarker(id)
+    );
+    if (!this.props.markerData || !this.props.markerData.visible) {
+      return;
+    }
+
+    console.log("rendering markers!")
+    for (let markerGroup of this.props.markerData.markers) {
+      const markerClass = markerGroup[0];
+      const markerList = markerGroup[1];
+      for (let markerRange of markerList) {
+        const range = new aceRange(
+          markerRange.startRow,
+          markerRange.startColumn,
+          markerRange.endRow,
+          markerRange.endColumn,
+        );
+        const id = this.editor.session.addMarker(range, markerClass, 'text');
+        this.markerIDs = this.markerIDs.add(id);
+      }
+    }
+  }
+
+  componentDidMount() {
+    this._configureEditor();
+    this._setEditorText();
+    this._renderMarkers();
   }
 
   componentDidUpdate(prevProps) {
-    this.editor.setValue(prevProps.codeText, 0);
-    this.editor.navigateFileStart();
+    if (prevProps.codeText !== this.props.codeText) {
+      this._setEditorText();
+    }
 
-    // This is a huge hack. The size panel must finish rendering before
-    // the editor container can know its true size.
-    // This is the glorious day when we run into a concurrency bug is javascript
-    setTimeout(() => this.editor.resize(), 0);
+    if (prevProps.sidePanelOpen !== this.props.sidePanelOpen) {
+      // This is a huge hack. The size panel must finish rendering before
+      // the editor container can know its true size.
+      // This is the glorious day when we run into a concurrency bug is javascript
+      setTimeout(() => this.editor.resize(), 0);
+    }
+
+    if (prevProps.markerData !== this.props.markerData) {
+      this._renderMarkers();
+    }
   }
 
   render() {
     return (
-      <div className="ace-container">
-        <div id="editor">
-          Select a file from the sidebar
-        </div>
+      <div className="ace-container" onKeyDown={this.props.onKeyDown}>
+        <div id="editor"></div>
+      }
       </div>
     );
   }
@@ -49,13 +88,14 @@ class AceEditor extends Component {
 }
 
 AceEditor.propTypes = {
-  codeText: PropTypes.string,
+  codeText: PropTypes.string.isRequired,
 
-  /* This prop is required because opening or closing the side panel
-   * triggers an editor refresh. Otherwise the editor does not resize
-   * properly.
-  */
+   // This prop is required because opening or closing the side panel
+   // triggers an editor refresh. Otherwise the editor does not resize
+   // properly.
+  onKeyDown: PropTypes.func,
   sidePanelOpen: PropTypes.bool.isRequired,
+  markerData: PropTypes.instanceOf(EditorMarkerStore.getRecordType()),
 }
 
 export default AceEditor;

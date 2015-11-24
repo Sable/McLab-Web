@@ -27,7 +27,6 @@ class FortranCompileConfigStore extends Store {
         this.__emitChange();
         break;
       case AT.FORTRAN_COMPILE_PANEL.OPEN_MAIN_FILE_SELECTION_MODE:
-        console.log("here");
         this._mainFileSelectMode = true;
         break;
       case AT.FORTRAN_COMPILE_PANEL.CLOSE_MAIN_FILE_SELECTION_MODE:

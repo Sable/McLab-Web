@@ -17,10 +17,6 @@ class TerminalLine extends Component {
   }
 }
 
-TerminalLine.propTypes = {
-  line: PropTypes.object.isRequired,
-}
-
 
 class Terminal extends Component {
   render() {

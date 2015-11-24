@@ -10,10 +10,8 @@ class FileExplorerSelectionModeStore extends Store {
   }
 
   __onDispatch(payload) {
-    console.log("FESMS::", payload);
     switch (payload.action) {
       case AT.FILE_EXPLORER.OPEN_SELECTION_MODE:
-        console.log("FESMS:: in here", payload);
         this._selectionMode = true;
         this.__emitChange();
         break;

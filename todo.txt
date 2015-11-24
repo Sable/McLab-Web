@@ -7,4 +7,7 @@ Make sure mod_php is disabled of the apache server on the vm
 
 - better error message when file fails to unzip
 
-- I have a strong suspicion that due to the way react works, we might be creating a new ace editor for every file we ever open. This is a memory leak, and could be worth fixing if this starts becoming a memory hog.
+--- future work:
+We can have a distributed task queue when server runs under heavy load.
+As much as possible analysis should be offloaded to the client. Waiting for the JS tools to be ready at the lab!
+Django is not the best choice backend application. This should be replaced with node.
