@@ -3,7 +3,7 @@ import ActiveSidePanelStore from './stores/ActiveSidePanelStore';
 import AT from './constants/AT';
 import Dispatcher from './Dispatcher';
 import EditorMarkerStore from './stores/EditorMarkerStore';
-import SelectedFileStore from './stores/SelectedFileStore';
+import OpenFileStore from './stores/OpenFileStore';
 import FileContentsStore from './stores/FileContentsStore';
 import {FileExplorer} from './FileExplorer.react';
 import CodeTopBar from './CodeTopBar.react';
@@ -14,7 +14,7 @@ var React = require('react');
 class CodeContainer extends React.Component {
   static getStores() {
     return [
-      SelectedFileStore,
+      OpenFileStore,
       FileContentsStore,
       ActiveSidePanelStore,
       EditorMarkerStore,
@@ -22,19 +22,13 @@ class CodeContainer extends React.Component {
   }
 
   static calculateState(prevState) {
-    const selectionType = SelectedFileStore.getSelectionType();
-    if (selectionType === 'DIR') {
-      return prevState;
-    }
-
-    const filepath = SelectedFileStore.getSelectionPath();
+    const filePath = OpenFileStore.getFilePath();
 
     return {
-      filepath: filepath,
-      selectionType: SelectedFileStore.getSelectionType(),
-      fileContents: FileContentsStore.get(filepath),
+      filePath: filePath,
+      fileContents: FileContentsStore.get(filePath),
       sidePanelOpen: ActiveSidePanelStore.isPanelOpen(),
-      markerData: EditorMarkerStore.get(filepath),
+      markerData: EditorMarkerStore.get(filePath),
     };
   }
 
@@ -56,7 +50,7 @@ class CodeContainer extends React.Component {
                 console.log("turning off markers");
                 Dispatcher.dispatch({
                   action: AT.EDITOR.MARKER_VISIBILITY.TURN_OFF,
-                  data: {filepath: this.state.filepath},
+                  data: {filePath: this.state.filePath},
                 })
               }
             }}
@@ -71,7 +65,7 @@ class CodeContainer extends React.Component {
 
     return (
       <div className="code-container">
-        <CodeTopBar selectionPath={this.state.filepath} />
+        <CodeTopBar selectionPath={this.state.filePath} />
         {codeContent}
       </div>
     );

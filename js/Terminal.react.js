@@ -1,8 +1,4 @@
 import classnames from 'classnames';
-import FileExplorerActions from './FileExplorerActions.js'
-import SelectedFileStore from './stores/SelectedFileStore';
-import FileTile from './FileTile.react';
-import FolderTile from './FolderTile.react';
 import React from 'react';
 
 const {PropTypes, Component} = React;

@@ -25,6 +25,7 @@ import EditorMarkerStore from './stores/EditorMarkerStore';
 window.debug_EditorMarkerStore = EditorMarkerStore;
 
 window.debug_Immutable = require('immutable');
+window.debug_SelectedFileStore = require('./stores/SelectedFileStore');
 
 const hm = <div>Look a link: <a href="http://google.com">Google</a></div>;
 // You could technically pass in a react container here. The possibilities are endless
@@ -33,9 +34,9 @@ const hm = <div>Look a link: <a href="http://google.com">Google</a></div>;
 
 
 // markers
-debug_dispatcher.dispatch({ action: debug_AT.EDITOR.ADD_MARKERS,
+debug_dispatcher.dispatch({ action: debug_AT.EDITOR.SET_MARKERS,
   data: {
-    filepath: "workspace/397_a3/examples/badA.m",
+    filePath: "workspace/397_a3/examples/badA.m",
     markers: debug_Immutable.Map({
       "ace-marker-kind-analysis-function": debug_Immutable.List([
         {
@@ -71,37 +72,6 @@ debug_dispatcher.dispatch({ action: debug_AT.EDITOR.ADD_MARKERS,
 
 debug_dispatcher.dispatch({
   action: debug_AT.EDITOR.MARKER_VISIBILITY.TURN_ON,
-  data: {filepath: 'workspace/397_a3/examples/badA.m'},
+  data: {filePath: 'workspace/397_a3/examples/badA.m'},
 });
 
-debug_dispatcher.dispatch({
-  action: debug_AT.FILE_EXPLORER.SELECT_FILE,
-  data: {
-    selection: 'workspace/397_a3/examples/badA.m',
-    type: 'FILE'
-  }
-})
-
-debug_dispatcher.dispatch({
-  action: debug_AT.TERMINAL.ADD_NEW_LINE,
-  data: {
-    newLine: (
-      <div>
-        Kind analysis complete!
-        Variables are highlighted in {' '}
-        <span
-          className="ace-marker-kind-analysis-variable"
-          style={{position: "static"}}>
-          orange
-        </span>
-        {' '}and functions are highlighted in {' '}
-        <span
-          className="ace-marker-kind-analysis-function"
-          style={{position: "static"}}>
-          green
-        </span>
-        .{'\n'}Press ESC (when the editor is in focus) to hide highlights.
-      </div>
-    ),
-  }
-})

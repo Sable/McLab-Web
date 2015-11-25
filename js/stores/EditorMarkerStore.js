@@ -8,9 +8,9 @@ const MarkerRecord = Record({visible: false, markers: Map()})
 
 class EditorMarkerStore extends MapStore {
 
-  // action: AT.EDITOR.ADD_MARKERS,
+  // action: AT.EDITOR.SET_MARKERS,
   // data: {
-  //   filepath: "/Workspace/foo/bar",
+  //   filePath: "/Workspace/foo/bar",
   //   markers: Immutable.Map({
   //     "ace-code-marker": Immutable.List([
   //       {
@@ -47,23 +47,23 @@ class EditorMarkerStore extends MapStore {
 
     switch (payload.action) {
       // The case statements are enclosed in braces to block scope them
-      case AT.EDITOR.ADD_MARKERS: {
-        const filepath = payload.data.filepath;
-        const fileRecord = map.get(filepath, new MarkerRecord());
+      case AT.EDITOR.SET_MARKERS: {
+        const filePath = payload.data.filePath;
+        const fileRecord = map.get(filePath, new MarkerRecord());
         const markers = payload.data.markers;
-        return map.set(filepath, fileRecord.set('markers', markers));
+        return map.set(filePath, fileRecord.set('markers', markers));
       }
 
       case AT.EDITOR.MARKER_VISIBILITY.TURN_ON: {
-        const filepath = payload.data.filepath;
-        const fileRecord = map.get(filepath, new MarkerRecord());
-        return map.set(filepath, fileRecord.set('visible', true));
+        const filePath = payload.data.filePath;
+        const fileRecord = map.get(filePath, new MarkerRecord());
+        return map.set(filePath, fileRecord.set('visible', true));
       }
 
       case AT.EDITOR.MARKER_VISIBILITY.TURN_OFF: {
-        const filepath = payload.data.filepath;
-        const fileRecord = map.get(filepath, new MarkerRecord());
-        return map.set(filepath, fileRecord.set('visible', false));
+        const filePath = payload.data.filePath;
+        const fileRecord = map.get(filePath, new MarkerRecord());
+        return map.set(filePath, fileRecord.set('visible', false));
       }
 
       default:

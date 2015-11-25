@@ -1,6 +1,6 @@
 import {Store} from 'flux/utils';
-import Dispatcher from '../Dispatcher'
-import AT from '../constants/AT'
+import Dispatcher from '../Dispatcher';
+import AT from '../constants/AT';
 
 class SelectedFileStore extends Store {
 

@@ -33,5 +33,7 @@ urlpatterns = [
     url(r'^session/(?P<sessionid>[\w-]*?)/filetree/$', views.filetree, name='filetree'),
     url(r'^session/(?P<sessionid>[\w-]*?)/readfile/(?P<filepath>.*?)$',
         views.readfile, name='readfile'),
+    url(r'^session/(?P<sessionid>[\w-]*?)/kind-analysis/(?P<filepath>.*?)$',
+        views.kind_analysis, name='kind_analysis'),
 ]
 
