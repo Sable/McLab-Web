@@ -110,4 +110,5 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'user-files')
 # MEDIA_URL = 'fileserver/'
 USER_FILE_ROOT = 'workspace'
 
-MCLAB_CORE_JAR_PATH='/Users/droy/code/mclab-core/languages/Natlab/McLabCore.jar'
+MCLAB_CORE_JAR_PATH = '/Users/droy/code/mclab-core/languages/Natlab/McLabCore.jar'
+MC2FOR_PATH = '/Users/droy/Google Drive/school/fall2015/comp400/scratch/Mc2For.jar'

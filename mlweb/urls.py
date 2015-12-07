@@ -35,5 +35,9 @@ urlpatterns = [
         views.readfile, name='readfile'),
     url(r'^session/(?P<sessionid>[\w-]*?)/kind-analysis/(?P<filepath>.*?)$',
         views.kind_analysis, name='kind_analysis'),
+    url(r'^session/(?P<sessionid>[\w-]*?)/compile-to-fortran/$',
+        views.compile_to_fortran, name='compile_to_fortran'),
+    url(r'^session/(?P<sessionid>[\w-]*?)/gen/(?P<filepath>.*?)$',
+        views.serve_gen, name='serve_gen'),
 ]
 

@@ -2,6 +2,7 @@ import AT from './constants/AT';
 import classnames from 'classnames';
 import Dispatcher from './Dispatcher';
 import DropdownSelect from './DropdownSelect.react';
+import FortranCompileActions from './actions/FortranCompileActions';
 import FortranCompileArgumentSelector from './FortranCompileArgumentSelector.react';
 import MatlabArgTypes from './constants/MatlabArgTypes';
 import React from 'react';
@@ -67,12 +68,7 @@ class FortranCompilePanel extends Component {
         </div>
         <a
           className="pure-button topnav-button"
-          onClick={() => Dispatcher.dispatch({
-            action: AT.TERMINAL.ADD_NEW_LINE,
-            data: {
-              newLine: "Sent request to server for compilation. Compiled files should be ready in a few seconds."
-            }
-          })}>
+          onClick={FortranCompileActions.beginCompilation}>
           Compile
         </a>
       </SidePanelBase>

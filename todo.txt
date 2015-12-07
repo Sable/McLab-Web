@@ -11,3 +11,10 @@ Make sure mod_php is disabled of the apache server on the vm
 We can have a distributed task queue when server runs under heavy load.
 As much as possible analysis should be offloaded to the client. Waiting for the JS tools to be ready at the lab!
 Django is not the best choice backend application. This should be replaced with node.
+
+
+Todo for comp400:
+- Get fortran stuff working 
+- List of variables
+- Talk 
+- Report

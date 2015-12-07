@@ -256,6 +256,7 @@ body {
   right: 0px;
   padding: 10px 10px;
   border-top: 4px solid #ccc;
+  overflow: scroll;
 
   /* This is stolen from ace editor css */
   font-family: Monaco, Menlo, 'Ubuntu Mono', Consolas,
