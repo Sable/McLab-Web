@@ -22,12 +22,12 @@ class TopNav extends Component {
         </  div>
         <div className="buttons-container">
           <a className="pure-button topnav-button"
-            onClick={fortranOnClick}>
-            Compile to Fortran
-          </a>
-          <a className="pure-button topnav-button"
             href="/">
             New Session
+          </a>
+          <a className="pure-button topnav-button"
+            onClick={fortranOnClick}>
+            Compile to Fortran
           </a>
           <a className="pure-button topnav-button"
             onClick={KindAnalysisActions.runKindAnalysis}>
