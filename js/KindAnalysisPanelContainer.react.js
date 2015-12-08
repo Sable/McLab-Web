@@ -5,7 +5,7 @@ import React from 'react';
 
 const { Component } = React;
 
-class FortranCompilePanelContainer extends Component {
+class KindAnalysisPanelContainer extends Component {
   static getStores() {
     return [
       FortranCompileConfigStore,
@@ -31,4 +31,4 @@ class FortranCompilePanelContainer extends Component {
   }
 }
 
-export default Container.create(FortranCompilePanelContainer);
+export default Container.create(KindAnalysisPanelContainer);

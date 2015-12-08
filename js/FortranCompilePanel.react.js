@@ -15,6 +15,53 @@ const { PropTypes, Component } = React;
 class FortranCompilePanel extends Component {
 
   render() {
+
+    return (
+      <SidePanelBase title="Compile to Fortran">
+        <div
+          className={classnames(
+            "side-panel-card",
+            "fortran-compiler-main-file-selector"
+          )}
+          >
+          <div className="side-panel-card-header">
+            Main File
+          </div>
+          {this._getMainFilePath()}
+          {this._getMainFileSection()}
+          {this._getChangeButton()}
+        </div>
+        {this._getArgumentCard()}
+        {this._getCompileButton()}
+      </SidePanelBase>
+    );
+  }
+
+  _getCompileButton() {
+    if (!this.props.mainFilePath) {
+      return null;
+    }
+
+    return (
+      <div className="fortran-compile-final-button-container">
+        <a
+          className="pure-button side-panel-button"
+          onClick={FortranCompileActions.beginCompilation}>
+          Compile
+        </a>
+      </div>
+    );
+  }
+
+  _getArgumentCard() {
+
+    if (!this.props.mainFilePath) {
+      return null;
+    }
+
+    // This allows for multiple arguments, but really, fortan compiler
+    // doesn't support more than one so adding multiple argument is not
+    // supported in the UI. For now, this is useful reference for future cases.
     let argumentSelectors = [];
     let count = 0;
     for (let arg of this.props.argumentList) {
@@ -32,47 +79,37 @@ class FortranCompilePanel extends Component {
     }
 
     return (
-      <SidePanelBase title="Compile to Fortran">
-        <div
-          className={classnames(
-            "side-panel-card",
-            "fortran-compiler-main-file-selector"
-          )}
-          >
-          <div className="side-panel-card-header">
-            Main File:
-          </div>
-          {this._getMainFilePath()}
-          {this._getMainFileSection()}
-        </div>
-        <div className="side-panel-card">
-          <div className="side-panel-card-header">
-            Arguments:
-              <a onClick={() => Dispatcher.dispatch({
-                  action: AT.FORTRAN_COMPILE_PANEL.ADD_ARGUMENT,
-                  data: {
-                    // IMPROVE: Hard coding a default arg here is not icky.
-                    arg: {
-                      mlClass: MatlabArgTypes.MatlabClass.DOUBLE,
-                      numRows: "1",
-                      numCols: "1",
-                      realComplex: MatlabArgTypes.MatlabRealComplex.REAL,
-                    }
-                  }
-                })}
-                >
-                Add argument
-              </a>
-              {argumentSelectors}
-          </div>
-        </div>
-        <a
-          className="pure-button topnav-button"
-          onClick={FortranCompileActions.beginCompilation}>
-          Compile
-        </a>
-      </SidePanelBase>
+      <div className="side-panel-card">
+        <div className="side-panel-card-header">Argument</div>
+        <div>{argumentSelectors}</div>
+        <div>{this._getAddArgumentButton()}</div>
+      </div>
     );
+  }
+
+  _getAddArgumentButton() {
+    if (this.props.argumentList.length === 0) {
+      return (
+        <a className="fortran-compiler-select-main-file"
+          onClick={() => Dispatcher.dispatch({
+            action: AT.FORTRAN_COMPILE_PANEL.ADD_ARGUMENT,
+            data: {
+              // IMPROVE: Hard coding a default arg here is icky.
+              arg: {
+                mlClass: MatlabArgTypes.MatlabClass.DOUBLE,
+                numRows: "1",
+                numCols: "1",
+                realComplex: MatlabArgTypes.MatlabRealComplex.REAL,
+              }
+            }
+          })}
+          >
+          Add argument
+        </a>
+      );
+    }
+
+    return null;
   }
 
   // TODO: Improve function name
@@ -81,12 +118,13 @@ class FortranCompilePanel extends Component {
       return (
         <div>
           <div>{this.props.unconfirmedMainFilePath}</div>
-          <a onClick={() => {
+          <a className="fortran-compiler-select-main-file"
+            onClick={() => {
               Dispatcher.dispatch({action: AT.FORTRAN_COMPILE_PANEL.CONFIRM_MAIN_FILE});
               Dispatcher.dispatch({action: AT.FILE_EXPLORER.CLOSE_SELECTION_MODE});
             }}
             >
-            Confirm
+            <strong>Confirm</strong>
           </a>
         </div>
       );
@@ -94,22 +132,14 @@ class FortranCompilePanel extends Component {
   }
 
   _getMainFilePath() {
-    if (this.props.mainFilePath) {
+    if (this.props.mainFilePath  && !this.props.unconfirmedMainFilePath) {
       return (
         <div>
           {' '  + this.props.mainFilePath}
-          <a
-            className="fortran-compiler-select-main-file"
-            onClick={() => {
-                Dispatcher.dispatch({action: AT.FILE_EXPLORER.OPEN_SELECTION_MODE});
-                Dispatcher.dispatch({action: AT.FORTRAN_COMPILE_PANEL.OPEN_MAIN_FILE_SELECTION_MODE});
-              }
-            }
-            >
-            {'       ' + 'Change' }
-          </a>
         </div>
       )
+    } else if (this.props.unconfirmedMainFilePath) {
+      return null;
     } else {
       return (
         <a
@@ -124,6 +154,26 @@ class FortranCompilePanel extends Component {
         </a>
       );
     }
+  }
+
+  _getChangeButton() {
+    if (this.props.mainFilePath && !this.props.unconfirmedMainFilePath) {
+      return (
+        <div>
+          <a
+            className="fortran-compiler-select-main-file"
+            onClick={() => {
+                Dispatcher.dispatch({action: AT.FILE_EXPLORER.OPEN_SELECTION_MODE});
+                Dispatcher.dispatch({action: AT.FORTRAN_COMPILE_PANEL.OPEN_MAIN_FILE_SELECTION_MODE});
+              }
+            }
+            >
+            {'Change' }
+          </a>
+        </div>
+      )
+    }
+    return null;
   }
 }
 

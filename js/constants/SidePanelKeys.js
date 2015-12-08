@@ -5,4 +5,5 @@ import keyMirror from 'keymirror'
 
 export default keyMirror({
   FORTRAN_COMPILE_PANEL: '',
+  KIND_ANALYSIS_PANEL: '',
 })

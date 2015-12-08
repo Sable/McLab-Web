@@ -312,25 +312,82 @@ body {
   padding: 5px 5px;
   color: #2c3d55;
   overflow: visible;  /* To contain floating elements */
+  border-top: 1px solid rgba(44, 61, 85, 0.08);
 }
 
 .side-panel-card:hover {
-  background-color: hsla(215,18%,97%,1);
+  background-color: hsla(215,18%,97%,0.2);
+}
+
+.side-panel-button {
+  background-color: #2c3d55;
+  color: white;
+  border-radius: 5px;
+  font-family: 'Lato', sans-serif;
+  font-weight: bold;
+}
+
+.side-panel-button:hover {
+  text-decoration: none;
+  color: white;
+  background-color: hsla(215,32%,50%,1);
 }
 
 .side-panel-card-header {
   font-weight: bold;
-  float: left;
+  /*float: left;*/
   margin-right: 10px;
+}
+
+.fortran-compile-final-button-container {
+  padding: 10px;
+  width: 100%;
+  text-align: center;
 }
 
 .fortran-compiler-select-main-file {
   text-decoration: underline;
   color: hsla(215,32%,50%,1);
+  display: block;
+  cursor: pointer;
 }
 
 .fortran-compiler-main-file-selector {
   cursor: pointer;
+}
+
+.fortran-compile-argument-type-block {
+  display: inline-block;
+  width: 30%;
+  padding: 3px;
+  vertical-align: top;
+  height: 90px;
+  margin-top: 10px;
+}
+
+.fortran-compile-argument-type-title {
+  text-align: center;
+}
+
+.fortran-compile-argument-type-content {
+  text-align: center;
+  height: 40px;
+}
+
+.fortran-compile-argument-type-content .dropdown.btn-group {
+  width: 100%;
+}
+
+.fortran-compile-argument-type-content button {
+  width: 100%;
+}
+
+.fortran-compile-argument-type-content input {
+  text-align: center;
+}
+
+.fortran-compile-argument-type-block.fortran-compile-argument-dimension{
+  width: 18%;
 }
 
 .middle-container {

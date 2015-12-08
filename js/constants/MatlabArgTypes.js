@@ -21,7 +21,7 @@ const MatlabClass = {
   },
   UINT8: {
     key: 'UINT8',
-    display: 'Uint8',
+    display: 'UInt8',
   },
   INT16: {
     key: 'INT16',
@@ -29,7 +29,7 @@ const MatlabClass = {
   },
   UINT16: {
     key: 'UINT16',
-    display: 'Uint16',
+    display: 'UInt16',
   },
   INT32: {
     key: 'INT32',
@@ -37,7 +37,7 @@ const MatlabClass = {
   },
   UINT32: {
     key: 'UINT32',
-    display: 'Uint32',
+    display: 'UInt32',
   },
   INT64: {
     key: 'INT64',
@@ -45,7 +45,7 @@ const MatlabClass = {
   },
   UINT64: {
     key: 'UINT64',
-    display: 'Uint64',
+    display: 'UInt64',
   },
 }
 
