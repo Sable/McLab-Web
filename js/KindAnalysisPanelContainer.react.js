@@ -1,6 +1,7 @@
 import {Container} from 'flux/utils';
-import FortranCompilePanel from './FortranCompilePanel.react';
-import FortranCompileConfigStore from './stores/FortranCompileConfigStore';
+import KindAnalysisPanel from './KindAnalysisPanel.react';
+import KindAnalysisResultStore from './stores/KindAnalysisResultStore';
+import OpenFileStore from './stores/OpenFileStore';
 import React from 'react';
 
 const { Component } = React;
@@ -8,24 +9,40 @@ const { Component } = React;
 class KindAnalysisPanelContainer extends Component {
   static getStores() {
     return [
-      FortranCompileConfigStore,
+      OpenFileStore,
+      KindAnalysisResultStore,
     ];
   }
 
   static calculateState(prevState) {
+    const openFile = OpenFileStore.getFilePath();
+    if (!openFile) {
+      return {
+        variables: null,
+        functions: null,
+      };
+    }
+
+    const results = KindAnalysisResultStore.get(openFile);
+
+    if (!results) {
+      return {
+        variables: null,
+        functions: null,
+      };
+    }
+
     return {
-      mainFilePath: FortranCompileConfigStore.getMainFilePath(),
-      unconfirmedMainFilePath: FortranCompileConfigStore.getUnconfirmedMainFilePath(),
-      argumentList: FortranCompileConfigStore.getArgumentList(),
+      variables: results['variables'],
+      functions: results['functions'],
     };
   }
 
   render() {
     return (
-      <FortranCompilePanel
-         mainFilePath={this.state.mainFilePath}
-         unconfirmedMainFilePath={this.state.unconfirmedMainFilePath}
-         argumentList={this.state.argumentList}
+      <KindAnalysisPanel
+         variables={this.state.variables}
+         functions={this.state.functions}
       />
     );
   }

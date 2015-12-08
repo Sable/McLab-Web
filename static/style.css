@@ -295,6 +295,11 @@ body {
   margin-bottom: 10px;
 }
 
+.side-panel-body {
+  overflow: auto;
+  height: 95%;
+}
+
 .side-panel-close-button {
   float: right;
   color: inherit;
@@ -337,6 +342,10 @@ body {
   font-weight: bold;
   /*float: left;*/
   margin-right: 10px;
+}
+
+.cursor-pointer {
+  cursor: pointer;
 }
 
 .fortran-compile-final-button-container {
@@ -422,4 +431,22 @@ body {
 
 .terminal-error-color {
   color: hsl(2, 64%, 58%);
+}
+
+.kind-analysis-panel-sym-name {
+  background-color: hsla(200, 20%, 97%, 0.98);
+  padding: 2px 5px;
+  margin-top: 7px;
+  font-family: Monaco, Menlo, 'Ubuntu Mono', Consolas, source-code-pro, monospace;
+  font-weight: bold;
+  font-size: 10pt;
+}
+
+.kind-analysis-panel-kind-name {
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+.kind-analysis-panel-sym-position {
+  padding: 0px 5px;
 }

@@ -7,7 +7,7 @@ const {PropTypes, Component} = React;
 
 const keyToModuleMap = new Map([
   [SidePanelKeys.FORTRAN_COMPILE_PANEL, FortranCompilePanelContainer],
-  [SidePanelKeys.FORTRAN_COMPILE_PANEL, KindAnalysisPanelContainer],
+  [SidePanelKeys.KIND_ANALYSIS_PANEL, KindAnalysisPanelContainer],
 ]);
 
 class SidePanel extends Component {

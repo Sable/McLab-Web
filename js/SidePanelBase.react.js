@@ -20,7 +20,9 @@ class SidePanelBase extends Component {
             &times;
           </div>
         </div>
-        {this.props.children}
+        <div className="side-panel-body">
+          {this.props.children}
+        </div>
       </div>
     );
   }

@@ -80,13 +80,17 @@ function runKindAnalysis() {
             )
           })
         );
+
         EditorMarkerActions.show(filePath);
+        Dispatcher.dispatch({
+          action: AT.KIND_ANALYSIS.DATA_LOADED,
+          data: {filePath, variables, functions},
+        })
+        Dispatcher.dispatch({action: AT.KIND_ANALYSIS_PANEL.OPEN_PANEL});
         printKindAnalysisSuccess();
       }
     },
   );
-
-
 
 }
 

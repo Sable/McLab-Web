@@ -16,9 +16,16 @@ class ActiveSidePanelStore extends Store {
         this._activePanel = SidePanelKeys.FORTRAN_COMPILE_PANEL;
         this.__emitChange();
         break;
+
+      case AT.KIND_ANALYSIS_PANEL.OPEN_PANEL:
+        this._activePanel = SidePanelKeys.KIND_ANALYSIS_PANEL;
+        this.__emitChange();
+        break;
+
       case AT.SIDE_PANEL.CLOSE_PANEL:
         this._activePanel = null;
         this.__emitChange();
+        break;
     }
   }
 
