@@ -37,7 +37,6 @@ class FortranCompileConfigStore extends Store {
           // TODO: Fix magic string
           if (payload.data.type === 'FILE') {
             this._unconfirmedMainFilePath = payload.data.selection;
-            console.log("Changed uncomfirmed main file to ", payload.data.selection);
             this.__emitChange();
           }
         }

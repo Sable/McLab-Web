@@ -422,7 +422,7 @@ body {
 }
 
 .ace-marker-kind-analysis-variable {
-  background-color: hsla(52, 64%, 66%, 0.69);
+  background-color: hsla(225, 77%, 64%, 0.22);
   position: absolute;
   z-index: 4;  /* The marker should be above the current line strip */
   border: 1px solid #AAA;
@@ -445,6 +445,7 @@ body {
 .kind-analysis-panel-kind-name {
   font-weight: bold;
   margin-top: 10px;
+  font-size: 12pt;
 }
 
 .kind-analysis-panel-sym-position {

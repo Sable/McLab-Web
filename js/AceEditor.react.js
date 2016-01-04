@@ -28,7 +28,6 @@ class AceEditor extends Component {
   }
 
   _renderMarkers() {
-    console.log("AceEditor:", "clearing markers!")
     this.markerIDs.forEach(
       id => this.editor.session.removeMarker(id)
     );
@@ -36,7 +35,6 @@ class AceEditor extends Component {
       return;
     }
 
-    console.log("rendering markers!")
     for (let markerGroup of this.props.markerData.markers) {
       const markerClass = markerGroup[0];
       const markerList = markerGroup[1];
@@ -80,7 +78,6 @@ class AceEditor extends Component {
     return (
       <div className="ace-container" onKeyDown={this.props.onKeyDown}>
         <div id="editor"></div>
-      }
       </div>
     );
   }

@@ -36,7 +36,6 @@ class KindAnalysisPanel extends Component {
       const lineno = pos.startRow + 1;
       const startColumn = pos.startColumn + 1;
       const endColumn = pos.endColumn + 1;
-      console.log("KindAnalysisPanel:", "Rendering symbol", symName, pos);
       renderedPositions.push(
         <div key={`${symName}-${count}`}
           className="kind-analysis-panel-sym-position">
@@ -64,7 +63,6 @@ class KindAnalysisPanel extends Component {
     for (let p of symMap) {
       const symName = p[0];
       const positionList = p[1];
-      console.log("KindAnalysisPanel:", "Rendering", p);
       renderedList.push(
         <div className="kind-analysis-panel-sym-container"
           key={"sym-" + symName}>

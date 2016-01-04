@@ -19,7 +19,7 @@ function printKindAnalysisSuccess() {
           <span
             className="ace-marker-kind-analysis-variable"
             style={{position: "static"}}>
-            orange
+            blue
           </span>
           {' '}and functions are highlighted in {' '}
           <span

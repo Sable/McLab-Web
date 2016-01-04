@@ -9,12 +9,6 @@ function beginCompilation() {
   const mainFile = FortranCompileConfigStore.getMainFilePath();
   const arg = FortranCompileConfigStore.getArgumentList().get(0, null);
 
-
-  console.log("Mainfile: ", mainFile);
-  console.log("arg: ", arg);
-
-
-
   TerminalActions.println(
     "Sent request to server for compilation." +
     " Compiled files should be ready in a few seconds."

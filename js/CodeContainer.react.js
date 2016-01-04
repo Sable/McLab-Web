@@ -39,7 +39,6 @@ class CodeContainer extends React.Component {
         // TODO: Make this prettier
         codeContent = <strong> Error loading file </strong>;
       } else {
-        console.log("CodeContainer: ", "marker data", this.state.markerData);
         codeContent = (
           <AceEditor
             codeText={this.state.fileContents.text}
@@ -47,7 +46,6 @@ class CodeContainer extends React.Component {
             markerData={this.state.markerData}
             onKeyDown={event => {
               if (event.key === 'Escape') {
-                console.log("turning off markers");
                 Dispatcher.dispatch({
                   action: AT.EDITOR.MARKER_VISIBILITY.TURN_OFF,
                   data: {filePath: this.state.filePath},
