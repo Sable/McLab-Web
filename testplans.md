@@ -5,8 +5,6 @@ This document describes how you will go about testing McLab Web is working. If y
 
 Add new test plans here as you fix bugs / develop new features.
 
-These are all integrated feature tests, and most of these tests cannot be automated without careful thought. 
-
 ## Core functionality
 
 No user action should ever spit out an error or warning into the JS console, except when the server deliberately returns an HTTP 4xx/5xx code. 
