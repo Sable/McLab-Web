@@ -92,3 +92,10 @@ We only handle the case where the whole file is just one function. When the file
 #### Bad file failure
 - Try to compile with `readme.txt` as the main file.
 - Compilation failed message should be posted on the terminal.
+ 
+#### Argument validation
+- Add an argument
+- For number of rows or colums, input anything other than a positive integer. 
+- The input box should turn red.
+
+_Note: Currently McLab Web does not prevent the user from clicking the `Compile` button if argument validation fails. This would be a good feature to add._
