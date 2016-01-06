@@ -56,6 +56,12 @@ No user action should ever spit out an error or warning into the JS console, exc
 - Click Kind Analysis button 
 - Kind analysis should fail and you should see a message in the terminal asking if this is a valid Matlab file
 
+## Escape to hide markers
+- Run a kind analysis. Wait for the markers to show up in the editor
+- Focus the code editor (click anywhere on the code editor)
+- Press Esc
+- Markers should hide
+
 ## What's not done in Kind Analysis
 We only handle the case where the whole file is just one function. When the file is a script, the mclab-core kind analysis classifies the symbols into a few more classes: LDVAR, TOP, and BOT. We have no way of displaying these information in McLab Web. 
 
