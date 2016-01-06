@@ -24,7 +24,7 @@ class FileTile extends Component {
       function(err, res) {
         if (err) {
           Dispatcher.dispatch({
-            action: 'AT.FILE_CONTENT.DATA_LOADED',
+            action: AT.FILE_CONTENT.DATA_LOADED,
             data: {
               filepath: path,
               success: false,
@@ -33,7 +33,7 @@ class FileTile extends Component {
           });
         } else {
           Dispatcher.dispatch({
-            action: 'AT.FILE_CONTENT.DATA_LOADED',
+            action: AT.FILE_CONTENT.DATA_LOADED,
             data: {
               filepath: path,
               success: true,

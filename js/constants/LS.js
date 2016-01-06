@@ -1,6 +1,6 @@
 /* Load States */
 
-import keyMirror from 'keymirror'
+import keyMirror from 'key-mirror-nested'
 
 export default keyMirror({
   NOT_LOADED: '',

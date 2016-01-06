@@ -1,7 +1,7 @@
 /* Each SidePanel must define a unique key and list it here */
 
 
-import keyMirror from 'keymirror'
+import keyMirror from 'key-mirror-nested'
 
 export default keyMirror({
   FORTRAN_COMPILE_PANEL: '',

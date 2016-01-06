@@ -14,9 +14,7 @@ class FileContentsStore extends MapStore {
 
   reduce(map, payload) {
     switch (payload.action) {
-      // TODO: The two 'DATA_LOADED' names clash
-      // It is urgent to implement KeyMirrorRecursive
-      case 'AT.FILE_CONTENT.DATA_LOADED':
+      case AT.FILE_CONTENT.DATA_LOADED:
         const filepath = payload.data.filepath;
         if (payload.data.success) {
           return map.set(filepath, { text: payload.data.fileContents });

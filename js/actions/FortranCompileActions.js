@@ -14,15 +14,19 @@ function beginCompilation() {
     " Compiled files should be ready in a few seconds."
   );
 
-  // ffs fix the workspace hack
-  const postBody = {
-    mainFile: mainFile.substring(10),
-    arg: {
+  const postArg = arg
+    ? {
       numRows: arg.numRows,
       numCols: arg.numCols,
       realComplex: arg.realComplex.key,
       mlClass: arg.mlClass.key,
-    },
+    }
+    : null;
+
+  // ffs fix the workspace hack
+  const postBody = {
+    mainFile: mainFile.substring(10),
+    arg: postArg,
   }
 
   request.post('compile-to-fortran/')
@@ -37,10 +41,9 @@ function beginCompilation() {
             <div>
               { "Failed to compile :( " }
               { "This could be due to a network issue. " }
-              { "If you believe this is a bug please send an email to " }
-              <a href="mailto:deepanjan.roy@mail.mcgill.ca">
-                deepanjan.roy@mail.mcgill.ca
-              </a>
+              { "If you believe this is a bug please open an issue " }
+              <a href="https://github.com/Sable/McLab-Web/issues">here</a>
+              { " or send us an email."}
             </div>
           );
         }
