@@ -4,20 +4,20 @@ import keyMirror from 'key-mirror-nested'
 
 export default keyMirror({
   FILE_EXPLORER: {
-    'DATA_LOADED': '',
-    'SELECT_FILE': '',
-    'OPEN_SELECTION_MODE': '',
-    'CLOSE_SELECTION_MODE': '',
-    'CONFIRM_SELECTION': '',
+    DATA_LOADED: '',
+    SELECT_FILE: '',
+    OPEN_SELECTION_MODE: '',
+    CLOSE_SELECTION_MODE: '',
+    CONFIRM_SELECTION: '',
   },
   FILE_CONTENT: {
-    'DATA_LOADED': '',
+    DATA_LOADED: '',
   },
   TERMINAL: {
-    'ADD_NEW_LINE': '',
+    ADD_NEW_LINE: '',
   },
   SIDE_PANEL: {
-    'CLOSE_PANEL': '',
+    CLOSE_PANEL: '',
   },
   FORTRAN_COMPILE_PANEL: {
     OPEN_PANEL: '',
@@ -36,10 +36,10 @@ export default keyMirror({
     }
   },
   KIND_ANALYSIS: {
-    'DATA_LOADED': '',
+    DATA_LOADED: '',
   },
   KIND_ANALYSIS_PANEL: {
-    'OPEN_PANEL': '',
+    OPEN_PANEL: '',
   }
 
 });
