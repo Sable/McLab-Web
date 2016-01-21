@@ -1,4 +1,4 @@
-import classNames from 'classNames';
+import classNames from 'classnames';
 import Dispatcher from './Dispatcher';
 import React from 'react';
 import AT from './constants/AT';
