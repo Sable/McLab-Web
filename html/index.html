@@ -3,7 +3,6 @@
 <head>
   <title>McLab Web</title>
 
-  {% load staticfiles %}
 
   <!-- imports -->
   <!-- FIXME: get rid of pure. No point using both that and bootstrap -->
@@ -16,17 +15,17 @@
   <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
 
   <!-- React stuff -->
-  <script src="{% static 'thirdparty/es5-shim.min.js' %}"></script>
-  <script src="{% static 'thirdparty/es5-sham.min.js' %}"></script>
-  <script src="{% static 'thirdparty/console-polyfill.js' %}"></script>
+  <script src="/static/thirdparty/es5-shim.min.js"></script>
+  <script src="/static/thirdparty/es5-sham.min.js"></script>
+  <script src="/static/thirdparty/console-polyfill.js"></script>
   <!-- <script src="react/JSXTransformer.js"></script> -->
   <!-- mclab styles -->
-  <link rel="stylesheet" href="{% static 'style.css' %}">
+  <link rel="stylesheet" href="/static/style.css">
 </head>
 <body>
   <div id="app-container"></div>
-  <script src="{% static 'thirdparty/ace-builds/src-noconflict/ace.js' %}" type="text/javascript" charset="utf-8"></script>
+  <script src="/static/thirdparty/ace-builds/src-noconflict/ace.js" type="text/javascript" charset="utf-8"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.7.5/js/bootstrap-select.min.js"></script>
-  <script src="{% static 'bundle.js' %}"></script>
+  <script src="/static/bundle.js"></script>
 </body>
 </html>
