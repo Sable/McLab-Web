@@ -18,8 +18,7 @@
     "react-dropzone": "^2.1.0",
     "react-select": "^0.8.2",
     "superagent": "^1.4.0",
-    "unzip": "^0.1.11",
-    "walk": "^2.3.9"
+    "unzip": "^0.1.11"
   },
   "devDependencies": {
     "babelify": "^6.3.0",

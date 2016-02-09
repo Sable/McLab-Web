@@ -47,8 +47,7 @@ function runKindAnalysis() {
   TerminalActions.println("Starting kind analysis on " + filePath);
 
   // FIXME: substring(10) is a hack to get rid of 'workspace/'
-  request.post('kind-analysis/')
-    .send({path: filePath.substring(10)})
+  request.get('kind-analysis/' + filePath.substring(10))
     .end(function(err, res) {
       if (err) {
         try {
@@ -81,7 +80,6 @@ function runKindAnalysis() {
             )
           })
         );
-
         EditorMarkerActions.show(filePath);
         Dispatcher.dispatch({
           action: AT.KIND_ANALYSIS.DATA_LOADED,

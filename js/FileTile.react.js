@@ -20,8 +20,7 @@ class FileTile extends Component {
     // TODO: This is a hack to get rid of 'workspace/'
     // Fix code to make workspace a proper sandbox
     // TODO: wtf why is this logic here. This should be handled by a smart cache
-    request.post('readfile/')
-        .send({path: path.substring(10)})
+    request.get('readfile/' + path.substring(10))
         .end(function(err, res) {
         if (err) {
           Dispatcher.dispatch({
