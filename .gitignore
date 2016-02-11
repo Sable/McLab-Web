@@ -56,3 +56,6 @@ deploy.sh
 
 # settings file for django. You should create it yourself from settings.py.example
 mlweb/settings.py
+
+# Jetbrains IDEs
+.idea

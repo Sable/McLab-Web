@@ -31,7 +31,7 @@
     "watchify": "^2.1.1"
   },
   "scripts": {
-    "start": "node mcnode/app.js",
+    "start": "NODE_ENV=development node mcnode/app.js",
     "watch": "watchify -o ./static/bundle.js -v -d ./js/app.js",
     "build": "browserify . -t [envify --NODE_ENV production] [babelify --stage 0]  | uglifyjs -cm > ./static/bundle.min.js"
   },

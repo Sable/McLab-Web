@@ -3,7 +3,7 @@
 var path = require('path');
 var fs = require('fs');
 var crypto = require('crypto');
-var config = require('../config/config');
+var config = require('../../config/config');
 
 // McLab-Web/user-files/{sessionID}
 function pathToUserRoot(sessionID){

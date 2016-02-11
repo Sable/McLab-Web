@@ -6,7 +6,7 @@ var child_process = require('child_process');
 var AdmZip = require('adm-zip');
 var async = require('async');
 
-var config = require('../config/config');
+var config = require('../../config/config');
 var util = require('./util');
 
 // Create new UUID for the user and redirect them to that session
@@ -19,7 +19,7 @@ function redirectToSession(req, res) {
 // Send the user the base index.html page
 function index(req, res) {
   console.log('index request');
-  res.sendFile(path.join(__dirname + '/../../html/index.html'));
+  res.sendFile(path.join(__dirname + '/../../../html/index.html'));
 }
 
 // Upload a ZIP file to the user's directory

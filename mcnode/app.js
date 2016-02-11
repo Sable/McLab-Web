@@ -1,9 +1,23 @@
 "use strict";
 var express = require('express');
 
-var app = express();
-require('./route')(app);
+//logging config
+var logger = console;
 
-app.listen(3000, function () {
-    console.log('Example app listening on port 3000!');
-});
+// Load configurations according to the selected environment
+var env = process.env.NODE_ENV || 'development';
+var config = require('./config/config')[env];
+
+var app = express();
+
+
+// express settings
+require('./config/express')(app, config);
+
+// Bootstrap routes
+require('./app/route')(app);
+
+//start app on mentioned port
+app.listen(config.app.port);
+
+logger.info('listening on port ' + config.app.port);
