@@ -62,7 +62,7 @@ function compileToFortran(req, res) {
               const archiveName = `fortran-package-${archiveUUID}`;
               const archivePath = path.join(genRootPath, archiveName + '.zip');
               const relPathToArchive = path.relative(genRootPath, archivePath);
-              const package_path = `download/${relPathToArchive}`;
+              const package_path = `files/download/${relPathToArchive}`;
 
               // Zip the files and return the path to the zip file (relative to /session, since this is the API call to be made)
               child_process.exec(`zip -j ${archivePath} ${fortranRootPath}/*.f95`, function(err){

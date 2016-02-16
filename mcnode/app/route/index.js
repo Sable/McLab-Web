@@ -15,10 +15,13 @@ module.exports = function (app) {
     app.get('/', session.redirectToSession);
     app.get('/newsession/', session.redirectToSession);
     app.get('/session/:sessionID/', session.index);
-    app.post('/session/:sessionID/upload/', multerInstance.any(), userfiles.upload);
-    app.get('/session/:sessionID/filetree/', userfiles.filetree);
-    app.get('/session/:sessionID/analysis/readfile/:filepath([\\w-]*)/?', userfiles.readFile);
+
+    app.post('/session/:sessionID/files/upload/', multerInstance.any(), userfiles.upload);
+    app.get('/session/:sessionID/files/filetree/', userfiles.filetree);
+    app.get('/session/:sessionID/files/readfile/:filepath([\\w-]*)/?', userfiles.readFile);
+    app.get('^/session/:sessionID/files/download/:filepath([\\w-]*)/?', userfiles.serveGen);
+
     app.get('/session/:sessionID/analysis/kinds/:filepath([\\w-]*)/?', analysis.kindAnalysis);
+
     app.post('/session/:sessionID/compile/mc2for/', compile.compileToFortran);
-    app.get('^/session/:sessionID/download/:filepath([\\w-]*)/?', userfiles.serveGen);
 };
