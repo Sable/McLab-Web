@@ -127,7 +127,7 @@ function compileToFortran(req, res) {
 
   const command = `java -jar ${config.MC2FOR_PATH} ${mainFilePath} -args ${argString} -codegen`;
 
-  // Compile the files; this will produce Fotran (.f95) files in the same directory as the Matlab files
+  // Compile the files; this will produce Fortran (.f95) files in the same directory as the Matlab files
   child_process.exec(command, function(err){
     if(!err){
       // Make a gen folder for the user; if it exists already, just ignore the error
@@ -163,12 +163,14 @@ function compileToFortran(req, res) {
               const archiveUUID = util.createUUID();
               const archiveName = `fortran-package-${archiveUUID}`;
               const archivePath = path.join(genRootPath, archiveName + '.zip');
+              const relPathToArchive = path.relative(genRootPath, archivePath);
+              const package_path = `download/${relPathToArchive}`;
 
               // Zip the files and return the path to the zip file (relative to /session, since this is the API call to be made)
               child_process.exec(`zip -j ${archivePath} ${fortranRootPath}/*.f95`, function(err){
-                const relPathToArchive = path.relative(config.MEDIA_ROOT, archivePath);
+
                 res.json({
-                  package_path: `/session/${relPathToArchive}/`
+                  package_path: package_path
                 });
               });
             });

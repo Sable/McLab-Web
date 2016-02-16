@@ -12,11 +12,12 @@ var multerInstance = multer({storage: storage});
 
 module.exports = function (app) {
     app.get('/', logic.redirectToSession);
+    app.get('/newsession/', logic.redirectToSession);
     app.get('/session/:sessionID/', logic.index);
     app.post('/session/:sessionID/upload/', multerInstance.any(), logic.upload);
     app.get('/session/:sessionID/filetree/', logic.filetree);
-    app.get('/session/:sessionID/readfile/:filepath([\\w-]*)/?', logic.readfile);
-    app.get('/session/:sessionID/kind-analysis/:filepath([\\w-]*)/?', logic.kindAnalysis);
-    app.post('/session/:sessionID/compile-to-fortran/', logic.compileToFortran);
-    app.get('^/session/:sessionID/gen/:filepath([\\w-]*)/?', logic.serveGen);
+    app.get('/session/:sessionID/analysis/readfile/:filepath([\\w-]*)/?', logic.readfile);
+    app.get('/session/:sessionID/analysis/kinds/:filepath([\\w-]*)/?', logic.kindAnalysis);
+    app.post('/session/:sessionID/compile/mc2for/', logic.compileToFortran);
+    app.get('^/session/:sessionID/download/:filepath([\\w-]*)/?', logic.serveGen);
 };
