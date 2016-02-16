@@ -1,7 +1,7 @@
 "use strict";
 var path = require('path');
 
-const BASE_DIR = path.join(__dirname + '/../../');
+const MCNODE_HOME = path.join(__dirname + '/../../');
 
 module.exports = {
     development: {
@@ -20,7 +20,7 @@ module.exports = {
     }
 };
 
-module.exports.MEDIA_ROOT =  path.join(BASE_DIR, 'user-files');
+module.exports.MEDIA_ROOT =  path.join(MCNODE_HOME, 'user-files');
 module.exports.USER_FILE_FOLDER =  'workspace';
 
 // CHANGE THESE:

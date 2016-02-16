@@ -48,9 +48,6 @@ db.sqlite3
 # virtualelv
 mcenv/
 
-#user uploaded files
-user-files/*
-
 # My little non-portable deploy script for bundle.js
 deploy.sh
 

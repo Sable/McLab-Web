@@ -7,6 +7,7 @@ var logger = console;
 // Load configurations according to the selected environment
 var env = process.env.NODE_ENV || 'development';
 var config = require('./config/config')[env];
+global.__base = __dirname + '/'; // used to deal with ugly imports in files down the directory tree
 
 var app = express();
 

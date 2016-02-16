@@ -1,7 +1,8 @@
+"use strict";
 var express = require('express');
 var logger = console;
 var env = process.env.NODE_ENV || 'development';
-var config = require('./config');
+var config = require(__base + 'config/config');
 var path = require('path');
 
 var bodyParser = require('body-parser');
