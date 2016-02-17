@@ -29,7 +29,7 @@ function beginCompilation() {
     arg: postArg,
   }
 
-  request.post('compile-to-fortran/')
+  request.post('compile/mc2for/')
     .send(postBody)
     .end(function(err, res) {
       if (err) {

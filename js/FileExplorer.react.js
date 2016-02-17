@@ -81,7 +81,7 @@ class FileExplorer extends Component {
           <Dropzone
             onDrop={
               function(files){
-                var req = request.post('upload/');
+                var req = request.post('files/upload/');
                 files.forEach((file)=> {
                     req.attach(file.name, file);
                 });

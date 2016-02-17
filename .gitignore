@@ -48,11 +48,14 @@ db.sqlite3
 # virtualelv
 mcenv/
 
-#user uploaded files
-user-files/
-
 # My little non-portable deploy script for bundle.js
 deploy.sh
 
 # settings file for django. You should create it yourself from settings.py.example
 mlweb/settings.py
+
+# Same thing for node
+mcnode/config/config.js
+
+# Jetbrains IDEs
+.idea

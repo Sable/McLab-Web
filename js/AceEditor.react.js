@@ -34,7 +34,6 @@ class AceEditor extends Component {
     if (!this.props.markerData || !this.props.markerData.visible) {
       return;
     }
-
     for (let markerGroup of this.props.markerData.markers) {
       const markerClass = markerGroup[0];
       const markerList = markerGroup[1];

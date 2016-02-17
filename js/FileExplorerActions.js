@@ -3,7 +3,7 @@ import AT from './constants/AT'
 import Dispatcher from './Dispatcher';
 
 function fetchFileTree() {
-  var req = request.get('filetree/',
+  var req = request.get('files/filetree/',
     function(err, res) {
       let data = {};
       if (err) {
