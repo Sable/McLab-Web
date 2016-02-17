@@ -1,10 +1,10 @@
 "use strict";
 var express = require('express');
 
-var session = require(__base + 'app/logic/session');
-var userfiles = require(__base + 'app/logic/userfiles');
-var compile = require(__base + 'app/logic/compile');
-var analysis = require(__base + 'app/logic/analysis');
+var session = require(__base + 'app/logic/tools/session');
+var userfiles = require(__base + 'app/logic/tools/userfiles');
+var compile = require(__base + 'app/logic/tools/compile');
+var analysis = require(__base + 'app/logic/tools/analysis');
 
 // Set up multer; this allows us to get a zip file in a POST request and hold it in memory until it's saved to disk
 var multer = require('multer');
@@ -14,7 +14,7 @@ var multerInstance = multer({storage: storage});
 module.exports = function (app) {
     app.get('/', session.redirectToSession);
     app.get('/newsession/', session.redirectToSession);
-    app.get('/session/:sessionID/', session.index);
+    app.get('/session/:sessionID/', session.homepage);
 
     app.post('/session/:sessionID/files/upload/', multerInstance.any(), userfiles.upload);
     app.get('/session/:sessionID/files/filetree/', userfiles.filetree);

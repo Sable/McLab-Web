@@ -11,12 +11,12 @@ function redirectToSession(req, res) {
 }
 
 // Send the user the base index.html page
-function index(req, res) {
+function homepage(req, res) {
   console.log('index request');
-  res.sendFile(path.join(__dirname + '/../../../html/index.html'));
+  res.sendFile(path.join(__base + '../html/index.html'));
 }
 
 module.exports = {
   redirectToSession,
-  index
+  homepage
 };
