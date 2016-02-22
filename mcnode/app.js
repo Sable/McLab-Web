@@ -11,7 +11,6 @@ global.__base = __dirname + '/'; // used to deal with ugly imports in files down
 
 var app = express();
 
-
 // express settings
 require('./config/express')(app, config);
 

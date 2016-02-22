@@ -16,7 +16,21 @@ function homepage(req, res) {
   res.sendFile(path.join(__base + '../html/index.html'));
 }
 
+function shortenURL(req, res){
+  console.log('shorten URL request');
+  const url = req.params.url;
+  session_utils.shortenURL(url, function(err, shortenedUrl){
+    if(!err){
+      res.json({shortenedURL: shortenedUrl});
+    }
+    else{
+      res.status(404).json({msg: 'Could not shorten URL.'});
+    }
+  });
+}
+
 module.exports = {
   redirectToSession,
-  homepage
+  homepage,
+  shortenURL
 };

@@ -40,6 +40,9 @@ export default keyMirror({
   },
   KIND_ANALYSIS_PANEL: {
     OPEN_PANEL: '',
+  },
+  TOP_NAV_BUTTONS: {
+    SET_SHORTENED_LINK: '',
   }
 
 });

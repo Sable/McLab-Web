@@ -15,6 +15,7 @@ module.exports = function (app) {
     app.get('/', session.redirectToSession);
     app.get('/newsession/', session.redirectToSession);
     app.get('/session/:sessionID/', session.homepage);
+    app.get('/session/:sessionID/shortenURL/:url([\\w-]*)/?', session.shortenURL);
 
     app.post('/session/:sessionID/files/upload/', multerInstance.any(), userfiles.upload);
     app.get('/session/:sessionID/files/filetree/', userfiles.filetree);
