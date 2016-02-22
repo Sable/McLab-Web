@@ -16,8 +16,13 @@ function compileToFortran(req, res) {
   const sessionID = req.params.sessionID;
   const body = req.body;
   const mainFile = body.mainFile || '';
-
-  const argString = tool_analysis.buildFortranArgString(body.arg);
+  let argString;
+  try{
+    argString = tool_analysis.buildFortranArgString(body.arg);
+  }
+  catch (e){
+    res.status(400).json({msg: e});
+  }
   const mainFilePath = userfile_utils.fileInWorkspace(sessionID, mainFile); // path to entry point file to be compiled
   const mainFileDir = path.dirname(mainFilePath); // directory of this file
   const genRootPath = userfile_utils.genRoot(sessionID);
