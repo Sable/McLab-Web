@@ -2,6 +2,8 @@
 var path = require('path');
 var fs = require('fs');
 var child_process = require('child_process');
+var underscore = require('underscore');
+var async = require('async');
 
 var config = require(__base + 'config/config');
 var userfile_utils = require(__base + 'app/logic/util/userfile_utils');
@@ -57,23 +59,28 @@ function compileToFortran(req, res) {
                 finalFilePaths.push(path.join(fortranRootPath, fortranFile))
               }
 
-              // move (using rename) each file to its final location (in gen/fortran-code, rather than workspace)
-              for (let i = 0; i < fortranFilePathList.length; i++) {
-                fs.renameSync(fortranFilePathList[i], finalFilePaths[i]);
-              }
+              // Hacky way of renaming a list of files asynchronously
+              let rename = function(index, cb){
+                fs.rename(fortranFilePathList[index], finalFilePaths[index], function(){
+                  cb();
+                });
+              };
+              var rangeOverFiles = underscore.range(fortranFilePathList.length);
+              //const zippedFilePaths = underscore.zip(fortranFilePathList, finalFilePaths);
+              async.each(rangeOverFiles, rename, function(err){
+                // create a UUID and name for the archive to be created out of these files
+                const archiveUUID = sessions.createUUID();
+                const archiveName = `fortran-package-${archiveUUID}`;
+                const archivePath = path.join(genRootPath, archiveName + '.zip');
+                const relPathToArchive = path.relative(genRootPath, archivePath);
+                const package_path = `files/download/${relPathToArchive}`;
 
-              // create a UUID and name for the archive to be created out of these files
-              const archiveUUID = sessions.createUUID();
-              const archiveName = `fortran-package-${archiveUUID}`;
-              const archivePath = path.join(genRootPath, archiveName + '.zip');
-              const relPathToArchive = path.relative(genRootPath, archivePath);
-              const package_path = `files/download/${relPathToArchive}`;
+                // Zip the files and return the path to the zip file (relative to /session, since this is the API call to be made)
+                child_process.exec(`zip -j ${archivePath} ${fortranRootPath}/*.f95`, function(err){
 
-              // Zip the files and return the path to the zip file (relative to /session, since this is the API call to be made)
-              child_process.exec(`zip -j ${archivePath} ${fortranRootPath}/*.f95`, function(err){
-
-                res.json({
-                  package_path: package_path
+                  res.json({
+                    package_path: package_path
+                  });
                 });
               });
             });

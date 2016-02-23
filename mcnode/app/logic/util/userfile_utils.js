@@ -2,6 +2,8 @@
 var path = require('path');
 var fs = require('fs');
 var config = require(__base + 'config/config');
+var async = require('async');
+var underscore = require('underscore');
 
 // McLab-Web/user-files/{sessionID}
 function userRoot(sessionID){
@@ -47,7 +49,7 @@ function fortranRoot(sessionID){
 // Return JSON representing the directory structure and files in a user's workspace
 // TODO: make this async
 // This will be difficult because it's recursive
-function createFileTree(dirPath, startPath){
+function createFileTree(startPath, dirPath, cb){
   // A filetree is the path to the filetree (relative to workspace), the directories inside, and the files inside
   // The directories themselves will be filetrees
   let fileTree = {
@@ -57,18 +59,38 @@ function createFileTree(dirPath, startPath){
   };
 
   // Get the list of files (directories or normal files) in the current folder and use stat to determine file or dir
-  // Flter out .DS_STORE and __MACOSX, which are generated on OSX
-  let fileNames = fs.readdirSync(dirPath);
-  fileNames.map(function(fileName){
-    let stat = fs.statSync(path.join(dirPath, fileName));
-    if(stat.isFile() && fileName !== '.DS_Store'){
-      fileTree.files.push(fileName);
+  // Filter out .DS_STORE and __MACOSX, which are generated on OSX
+  fs.readdir(dirPath, function(err, fileNames){
+
+    let fileNamesWithPath = [];
+    console.log(fileNames.length);
+    for (let fileName of fileNames){
+      fileNamesWithPath.push(path.join(dirPath, fileName));
     }
-    else if(stat.isDirectory() && fileName !== '__MACOSX'){
-      fileTree.directories.push(createFileTree(path.join(dirPath, fileName), startPath)); // Recursive call for directories
-    }
+
+    async.map(fileNamesWithPath, fs.stat, function(err, results){
+      let dirNames = [];
+      for(let i=0; i<results.length; i++){
+        const stat = results[i];
+        const fileName = fileNames[i];
+
+        if(stat.isFile() && fileName !== '.DS_Store'){
+          fileTree.files.push(fileName);
+        }
+        else if(stat.isDirectory() && fileName !== '__MACOSX'){
+          dirNames.push(fileNamesWithPath[i]);
+        }
+      }
+      let createFileTreeBound = createFileTree.bind(null, startPath);
+
+      async.map(dirNames, createFileTreeBound, function(err, results){
+        for (let subFileTree of results){
+          fileTree.directories.push(subFileTree);
+        }
+        cb(null, fileTree);
+      });
+    });
   });
-  return fileTree;
 }
 
 module.exports = {

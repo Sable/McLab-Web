@@ -67,8 +67,10 @@ function filetree(req, res) {
   const userRoot = userfile_utils.userRoot(sessionID);
   fs.access(userFileRoot, function(err) {
     if (!err) {
-      let fileTree = userfile_utils.createFileTree(userFileRoot, userRoot);
-      res.json(fileTree);
+      userfile_utils.createFileTree(userRoot, userFileRoot, function(err, fileTree){
+        res.json(fileTree);
+      });
+      //res.json(userfile_utils.createFileTree(userFileRoot, userRoot));
     } else {
       res.json({});
     }

@@ -36,7 +36,7 @@ class TopNav extends Component {
           </a>
           <a className="pure-button topnav-button"
             onClick={TopNavButtonActions.printShortenedLink}>
-            Get short link
+            Get Short Link
           </a>
         </div>
       </div>

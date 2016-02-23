@@ -20,6 +20,7 @@
     "react-dropzone": "^2.1.0",
     "react-select": "^0.8.2",
     "superagent": "^1.7.2",
+    "underscore": "^1.8.3",
     "unzip": "^0.1.11"
   },
   "devDependencies": {
