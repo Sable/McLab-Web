@@ -1,6 +1,6 @@
 {
   "name": "mclab",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "McLab Web IDE.",
   "main": "./js/app.js",
   "repository": "https://github.com/Sable/McLab-Web",
