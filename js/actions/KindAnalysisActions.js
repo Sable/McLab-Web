@@ -51,7 +51,7 @@ function runKindAnalysis() {
     .end(function(err, res) {
       if (err) {
         try {
-          const msg = JSON.parse(res.text).msg;
+          const msg = JSON.parse(res.text).error;
           TerminalActions.printerrln(msg);
         } catch (e) {
           TerminalActions.printerrln(

@@ -8,7 +8,8 @@ import ShortenedLinkStore from '../stores/ShortenedLinkStore';
 
 function getShortenedLink() {
   const currentLink = window.location.href;
-  request.get('shortenURL/' + currentLink)
+  const baseURL = window.location.origin;
+  request.get(baseURL + '/shortenURL/' + currentLink)
       .end(function(err, response){
         if(!err){
           const shortenedLink = JSON.parse(response.text).shortenedURL;

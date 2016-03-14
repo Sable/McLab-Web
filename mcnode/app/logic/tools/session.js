@@ -24,7 +24,7 @@ function shortenURL(req, res){
       res.json({shortenedURL: shortenedUrl});
     }
     else{
-      res.status(404).json({msg: 'Could not shorten URL.'});
+      res.status(404).json({error: 'Failed to shorten the link.'});
     }
   });
 }

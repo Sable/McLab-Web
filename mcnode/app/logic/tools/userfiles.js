@@ -56,9 +56,8 @@ function filetree(req, res) {
       userfile_utils.createFileTree(userRoot, userFileRoot, function(err, fileTree){
         res.json(fileTree);
       });
-      //res.json(userfile_utils.createFileTree(userFileRoot, userRoot));
     } else {
-      res.json({});
+      res.status(404).json({error: "Failed to create filetree."});
     }
   });
 }
@@ -75,7 +74,15 @@ function serveGen(req, res) {
     'Content-Type': 'application/zip',
     'Content-Disposition': `attachment; filename=${fileName}`
   });
-  res.sendFile(pathToFile);
+  fs.exists(pathToFile, function(exists){
+    if(exists){
+      res.sendFile(pathToFile);
+    }
+    else{
+      res.status(404).json({error: "Could not find requested file."});
+    }
+  });
+
 }
 
 module.exports = {

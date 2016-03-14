@@ -99,7 +99,7 @@ function validateArgs(mlClass, numRows, numCols, realComplex){
 }
 
 function compileToFortran(sessionID, body, mainFile, cb){
-    let argString;
+  let argString;
   try{
     argString = this.buildFortranArgString(body.arg);
   }

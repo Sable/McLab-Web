@@ -1,0 +1,5 @@
+{
+  "name": "McLabWeb API",
+  "version": "0.1.0",
+  "description": "Documentation on the API calls that can be made to the McLabWeb Node.js backend."
+}

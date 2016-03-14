@@ -11,7 +11,7 @@ function kindAnalysis(req, res) {
       res.json(output);
     }
     else{
-      res.status(400).json({msg: 'Mclab-core failed to do kind analysis on this file. Is this a valid matlab file?'});
+      res.status(400).json({error: 'Mclab-core failed to do kind analysis on this file. Is this a valid matlab file?'});
     }
   });
 }

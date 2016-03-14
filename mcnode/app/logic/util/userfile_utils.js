@@ -50,7 +50,6 @@ function fortranRoot(sessionID){
 }
 
 // Return JSON representing the directory structure and files in a user's workspace
-// TODO: make this async
 // This will be difficult because it's recursive
 function createFileTree(startPath, dirPath, cb){
   // A filetree is the path to the filetree (relative to workspace), the directories inside, and the files inside
@@ -66,7 +65,6 @@ function createFileTree(startPath, dirPath, cb){
   fs.readdir(dirPath, function(err, fileNames){
 
     let fileNamesWithPath = [];
-    console.log(fileNames.length);
     for (let fileName of fileNames){
       fileNamesWithPath.push(path.join(dirPath, fileName));
     }

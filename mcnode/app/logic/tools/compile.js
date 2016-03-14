@@ -3,7 +3,6 @@ var tool_usage = require(__base + 'app/logic/util/tool_usage');
 
 // Compile the file at given filepath, and with given arguments, to Fortran
 // Zip the result and return the path to it
-// TODO: fix this abomination of a function
 function compileToFortran(req, res) {
   console.log('compile_to_fortran request');
   const sessionID = req.params.sessionID;
@@ -22,3 +21,4 @@ function compileToFortran(req, res) {
 module.exports = {
   compileToFortran
 };
+
