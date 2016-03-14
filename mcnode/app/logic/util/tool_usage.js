@@ -104,7 +104,8 @@ function compileToFortran(sessionID, body, mainFile, cb){
     argString = this.buildFortranArgString(body.arg);
   }
   catch (e){
-    cb({msg: e}, null);
+    cb({error: e}, null);
+    return;
   }
   const mainFilePath = userfile_utils.fileInWorkspace(sessionID, mainFile); // path to entry point file to be compiled
   const mainFileDir = path.dirname(mainFilePath); // directory of this file
@@ -141,9 +142,9 @@ function compileToFortran(sessionID, body, mainFile, cb){
               }
 
               // Hacky way of renaming a list of files asynchronously
-              let rename = function(index, cb){
+              let rename = function(index, cb2){
                 fs.rename(fortranFilePathList[index], finalFilePaths[index], function(){
-                  cb();
+                  cb2();
                 });
               };
               var rangeOverFiles = underscore.range(fortranFilePathList.length);
@@ -167,7 +168,7 @@ function compileToFortran(sessionID, body, mainFile, cb){
       });
     }
     else {
-      cb({msg: 'Failed to compile this project.'}, null);
+      cb({error: 'Failed to compile this project.'}, null);
     }
   });
 }

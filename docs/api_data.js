@@ -111,6 +111,15 @@ define({ "api": [
         ]
       }
     },
+    "error": {
+      "examples": [
+        {
+          "title": "Error-Response:",
+          "content": "HTTP/1.1 400 Bad Request\n{\n  \"error\":\"Failed to compile the code into Fortran.\"\n}",
+          "type": "json"
+        }
+      ]
+    },
     "version": "0.0.0",
     "filename": "mcnode/app/route/index.js",
     "groupTitle": "Compile"
@@ -313,7 +322,7 @@ define({ "api": [
             "type": "Archive",
             "optional": false,
             "field": "files",
-            "description": "<p>Archive to upload; can be a .tar.gz or .zip.</p>"
+            "description": "<p>Archive to upload.</p>"
           }
         ]
       }

@@ -11,19 +11,6 @@ var multer = require('multer');
 var storage = multer.memoryStorage();
 var multerInstance = multer({storage: storage});
 
-/**
- * @api {post} /session/:sessionID/compile/mc2for/ Compile the user's files into Fortran code
- * @apiName Mc2For
- * @apiGroup Compile
- * @apiParam {String} sessionID User's session ID.
- * @apiParam {Object} arg The arguments for compilation {mlClass, numRows, numCols, realComplex}.
- * @apiParam {String} mainFile The main file (entry point) for compilation.
- *
- * @apiSuccess {String} package_path The path to the resulting archive containing the Fortran files.
- * This can then be downloaded using a serveGen call.
- */
-
-
 module.exports = function (app) {
     app.get('/', session.redirectToSession);
     app.get('/newsession/', session.redirectToSession);
@@ -90,7 +77,7 @@ module.exports = function (app) {
  * @apiName Upload
  * @apiGroup Files
  * @apiParam {String} sessionID User's session ID.
- * @apiParam {Archive} files Archive to upload; can be a .tar.gz or .zip.
+ * @apiParam {Archive} files Archive to upload.
  * @apiDescription Stores an archive file and unzips the contents into the workspace of the user.
  */
 
@@ -208,5 +195,23 @@ module.exports = function (app) {
  *     HTTP/1.1 404 Not Found
  *     {
  *       "error":"Mclab-core failed to do kind analysis on this file. Is this a valid matlab file?"
+ *     }
+ */
+
+/**
+ * @api {post} /session/:sessionID/compile/mc2for/ Compile the user's files into Fortran code
+ * @apiName Mc2For
+ * @apiGroup Compile
+ * @apiParam {String} sessionID User's session ID.
+ * @apiParam {Object} arg The arguments for compilation {mlClass, numRows, numCols, realComplex}.
+ * @apiParam {String} mainFile The main file (entry point) for compilation.
+ *
+ * @apiSuccess {String} package_path The path to the resulting archive containing the Fortran files.
+ * This can then be downloaded using a serveGen call.
+ *
+ * @apiErrorExample Error-Response:
+ *     HTTP/1.1 400 Bad Request
+ *     {
+ *       "error":"Failed to compile the code into Fortran."
  *     }
  */
