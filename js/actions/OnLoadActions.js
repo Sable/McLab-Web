@@ -3,10 +3,10 @@ import Dispatcher from '../Dispatcher';
 import React from 'react';
 import request from 'superagent';
 import TerminalActions from './TerminalActions';
-import ShortenedLinkStore from '../stores/ShortenedLinkStore';
+import MiscDataStore from '../stores/MiscDataStore';
 
 
-function getShortenedLink() {
+function retrieveShortenedLink() {
   const currentLink = window.location.href;
   const baseURL = window.location.origin;
   request.get(baseURL + '/shortenURL/' + currentLink)
@@ -25,14 +25,21 @@ function getShortenedLink() {
 }
 
 function printShortenedLink(){
-  const textToPrint = "Your shortened link: " + ShortenedLinkStore.getShortenedLink();
+  const textToPrint = "Your shortened link: " + MiscDataStore.getShortenedLink();
       TerminalActions.println(
               <div>
                 {textToPrint}
             </div>)
 }
 
+function getSessionID(){
+  const endOfURL = window.location.href.slice(-37); // The sessionID plus a / at the end
+  const sessionID = endOfURL.slice(0, 36); // Remove the /
+  return sessionID;
+}
+
 export default {
-  getShortenedLink,
-  printShortenedLink
+  retrieveShortenedLink,
+  printShortenedLink,
+  getSessionID
 }

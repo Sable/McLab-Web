@@ -11,7 +11,7 @@ var tool_usage = require(__base + 'app/logic/util/tool_usage');
 // Return the contents of a given file (given filepath param)
 function readFile(req, res) {
   console.log('readfile request');
-  const sessionID = req.params.sessionID;
+  const sessionID = req.header('SessionID');
   const filepath = req.params.filepath;
   const fileToRead = userfile_utils.fileInWorkspace(sessionID, filepath);
 
@@ -26,8 +26,8 @@ function readFile(req, res) {
 
 // Upload a ZIP file to the user's directory
 function upload(req, res) {
-  const sessionID = req.params.sessionID;
   console.log('upload request');
+  const sessionID = req.header('SessionID');
   if (req.files) {
     // Grab the file and the path to the user's directory
     const file = req.files[0];
@@ -48,7 +48,7 @@ function upload(req, res) {
 // Return JSON representing the user's filetree (files and directories)
 function filetree(req, res) {
   console.log('filetree request');
-  const sessionID = req.params.sessionID;
+  const sessionID = req.header('SessionID');
   const userFileRoot = userfile_utils.userWorkspace(sessionID);
   const userRoot = userfile_utils.userRoot(sessionID);
   fs.access(userFileRoot, function(err) {
@@ -57,7 +57,7 @@ function filetree(req, res) {
         res.json(fileTree);
       });
     } else {
-      res.status(404).json({error: "Failed to create filetree."});
+      res.json({});
     }
   });
 }
@@ -65,7 +65,8 @@ function filetree(req, res) {
 // Return the zip file in the user's generated file folder at the given path.
 function serveGen(req, res) {
   console.log('serve_gen request');
-  const sessionID = req.params.sessionID;
+  //const sessionID = req.header('SessionID');
+  const sessionID = '0c98f879-eb06-443d-aa10-b3dd342702d9';
   const filepath = req.params.filepath;
   const pathToFile = userfile_utils.fileInGen(sessionID, filepath);
   const fileName = path.relative(userfile_utils.genRoot(sessionID), pathToFile);

@@ -29,8 +29,14 @@ function shortenURL(req, res){
   });
 }
 
+function docs(req, res){
+  console.log('docs request');
+  res.sendFile(path.join(__base + '../docs/index.html'));
+}
+
 module.exports = {
   redirectToSession,
   homepage,
-  shortenURL
+  shortenURL,
+  docs
 };

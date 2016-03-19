@@ -2,7 +2,7 @@ import AT from './constants/AT';
 import classnames from 'classnames';
 import Dispatcher from './Dispatcher';
 import KindAnalysisActions from './actions/KindAnalysisActions';
-import TopNavButtonActions from './actions/TopNavButtonsActions';
+import OnLoadActions from './actions/OnLoadActions';
 import React from 'react';
 
 const {PropTypes, Component} = React;
@@ -35,18 +35,13 @@ class TopNav extends Component {
             Kind Analysis
           </a>
           <a className="pure-button topnav-button"
-            onClick={TopNavButtonActions.printShortenedLink}>
+            onClick={OnLoadActions.printShortenedLink}>
             Get Short Link
           </a>
         </div>
       </div>
     );
   }
-
-  componentDidMount(){
-    TopNavButtonActions.getShortenedLink();
-  }
-
 }
 
 TopNav.propTypes = {

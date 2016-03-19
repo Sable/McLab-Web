@@ -8,6 +8,7 @@ import ReactDOM from 'react-dom';
 import request from 'superagent';
 import Dispatcher from './Dispatcher';
 import AT from './constants/AT';
+import OnLoadActions from './actions/OnLoadActions';
 
 var McLabWeb = React.createClass({
   render: function() {
@@ -24,6 +25,10 @@ var McLabWeb = React.createClass({
         </div>
       </div>
     );
+  },
+
+  componentDidMount(){
+    OnLoadActions.retrieveShortenedLink();
   }
 });
 

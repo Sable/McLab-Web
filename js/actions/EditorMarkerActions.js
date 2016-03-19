@@ -4,26 +4,26 @@ import Dispatcher from '../Dispatcher';
 function setMarkers(filePath, markers) {
   Dispatcher.dispatch({
     action: AT.EDITOR.SET_MARKERS,
-    data: {filePath, markers},
+    data: {filePath, markers}
   })
 }
 
 function show(filePath) {
   Dispatcher.dispatch({
     action: AT.EDITOR.MARKER_VISIBILITY.TURN_ON,
-    data: {filePath},
+    data: {filePath}
   });
 }
 
 function hide(filePath) {
   Dispatcher.dispatch({
     action: AT.EDITOR.MARKER_VISIBILITY.TURN_OFF,
-    data: {filePath},
+    data: {filePath}
   });
 }
 
 export default {
   setMarkers,
   show,
-  hide,
+  hide
 }

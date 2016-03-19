@@ -5,7 +5,7 @@ var tool_usage = require(__base + 'app/logic/util/tool_usage');
 // Zip the result and return the path to it
 function compileToFortran(req, res) {
   console.log('compile_to_fortran request');
-  const sessionID = req.params.sessionID;
+  const sessionID = req.header('SessionID');
   const body = req.body;
   const mainFile = body.mainFile || '';
   tool_usage.compileToFortran(sessionID, body, mainFile, (err, package_path) => {

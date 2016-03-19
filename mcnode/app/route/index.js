@@ -17,14 +17,16 @@ module.exports = function (app) {
     app.get('/session/:sessionID/', session.homepage);
     app.get('/shortenURL/:url([\\w-]*)/?', session.shortenURL);
 
-    app.post('/session/:sessionID/files/upload/', multerInstance.any(), userfiles.upload);
-    app.get('/session/:sessionID/files/filetree/', userfiles.filetree);
-    app.get('/session/:sessionID/files/readfile/:filepath([\\w-]*)/?', userfiles.readFile);
+    app.post('/files/upload/', multerInstance.any(), userfiles.upload);
+    app.get('/files/filetree/', userfiles.filetree);
+    app.get('/files/readfile/:filepath([\\w-]*)/?', userfiles.readFile);
     app.get('^/session/:sessionID/files/download/:filepath([\\w-]*)/?', userfiles.serveGen);
 
-    app.get('/session/:sessionID/analysis/kinds/:filepath([\\w-]*)/?', analysis.kindAnalysis);
+    app.get('/analysis/kinds/:filepath([\\w-]*)/?', analysis.kindAnalysis);
 
-    app.post('/session/:sessionID/compile/mc2for/', compile.compileToFortran);
+    app.post('/compile/mc2for/', compile.compileToFortran);
+
+    app.get('/docs/', session.docs);
 };
 
 /**
@@ -86,6 +88,8 @@ module.exports = function (app) {
  * @apiName Filetree
  * @apiGroup Files
  * @apiParam {String} sessionID User's session ID.
+ * @apiDescription Note that there is no error possible for this API call.
+ * If the user does not exist or has not uploaded files, this call will simply return the empty object, i.e. {}.
  *
  * @apiExample {curl} Example usage:
  *     curl localhost:3000/session/example-sessionID/files/filetree/
@@ -101,12 +105,6 @@ module.exports = function (app) {
  *             }
  *         ],
  *         "files":[]
- *     }
- *
- * @apiErrorExample Error-Response:
- *     HTTP/1.1 404 Not Found
- *     {
- *       "error":"Failed to create filetree."
  *     }
  */
 

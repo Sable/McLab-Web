@@ -195,6 +195,7 @@
         ]
       }
     },
+    "description": "<p>Note that there is no error possible for this API call. If the user does not exist or has not uploaded files, this call will simply return the empty object, i.e. {}.</p>",
     "examples": [
       {
         "title": "Example usage:",
@@ -218,15 +219,6 @@
         {
           "title": "Success-Response:",
           "content": "HTTP/1.1 200 OK\n{\n    \"path\":\"workspace\",\n    \"directories\":[\n        {\"path\":\"workspace/demo_matlab\",\"directories\":[],\n        \"files\":[\"cholesky.m\",\"readme.txt\",\"testIdentity.m\",\"testMain.m\"]\n        }\n    ],\n    \"files\":[]\n}",
-          "type": "json"
-        }
-      ]
-    },
-    "error": {
-      "examples": [
-        {
-          "title": "Error-Response:",
-          "content": "HTTP/1.1 404 Not Found\n{\n  \"error\":\"Failed to create filetree.\"\n}",
           "type": "json"
         }
       ]

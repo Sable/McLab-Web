@@ -2,7 +2,8 @@ import AT from './constants/AT';
 import classnames from 'classnames';
 import Dispatcher from './Dispatcher';
 import Dropzone from 'react-dropzone';
-import FileExplorerActions from './FileExplorerActions.js'
+import FileExplorerActions from './actions/FileExplorerActions.js'
+import OnLoadActions from './actions/OnLoadActions.js'
 import FileTile from './FileTile.react';
 import FolderTile from './FolderTile.react';
 import React from 'react';
@@ -64,6 +65,7 @@ class Directory extends Component {
 class FileExplorer extends Component {
   render() {
     let contents;
+    let sessionID = OnLoadActions.getSessionID();
     // check if tree is just an empty object
     if (this.props.tree.path) {
       contents = (
@@ -81,18 +83,19 @@ class FileExplorer extends Component {
           <Dropzone
             onDrop={
               function(files){
-                var req = request.post('files/upload/');
+                const baseURL = window.location.origin;
+                var req = request.post(baseURL + '/files/upload/')
+                      .set({'SessionID': sessionID});
                 files.forEach((file)=> {
                     req.attach(file.name, file);
                 });
-                req.end(() => FileExplorerActions.fetchFileTree());
+                req.end(() => FileExplorerActions.fetchFileTree(sessionID));
               }
             }
           >
             Drag and drop a zip file to upload!
           </Dropzone>
         </div>
-
       );
     }
 

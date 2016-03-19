@@ -3,6 +3,7 @@ import Dispatcher from '../Dispatcher';
 import Immutable from 'immutable';
 import OpenFileStore from '../stores/OpenFileStore';
 import TerminalActions from './TerminalActions';
+import OnLoadActions from './OnLoadActions';
 import EditorMarkerActions from './EditorMarkerActions';
 import request from 'superagent';
 import React from 'react';
@@ -29,7 +30,7 @@ function printKindAnalysisSuccess() {
           </span>
           .{'\n'}Press ESC (when the editor is in focus) to hide highlights.
         </div>
-      ),
+      )
     }
   });
 }
@@ -47,7 +48,10 @@ function runKindAnalysis() {
   TerminalActions.println("Starting kind analysis on " + filePath);
 
   // FIXME: substring(10) is a hack to get rid of 'workspace/'
-  request.get('analysis/kinds/' + filePath.substring(10))
+  const baseURL = window.location.origin;
+  const sessionID = OnLoadActions.getSessionID();
+  request.get(baseURL + '/analysis/kinds/' + filePath.substring(10))
+      .set({SessionID: sessionID})
     .end(function(err, res) {
       if (err) {
         try {
@@ -83,18 +87,18 @@ function runKindAnalysis() {
         EditorMarkerActions.show(filePath);
         Dispatcher.dispatch({
           action: AT.KIND_ANALYSIS.DATA_LOADED,
-          data: {filePath, variables, functions},
-        })
+          data: {filePath, variables, functions}
+        });
         Dispatcher.dispatch({action: AT.KIND_ANALYSIS_PANEL.OPEN_PANEL});
         printKindAnalysisSuccess();
       }
-    },
+    }
   );
 
 }
 
 export default {
-  runKindAnalysis,
+  runKindAnalysis
 }
 
 

@@ -1,9 +1,12 @@
 import request from 'superagent';
-import AT from './constants/AT'
-import Dispatcher from './Dispatcher';
+import AT from '../constants/AT'
+import Dispatcher from '../Dispatcher';
 
-function fetchFileTree() {
-  var req = request.get('files/filetree/',
+function fetchFileTree(sessionID) {
+  const baseURL = window.location.origin;
+  request.get(baseURL + '/files/filetree/')
+      .set({'SessionID': sessionID})
+      .end(
     function(err, res) {
       let data = {};
       if (err) {
