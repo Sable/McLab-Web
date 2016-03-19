@@ -123,44 +123,17 @@ function compileToFortran(sessionID, body, mainFile, cb){
         child_process.exec('rm -r ' + fortranRootPath, function (err) {
           fs.mkdir(fortranRootPath, function(err){
             // Read all the files in the directory where our .f95 files are located
-            fs.readdir(mainFileDir, function (err, files) {
-              let fortranFiles = []; // names of the .f95 files
-              for (let fileInDir of files) {
-                if (fileInDir.slice(-4) == '.f95') {
-                  fortranFiles.push(fileInDir);
-                }
-              }
+            const toCopy = mainFileDir + '/*.f95'; // pattern of files to copy
+            child_process.exec(`mv ${toCopy} ${fortranRootPath}`, function(err){
+              const archiveUUID = sessions.createUUID();
+              const archiveName = `fortran-package-${archiveUUID}`;
+              const archivePath = path.join(genRootPath, archiveName + '.zip');
+              const relPathToArchive = path.relative(genRootPath, archivePath);
+              const package_path = `files/download/${relPathToArchive}`;
 
-              let fortranFilePathList = []; // paths to the .f95 files
-              for (let fortranFile of fortranFiles) {
-                fortranFilePathList.push(path.join(mainFileDir, fortranFile));
-              }
-
-              let finalFilePaths = []; // paths where each .f95 file should end up
-              for (let fortranFile of fortranFiles) {
-                finalFilePaths.push(path.join(fortranRootPath, fortranFile))
-              }
-
-              // Hacky way of renaming a list of files asynchronously
-              let rename = function(index, cb2){
-                fs.rename(fortranFilePathList[index], finalFilePaths[index], function(){
-                  cb2();
-                });
-              };
-              var rangeOverFiles = underscore.range(fortranFilePathList.length);
-              //const zippedFilePaths = underscore.zip(fortranFilePathList, finalFilePaths);
-              async.each(rangeOverFiles, rename, function(err){
-                // create a UUID and name for the archive to be created out of these files
-                const archiveUUID = sessions.createUUID();
-                const archiveName = `fortran-package-${archiveUUID}`;
-                const archivePath = path.join(genRootPath, archiveName + '.zip');
-                const relPathToArchive = path.relative(genRootPath, archivePath);
-                const package_path = `files/download/${relPathToArchive}`;
-
-                // Zip the files and return the path to the zip file (relative to /session, since this is the API call to be made)
-                child_process.exec(`zip -j ${archivePath} ${fortranRootPath}/*.f95`, function(err){
-                  cb(null, {package_path: package_path});
-                });
+              // Zip the files and return the path to the zip file (relative to /session, since this is the API call to be made)
+              child_process.exec(`zip -j ${archivePath} ${fortranRootPath}/*.f95`, function(err){
+                cb(null, {package_path: package_path});
               });
             });
           });
