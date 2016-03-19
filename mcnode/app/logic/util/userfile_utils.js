@@ -52,5 +52,5 @@ module.exports = {
   fileInWorkspace,
   fileInGen,
   genRoot,
-  fortranRoot,
+  fortranRoot
 };

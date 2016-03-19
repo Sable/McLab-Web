@@ -12,23 +12,6 @@ function createUUID(){
   });
 }
 
-function shortenURL(url, cb){
-  request
-      .post('https://www.googleapis.com/urlshortener/v1/url')
-      .query({'key': config.LINK_SHORTENER_API_KEY})
-      .send({longUrl: url})
-      .set('Content-Type', 'application/json')
-      .end(function(err, res){
-        if(!err){
-          cb(null, res.body.id);
-        }
-        else{
-          cb("Could not shorten URL", null);
-        }
-  });
-}
-
 module.exports = {
-  createUUID,
-  shortenURL
+  createUUID
 };

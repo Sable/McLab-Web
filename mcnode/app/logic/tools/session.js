@@ -16,10 +16,27 @@ function homepage(req, res) {
   res.sendFile(path.join(__base + '../html/index.html'));
 }
 
+
+function getShortenedURL(url, cb){
+  request
+      .post('https://www.googleapis.com/urlshortener/v1/url')
+      .query({'key': config.LINK_SHORTENER_API_KEY})
+      .send({longUrl: url})
+      .set('Content-Type', 'application/json')
+      .end(function(err, res){
+        if(!err){
+          cb(null, res.body.id);
+        }
+        else{
+          cb("Could not shorten URL", null);
+        }
+  });
+}
+
 function shortenURL(req, res){
   console.log('shorten URL request');
   const url = req.params.url;
-  session_utils.shortenURL(url, function(err, shortenedUrl){
+  getShortenedURL(url, function(err, shortenedUrl){
     if(!err){
       res.json({shortenedURL: shortenedUrl});
     }
