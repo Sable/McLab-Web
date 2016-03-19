@@ -24,6 +24,54 @@ function readFile(req, res) {
   });
 }
 
+const tar_gz_regex = new RegExp('.*\.tar\.gz$');
+const zip_regex = new RegExp('.*\.zip$');
+
+function uploadFile(file, sessionID, cb){
+  const userRoot = userfile_utils.userRoot(sessionID);
+  // Create the user directory; if it already exists, does nothing, and we just ignore the error
+  fs.mkdir(userRoot, () => {
+    const pathToZip = path.join(userRoot, file.fieldname);
+    // Attempt to write the zip file to the user's root
+    fs.writeFile(pathToZip, file.buffer, (err) =>{
+      if(err){
+        console.log("write failed");
+        console.log(err);
+        cb({Message: "Write failed"});
+      }
+      else{
+        // Extract the files in the zip to the user's workspace
+        const pathToUnzippedFiles = userfile_utils.userWorkspace(sessionID);
+        fs.mkdir(pathToUnzippedFiles, () =>{
+          if (tar_gz_regex.test(pathToZip)){
+            child_process.exec(`tar -xzf ${pathToZip} -C ${pathToUnzippedFiles} `, (err, stdout) => {
+              if (err){
+                cb('Could not extract .tar.gz.')
+              }
+              else{
+                cb(null);
+              }
+            });
+          }
+          else if (zip_regex.test(pathToZip)){
+            child_process.exec(`unzip ${pathToZip} -d ${pathToUnzippedFiles} `, (err, stdout) => {
+              if (err){
+                cb('Could not extract .zip')
+              }
+              else{
+                cb(null);
+              }
+            });
+          }
+          else {
+            cb('Was not zip or tar.gz');
+          }
+        });
+      }
+    });
+  });
+}
+
 // Upload a ZIP file to the user's directory
 function upload(req, res) {
   console.log('upload request');
@@ -31,7 +79,7 @@ function upload(req, res) {
   if (req.files) {
     // Grab the file and the path to the user's directory
     const file = req.files[0];
-    userfile_utils.uploadFile(file, sessionID, function(err){
+    uploadFile(file, sessionID, function(err){
       if(!err){
         res.send('');
       }

@@ -3,7 +3,6 @@ var path = require('path');
 var fs = require('fs');
 
 var config = require(__base + 'config/config');
-var AdmZip = require('adm-zip');
 
 
 // McLab-Web/user-files/{sessionID}
@@ -47,30 +46,6 @@ function fortranRoot(sessionID){
   return path.resolve(pathToFortranRoot);
 }
 
-function uploadFile(file, sessionID, cb){
-  const userRoot = this.userRoot(sessionID);
-
-  // Create the user directory; if it already exists, does nothing, and we just ignore the error
-  fs.mkdir(userRoot, () => {
-    const pathToZip = path.join(userRoot, file.fieldname);
-    // Attempt to write the zip file to the user's root
-    fs.writeFile(pathToZip, file.buffer, (err) =>{
-      if(err){
-        console.log("write failed");
-        console.log(err);
-        cb({Message: "Write failed"});
-      }
-      else{
-        // Extract the files in the zip to the user's workspace
-        const pathToUnzippedFiles = this.userWorkspace(sessionID);
-        let zip = new AdmZip(pathToZip);
-        zip.extractAllTo(pathToUnzippedFiles);
-        cb(null);
-      }
-    });
-  });
-}
-
 module.exports = {
   userRoot,
   userWorkspace,
@@ -78,5 +53,4 @@ module.exports = {
   fileInGen,
   genRoot,
   fortranRoot,
-  uploadFile
 };

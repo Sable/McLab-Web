@@ -5,7 +5,6 @@
   "main": "./js/app.js",
   "repository": "https://github.com/Sable/McLab-Web",
   "dependencies": {
-    "adm-zip": "^0.4.7",
     "async": "^1.5.2",
     "body-parser": "^1.15.0",
     "express": "~4.13.4",
@@ -19,9 +18,7 @@
     "react-dom": "^0.14.7",
     "react-dropzone": "^2.1.0",
     "react-select": "^0.8.2",
-    "superagent": "^1.7.2",
-    "underscore": "^1.8.3",
-    "unzip": "^0.1.11"
+    "superagent": "^1.7.2"
   },
   "devDependencies": {
     "babelify": "^6.3.0",
