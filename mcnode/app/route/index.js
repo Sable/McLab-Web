@@ -75,19 +75,19 @@ module.exports = function (app) {
  */
 
 /**
- * @api {post} /session/:sessionID/files/upload/ Upload a archive file
+ * @api {post} /files/upload/ Upload a archive file
  * @apiName Upload
  * @apiGroup Files
- * @apiParam {String} sessionID User's session ID.
- * @apiParam {Archive} files Archive to upload.
  * @apiDescription Stores an archive file and unzips the contents into the workspace of the user.
+ * @apiParam {Archive} files Archive to upload.
+ * @apiHeader {String} SessionID User's session ID.
  */
 
 /**
- * @api {get} /session/:sessionID/files/filetree/ Get the user's filetree
+ * @api {get} /files/filetree/ Get the user's filetree
  * @apiName Filetree
  * @apiGroup Files
- * @apiParam {String} sessionID User's session ID.
+ * @apiHeader {String} SessionID User's session ID.
  * @apiDescription Note that there is no error possible for this API call.
  * If the user does not exist or has not uploaded files, this call will simply return the empty object, i.e. {}.
  *
@@ -109,11 +109,11 @@ module.exports = function (app) {
  */
 
 /**
- * @api {get} /session/:sessionID/files/readfile/:filepath/ Get the content of a user's file
+ * @api {get} /files/readfile/:filepath/ Get the content of a user's file
  * @apiName ReadFile
  * @apiGroup Files
- * @apiParam {String} sessionID User's session ID.
  * @apiParam {String} filepath The path to the file in the user's workspace.
+ * @apiHeader {String} SessionID User's session ID.
  *
  *  @apiExample {curl} Example usage:
  *     curl localhost:3000/session/example-sessionID/files/readfile/demo_matlab/cholesky.m/
@@ -157,11 +157,11 @@ module.exports = function (app) {
  */
 
 /**
- * @api {get} /session/:sessionID/analysis/kinds/:filepath/ Perform kind analysis on a file
+ * @api {get} /analysis/kinds/:filepath/ Perform kind analysis on a file
  * @apiName KindAnalysis
  * @apiGroup Analysis
- * @apiParam {String} sessionID User's session ID.
  * @apiParam {String} filepath The path to the file in the user's workspace.
+ * @apiHeader {String} SessionID User's session ID.
  *
  * @apiExample {curl} Example usage:
  *     curl localhost:3000/session/example-sessionID/analysis/kinds/demo_matlab/testMain.m
@@ -197,12 +197,12 @@ module.exports = function (app) {
  */
 
 /**
- * @api {post} /session/:sessionID/compile/mc2for/ Compile the user's files into Fortran code
+ * @api {post} /compile/mc2for/ Compile the user's files into Fortran code
  * @apiName Mc2For
  * @apiGroup Compile
- * @apiParam {String} sessionID User's session ID.
  * @apiParam {Object} arg The arguments for compilation {mlClass, numRows, numCols, realComplex}.
  * @apiParam {String} mainFile The main file (entry point) for compilation.
+ * @apiHeader {String} SessionID User's session ID.
  *
  * @apiSuccess {String} package_path The path to the resulting archive containing the Fortran files.
  * This can then be downloaded using a serveGen call.

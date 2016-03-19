@@ -1,7 +1,7 @@
 define({ "api": [
   {
     "type": "get",
-    "url": "/session/:sessionID/analysis/kinds/:filepath/",
+    "url": "/analysis/kinds/:filepath/",
     "title": "Perform kind analysis on a file",
     "name": "KindAnalysis",
     "group": "Analysis",
@@ -12,15 +12,21 @@ define({ "api": [
             "group": "Parameter",
             "type": "String",
             "optional": false,
-            "field": "sessionID",
-            "description": "<p>User's session ID.</p>"
-          },
-          {
-            "group": "Parameter",
-            "type": "String",
-            "optional": false,
             "field": "filepath",
             "description": "<p>The path to the file in the user's workspace.</p>"
+          }
+        ]
+      }
+    },
+    "header": {
+      "fields": {
+        "Header": [
+          {
+            "group": "Header",
+            "type": "String",
+            "optional": false,
+            "field": "SessionID",
+            "description": "<p>User's session ID.</p>"
           }
         ]
       }
@@ -67,20 +73,13 @@ define({ "api": [
   },
   {
     "type": "post",
-    "url": "/session/:sessionID/compile/mc2for/",
+    "url": "/compile/mc2for/",
     "title": "Compile the user's files into Fortran code",
     "name": "Mc2For",
     "group": "Compile",
     "parameter": {
       "fields": {
         "Parameter": [
-          {
-            "group": "Parameter",
-            "type": "String",
-            "optional": false,
-            "field": "sessionID",
-            "description": "<p>User's session ID.</p>"
-          },
           {
             "group": "Parameter",
             "type": "Object",
@@ -94,6 +93,19 @@ define({ "api": [
             "optional": false,
             "field": "mainFile",
             "description": "<p>The main file (entry point) for compilation.</p>"
+          }
+        ]
+      }
+    },
+    "header": {
+      "fields": {
+        "Header": [
+          {
+            "group": "Header",
+            "type": "String",
+            "optional": false,
+            "field": "SessionID",
+            "description": "<p>User's session ID.</p>"
           }
         ]
       }
@@ -178,18 +190,18 @@ define({ "api": [
   },
   {
     "type": "get",
-    "url": "/session/:sessionID/files/filetree/",
+    "url": "/files/filetree/",
     "title": "Get the user's filetree",
     "name": "Filetree",
     "group": "Files",
-    "parameter": {
+    "header": {
       "fields": {
-        "Parameter": [
+        "Header": [
           {
-            "group": "Parameter",
+            "group": "Header",
             "type": "String",
             "optional": false,
-            "field": "sessionID",
+            "field": "SessionID",
             "description": "<p>User's session ID.</p>"
           }
         ]
@@ -229,7 +241,7 @@ define({ "api": [
   },
   {
     "type": "get",
-    "url": "/session/:sessionID/files/readfile/:filepath/",
+    "url": "/files/readfile/:filepath/",
     "title": "Get the content of a user's file",
     "name": "ReadFile",
     "group": "Files",
@@ -240,15 +252,21 @@ define({ "api": [
             "group": "Parameter",
             "type": "String",
             "optional": false,
-            "field": "sessionID",
-            "description": "<p>User's session ID.</p>"
-          },
-          {
-            "group": "Parameter",
-            "type": "String",
-            "optional": false,
             "field": "filepath",
             "description": "<p>The path to the file in the user's workspace.</p>"
+          }
+        ]
+      }
+    },
+    "header": {
+      "fields": {
+        "Header": [
+          {
+            "group": "Header",
+            "type": "String",
+            "optional": false,
+            "field": "SessionID",
+            "description": "<p>User's session ID.</p>"
           }
         ]
       }
@@ -295,20 +313,14 @@ define({ "api": [
   },
   {
     "type": "post",
-    "url": "/session/:sessionID/files/upload/",
+    "url": "/files/upload/",
     "title": "Upload a archive file",
     "name": "Upload",
     "group": "Files",
+    "description": "<p>Stores an archive file and unzips the contents into the workspace of the user.</p>",
     "parameter": {
       "fields": {
         "Parameter": [
-          {
-            "group": "Parameter",
-            "type": "String",
-            "optional": false,
-            "field": "sessionID",
-            "description": "<p>User's session ID.</p>"
-          },
           {
             "group": "Parameter",
             "type": "Archive",
@@ -319,7 +331,19 @@ define({ "api": [
         ]
       }
     },
-    "description": "<p>Stores an archive file and unzips the contents into the workspace of the user.</p>",
+    "header": {
+      "fields": {
+        "Header": [
+          {
+            "group": "Header",
+            "type": "String",
+            "optional": false,
+            "field": "SessionID",
+            "description": "<p>User's session ID.</p>"
+          }
+        ]
+      }
+    },
     "version": "0.0.0",
     "filename": "mcnode/app/route/index.js",
     "groupTitle": "Files"
