@@ -4,6 +4,7 @@ import Dispatcher from './Dispatcher';
 import KindAnalysisActions from './actions/KindAnalysisActions';
 import TopNavButtonActions from './actions/TopNavButtonsActions';
 import React from 'react';
+import AspectActions from './actions/AspectActions';
 
 const {PropTypes, Component} = React;
 
@@ -38,6 +39,10 @@ class TopNav extends Component {
             onClick={TopNavButtonActions.printShortenedLink}>
             Get Short Link
           </a>
+          <a className="pure-button topnav-button"
+            onClick={AspectActions.profileSparsity}>
+            Run Aspect 
+          </a> 
         </div>
       </div>
     );
