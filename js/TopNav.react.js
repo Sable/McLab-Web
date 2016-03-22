@@ -2,6 +2,7 @@ import AT from './constants/AT';
 import classnames from 'classnames';
 import Dispatcher from './Dispatcher';
 import KindAnalysisActions from './actions/KindAnalysisActions';
+import JSCompileActions from './actions/JSCompileActions';
 import OnLoadActions from './actions/OnLoadActions';
 import React from 'react';
 
@@ -9,9 +10,10 @@ const {PropTypes, Component} = React;
 
 const fortranOnClick = function() {
   Dispatcher.dispatch({
-    action: AT.FORTRAN_COMPILE_PANEL.OPEN_PANEL,
+    action: AT.FORTRAN_COMPILE_PANEL.OPEN_PANEL
   });
-}
+};
+
 
 class TopNav extends Component {
   render() {
@@ -37,6 +39,10 @@ class TopNav extends Component {
           <a className="pure-button topnav-button"
             onClick={OnLoadActions.printShortenedLink}>
             Get Short Link
+          </a>
+          <a className="pure-button topnav-button"
+            onClick={JSCompileActions.sendCompilationRequest}>
+            Compile to JS
           </a>
         </div>
       </div>

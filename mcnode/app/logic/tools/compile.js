@@ -112,7 +112,59 @@ function compileToFortran(req, res) {
   });
 }
 
+function applyMcVMJS(sessionID, mainFile, cb){
+  const mainFilePath = userfile_utils.fileInWorkspace(sessionID, mainFile); // path to entry point file to be compiled
+  const genRootPath = userfile_utils.genRoot(sessionID);
+  const mcvmRootPath = userfile_utils.mcvmRoot(sessionID);
+
+  // Make a gen folder for the user; if it exists already, just ignore the error
+  fs.mkdir(genRootPath, function(err){
+    // Remove the mcvm-code subfolder, if it exists, and make a new one
+    child_process.exec('rm -r ' + mcvmRootPath, function (err) {
+      fs.mkdir(mcvmRootPath, function(err){
+
+        // Compile using McVM.js
+        const command = `${config.MCVM_PATH} ${mainFilePath}`;
+        child_process.exec(command, function(err, stdout){
+          if(!err){
+            fs.writeFile(path.join(mcvmRootPath, 'generated.js'), stdout, function(err){
+              const archiveUUID = sessions.createUUID();
+              const archiveName = `mcvm-package-${archiveUUID}`;
+              const archivePath = path.join(genRootPath, archiveName + '.zip');
+              const relPathToArchive = path.relative(genRootPath, archivePath);
+              const package_path = `files/download/${relPathToArchive}`;
+
+              // Zip the files and return the path to the zip file (relative to /session, since this is the API call to be made)
+              child_process.exec(`zip -j ${archivePath} ${mcvmRootPath}/generated.js`, function(err){
+                cb(null, {package_path: package_path});
+              });
+            });
+          }
+          else {
+            cb({error: 'Failed to compile this project.'}, null);
+          }
+        });
+      });
+    });
+  });
+}
+
+function compileToJS(req, res){
+  console.log('compileToJS request');
+  const sessionID = req.header('SessionID');
+  const mainFile = req.body.mainFile || '';
+  applyMcVMJS(sessionID, mainFile, (err) => {
+    if (!err){
+      res.json('Compilation succeeded.');
+    }
+    else {
+      res.status(400).json({error: "Failed to compile the code into Javascript."});
+    }
+  });
+}
+
 module.exports = {
-  compileToFortran
+  compileToFortran,
+  compileToJS
 };
 

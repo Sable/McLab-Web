@@ -25,6 +25,7 @@ module.exports = function (app) {
     app.get('/analysis/kinds/:filepath([\\w-]*)/?', analysis.kindAnalysis);
 
     app.post('/compile/mc2for/', compile.compileToFortran);
+    app.post('/compile/mcvmjs/', compile.compileToJS);
 
     app.get('/docs/', session.docs);
 };

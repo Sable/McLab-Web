@@ -1,6 +1,8 @@
 "use strict";
 var path = require('path');
+var request = require('superagent');
 
+var config = require(__base + 'config/config');
 var session_utils = require(__base + 'app/logic/util/session_utils');
 
 // Create new UUID for the user and redirect them to that session

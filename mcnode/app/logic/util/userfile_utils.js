@@ -46,11 +46,19 @@ function fortranRoot(sessionID){
   return path.resolve(pathToFortranRoot);
 }
 
+// McLab-Web/user-files/{sessionID}/gen/mcvm-code
+function mcvmRoot(sessionID){
+  const pathToGenRoot = this.genRoot(sessionID);
+  const pathToMcVM = path.join(pathToGenRoot, 'mcvm_code');
+  return path.resolve(pathToMcVM);
+}
+
 module.exports = {
   userRoot,
   userWorkspace,
   fileInWorkspace,
   fileInGen,
   genRoot,
-  fortranRoot
+  fortranRoot,
+  mcvmRoot
 };
