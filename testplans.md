@@ -1,7 +1,7 @@
-How to test McLab Web Works
-=============================
+How to test McLab-Web
+===========================
 
-This document describes how you will go about testing McLab Web is working. If you're new to McLab WEB, this is a good walk-through of all the features. If you're a developer, this should be useful when you make big refactoring. 
+This document describes how you will go about testing McLab Web is working. If you're new to McLab-Web, this is a good walk-through of all the features. If you're a developer, this should be useful after refactoring.
 
 Add new test plans here as you fix bugs / develop new features.
 
@@ -10,15 +10,15 @@ Add new test plans here as you fix bugs / develop new features.
 No user action should ever spit out an error or warning into the JS console, except when the server deliberately returns an HTTP 4xx/5xx code. 
 
 #### Startup
-- Server starts without error (check django logs), client loads without error (check browser JS console)
+- Server starts without error (check Node logs), client loads without error (check browser JS console)
 - You're assigned a unique session (you don't see old files in the file explorer)
 
 #### Upload file
 - Drag and drop a zip file into the file explorer (you can use the zip files from the `examples` directory - they contain matlab files that will be useful in further tests)
-- The contents of the zip file are shown under a directory named `Workspace`
+- The contents of the zip file are shown under a directory named `workspace`
 
 #### View file
-- After uploading a zip file containing a Matlab file, click on file in the file explorer
+- After uploading a zip file containing a Matlab file, click on a file in the file explorer
 - The title bar should show the path of the file
 - The code viewer should show the file contents with Matlab syntax highlighting
 
@@ -95,5 +95,9 @@ We only handle the case where the whole file is just one function. When the file
 - Add an argument
 - For number of rows or colums, input anything other than a positive integer. 
 - The input box should turn red.
+
+#### Shorten URL
+- Press the Get Short Link button
+- In the console, a link should appear. When followed, it should lead to the same URL you were at before.
 
 _Note: Currently McLab Web does not prevent the user from clicking the `Compile` button if argument validation fails. This would be a good feature to add._
