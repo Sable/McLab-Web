@@ -45,7 +45,7 @@ class FileTile extends Component {
             },
           })
         }
-      },
+      }
     );
 
   }

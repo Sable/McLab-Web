@@ -1,8 +1,5 @@
 "use strict";
 var crypto = require('crypto');
-var request = require('superagent');
-var config = require(__base + 'config/config');
-
 
 // Credit: http://stackoverflow.com/a/2117523
 function createUUID(){

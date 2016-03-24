@@ -1,6 +1,5 @@
 "use strict";
 var path = require('path');
-var fs = require('fs');
 
 var config = require(__base + 'config/config');
 

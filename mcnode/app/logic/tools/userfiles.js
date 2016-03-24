@@ -3,7 +3,6 @@ var fs = require('fs');
 var child_process = require('child_process');
 var path = require('path');
 
-var config = require(__base + 'config/config');
 var userfile_utils = require(__base + 'app/logic/util/userfile_utils');
 
 var async = require('async');

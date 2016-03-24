@@ -25,7 +25,6 @@ class FileContentsStore extends MapStore {
 
     return map;
   }
-
 }
 
 module.exports = new FileContentsStore(Dispatcher);

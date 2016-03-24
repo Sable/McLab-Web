@@ -16,6 +16,16 @@ const fortranOnClick = function() {
 
 
 class TopNav extends Component {
+  constructor(){
+    super();
+    this.handleChange = this.handleChange.bind(this);
+    this.state = {selectValue: null};
+  }
+
+  handleChange(e) {
+    console.log(e.target.value);
+  }
+
   render() {
     return (
       <div className="topnav">
@@ -44,12 +54,22 @@ class TopNav extends Component {
             onClick={JSCompileActions.sendCompilationRequest}>
             Compile to JS
           </a>
+          <a className="pure-button topnav-button"
+            onClick={JSCompileActions.runCompiledJS}>
+            Run compiled JS
+          </a>
         </div>
       </div>
     );
   }
 }
 
+
+
+          //<select value={this.state.selectValue} onChange={this.handleChange}>
+          //  <option value="Compile">Compile to JS</option>
+          //  <option value="Run">Run compiled JS</option>
+          //</select>
 TopNav.propTypes = {
 
 }

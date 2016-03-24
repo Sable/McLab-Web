@@ -7,8 +7,6 @@ var config = require(__base + 'config/config');
 var userfile_utils = require(__base + 'app/logic/util/userfile_utils');
 var sessions = require(__base + 'app/logic/util/session_utils');
 
-var async = require('async');
-
 // Takes object representing Mc2For command line arguments; returns a formatted argument string.
 // Throws an exception if the arguments are not valid; the compilation would fail anyways, but this protects us against
 // an injection attack.
@@ -112,39 +110,25 @@ function compileToFortran(req, res) {
   });
 }
 
-function applyMcVMJS(sessionID, mainFile, cb){
-  const mainFilePath = userfile_utils.fileInWorkspace(sessionID, mainFile); // path to entry point file to be compiled
-  const genRootPath = userfile_utils.genRoot(sessionID);
-  const mcvmRootPath = userfile_utils.mcvmRoot(sessionID);
+function applyMcVMJS(sessionID, fileName, cb){
+  const mainFilePath = userfile_utils.fileInWorkspace(sessionID, fileName); // path to entry point file to be compiled
+  const userWorkspace = userfile_utils.userWorkspace(sessionID);
+  const userJSFolder = path.join(userWorkspace, '/generated-JS');
 
-  // Make a gen folder for the user; if it exists already, just ignore the error
-  fs.mkdir(genRootPath, function(err){
-    // Remove the mcvm-code subfolder, if it exists, and make a new one
-    child_process.exec('rm -r ' + mcvmRootPath, function (err) {
-      fs.mkdir(mcvmRootPath, function(err){
-
-        // Compile using McVM.js
-        const command = `${config.MCVM_PATH} ${mainFilePath}`;
-        child_process.exec(command, function(err, stdout){
-          if(!err){
-            fs.writeFile(path.join(mcvmRootPath, 'generated.js'), stdout, function(err){
-              const archiveUUID = sessions.createUUID();
-              const archiveName = `mcvm-package-${archiveUUID}`;
-              const archivePath = path.join(genRootPath, archiveName + '.zip');
-              const relPathToArchive = path.relative(genRootPath, archivePath);
-              const package_path = `files/download/${relPathToArchive}`;
-
-              // Zip the files and return the path to the zip file (relative to /session, since this is the API call to be made)
-              child_process.exec(`zip -j ${archivePath} ${mcvmRootPath}/generated.js`, function(err){
-                cb(null, {package_path: package_path});
-              });
-            });
-          }
-          else {
-            cb({error: 'Failed to compile this project.'}, null);
-          }
+  fs.mkdir(userJSFolder, function(err){
+    // Compile using McVM.js
+    const command = `${config.MCVM_PATH} ${mainFilePath}`;
+    child_process.exec(command, function(err, stdout){
+      if(!err){
+        const mainFileName = path.relative(path.dirname(mainFilePath), mainFilePath);
+        const mainFileNameWithoutExtension = mainFileName.substr(0, mainFileName.indexOf('.'));
+        fs.writeFile(path.join(userJSFolder, mainFileNameWithoutExtension + '.js'), stdout, function(err){
+          cb(null, path.join(userJSFolder, mainFileNameWithoutExtension + '.js'));
         });
-      });
+      }
+      else {
+        cb({error: 'Failed to compile this project.'}, null);
+      }
     });
   });
 }
@@ -152,10 +136,11 @@ function applyMcVMJS(sessionID, mainFile, cb){
 function compileToJS(req, res){
   console.log('compileToJS request');
   const sessionID = req.header('SessionID');
-  const mainFile = req.body.mainFile || '';
-  applyMcVMJS(sessionID, mainFile, (err) => {
+  const fileName = req.body.fileName || '';
+  applyMcVMJS(sessionID, fileName, (err, result) => {
     if (!err){
-      res.json('Compilation succeeded.');
+      res.sendFile(result);
+      //res.json('Compilation succeeded.');
     }
     else {
       res.status(400).json({error: "Failed to compile the code into Javascript."});
