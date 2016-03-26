@@ -122,7 +122,8 @@ function applyMcVMJS(sessionID, fileName, cb){
       if(!err){
         const mainFileName = path.relative(path.dirname(mainFilePath), mainFilePath);
         const mainFileNameWithoutExtension = mainFileName.substr(0, mainFileName.indexOf('.'));
-        fs.writeFile(path.join(userJSFolder, mainFileNameWithoutExtension + '.js'), stdout, function(err){
+        const finalToWrite = 'console.log = function(text){ postMessage(text); } \n \n' + stdout;
+        fs.writeFile(path.join(userJSFolder, mainFileNameWithoutExtension + '.js'), finalToWrite, function(err){
           cb(null, path.join(userJSFolder, mainFileNameWithoutExtension + '.js'));
         });
       }
@@ -140,7 +141,6 @@ function compileToJS(req, res){
   applyMcVMJS(sessionID, fileName, (err, result) => {
     if (!err){
       res.sendFile(result);
-      //res.json('Compilation succeeded.');
     }
     else {
       res.status(400).json({error: "Failed to compile the code into Javascript."});

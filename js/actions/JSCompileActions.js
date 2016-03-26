@@ -1,6 +1,7 @@
 import request from 'superagent';
-import OnLoadActions from './OnLoadActions'
-import FileExplorerActions from './FileExplorerActions'
+import OnLoadActions from './OnLoadActions';
+import FileExplorerActions from './FileExplorerActions';
+import TerminalActions from './TerminalActions';
 import Dispatcher from '../Dispatcher';
 import FileContentsStore from '../stores/FileContentsStore';
 import OpenFileStore from '../stores/OpenFileStore';
@@ -31,19 +32,17 @@ function runCompiledJS(){
   const filename = OpenFileStore.getFilePath();
   if(filename){
     const contents = FileContentsStore.get(filename).text;
-
-    //var blob = new Blob([
-    //  "onmessage = function(e) { postMessage('msg from worker');  }"]);
     var blob = new Blob([
       contents
     ]);
+
     // Obtain a blob URL reference to our worker 'file'.
     var blobURL = window.URL.createObjectURL(blob);
     var worker = new Worker(blobURL);
-    worker.onmessage = function(e) {
-      console.log(e);
+    worker.onmessage = (message) => {
+      TerminalActions.println('JavaScript output: ' + message.data);
     };
-    worker.postMessage('asd'); // Start the worker.
+    //worker.postMessage('asd'); // Start the worker.
   }
 }
 
