@@ -154,20 +154,21 @@ function filetree(req, res) {
   });
 }
 
-// Return the zip file in the user's generated file folder at the given path.
+// Return the zip file in the user's folder at the given path.
 function serveGen(req, res) {
   console.log('serve_gen request');
   //const sessionID = req.header('SessionID');
-  const sessionID = '0c98f879-eb06-443d-aa10-b3dd342702d9';
+  const sessionID = req.params.sessionID;
   const filepath = req.params.filepath;
-  const pathToFile = userfile_utils.fileInGen(sessionID, filepath);
-  const fileName = path.relative(userfile_utils.genRoot(sessionID), pathToFile);
+  const pathToFile = userfile_utils.fileInUserRoot(sessionID, filepath);
+  const fileName = path.relative(userfile_utils.userRoot(sessionID), pathToFile);
+  const fileNameToSend = fileName.replace('gen-', '');
 
-  res.set({
-    'Content-Type': 'application/zip',
-    'Content-Disposition': `attachment; filename=${fileName}`
-  });
-  fs.exists(pathToFile, function(exists){
+  //res.set({
+  //  'Content-Type': 'application/zip',
+  //  'Content-Disposition': `attachment; filename=${fileNameToSend}`
+  //});
+  fs.exists(pathToFile, (exists) =>{
     if(exists){
       res.sendFile(pathToFile);
     }

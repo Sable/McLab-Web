@@ -32,9 +32,9 @@ function genRoot(sessionID){
 }
 
 // McLab-Web/user-files/{sessionID}/gen/{filepath}
-function fileInGen(sessionID, filename){
-  const userGen = this.genRoot(sessionID);
-  const pathToFile = path.join(userGen, filename);
+function fileInUserRoot(sessionID, filename){
+  const userRoot = this.userRoot(sessionID);
+  const pathToFile = path.join(userRoot, filename);
   return path.resolve(pathToFile);
 }
 
@@ -56,7 +56,7 @@ module.exports = {
   userRoot,
   userWorkspace,
   fileInWorkspace,
-  fileInGen,
+  fileInUserRoot,
   genRoot,
   fortranRoot,
   mcvmRoot

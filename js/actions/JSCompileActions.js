@@ -1,4 +1,6 @@
+import AT from '../constants/AT';
 import request from 'superagent';
+import React from 'react';
 import OnLoadActions from './OnLoadActions';
 import FileExplorerActions from './FileExplorerActions';
 import TerminalActions from './TerminalActions';
@@ -15,21 +17,28 @@ function sendCompilationRequest(){
   request.post(baseURL + '/compile/mcvmjs')
       .set({'SessionID': sessionID})
       .send(postBody)
-      .end(function(err, res) {
+      .end((err, res) =>{
         if(!err){
-          console.log('mcvmjs request replied with no error');
-          console.log(res);
+          TerminalActions.println(
+              <div>
+                File {fileName} was successfully compiled to JavaScript.
+              </div>);
           FileExplorerActions.fetchFileTree(sessionID);
         }
         else{
-          console.log('mcvmjs request replied with no error');
+          TerminalActions.printerrln(
+              <div>
+                McVM did not successfully compile the file {fileName}.
+              </div>
+          );
         }
       });
 }
 
 //"workspace/generated-JS/mainFile.js";
 function runCompiledJS(){
-  const filename = OpenFileStore.getFilePath();
+  let filename = OpenFileStore.getFilePath();
+  let filenameWithoutPath = filename.split('/').slice(-1)[0];
   if(filename){
     const contents = FileContentsStore.get(filename).text;
     var blob = new Blob([
@@ -40,13 +49,45 @@ function runCompiledJS(){
     var blobURL = window.URL.createObjectURL(blob);
     var worker = new Worker(blobURL);
     worker.onmessage = (message) => {
-      TerminalActions.println('JavaScript output: ' + message.data);
+      let data = message.data;
+      if (typeof data === 'object' && 'err' in data){
+        TerminalActions.printerrln('Running ' + filenameWithoutPath + ' failed. The error was: ');
+        TerminalActions.printerrln(data.err);
+      }
+      else{
+        TerminalActions.println(filenameWithoutPath + ' output: ' + data);
+      }
     };
-    //worker.postMessage('asd'); // Start the worker.
   }
 }
 
+function downloadCompiledJS(){
+  const fileName = OpenFileStore.getFilePath();
+
+  const baseURL = window.location.origin;
+  const sessionID = OnLoadActions.getSessionID();
+  const stringToDownload = baseURL + '/session/' + sessionID +  '/files/download/' + fileName;
+  request.get(baseURL + '/session/' + sessionID +  '/files/download/' + fileName)
+      .end((err, res) =>{
+        if(!err){
+          console.log('no error')
+        }
+        else{
+          console.log('error'
+          );
+        }
+      });
+}
+
+const openPanel = function() {
+  Dispatcher.dispatch({
+    action: AT.JS_COMPILE_PANEL.OPEN_PANEL
+  });
+};
+
 export default{
   sendCompilationRequest,
-  runCompiledJS
+  runCompiledJS,
+  downloadCompiledJS,
+  openPanel
 }

@@ -43,5 +43,8 @@ export default keyMirror({
   },
   TOP_NAV_BUTTONS: {
     SET_SHORTENED_LINK: ''
-  }
+  },
+  JS_COMPILE_PANEL: {
+    OPEN_PANEL: ''
+  },
 });

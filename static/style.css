@@ -354,6 +354,12 @@ body {
   text-align: center;
 }
 
+.js-compile-final-button-container {
+  padding: 10px;
+  width: 100%;
+  text-align: center;
+}
+
 .fortran-compiler-select-main-file {
   text-decoration: underline;
   color: hsla(215,32%,50%,1);

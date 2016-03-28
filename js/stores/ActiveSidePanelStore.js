@@ -22,6 +22,11 @@ class ActiveSidePanelStore extends Store {
         this.__emitChange();
         break;
 
+      case AT.JS_COMPILE_PANEL.OPEN_PANEL:
+        this._activePanel = SidePanelKeys.JS_COMPILE_PANEL;
+        this.__emitChange();
+        break;
+
       case AT.SIDE_PANEL.CLOSE_PANEL:
         this._activePanel = null;
         this.__emitChange();

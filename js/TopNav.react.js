@@ -14,7 +14,6 @@ const fortranOnClick = function() {
   });
 };
 
-
 class TopNav extends Component {
   constructor(){
     super();
@@ -23,7 +22,7 @@ class TopNav extends Component {
   }
 
   handleChange(e) {
-    console.log(e.target.value);
+    //console.log(e.target.value);
   }
 
   render() {
@@ -51,12 +50,8 @@ class TopNav extends Component {
             Get Short Link
           </a>
           <a className="pure-button topnav-button"
-            onClick={JSCompileActions.sendCompilationRequest}>
-            Compile to JS
-          </a>
-          <a className="pure-button topnav-button"
-            onClick={JSCompileActions.runCompiledJS}>
-            Run compiled JS
+            onClick={JSCompileActions.openPanel}>
+            Compile/run Matlab to JS
           </a>
         </div>
       </div>

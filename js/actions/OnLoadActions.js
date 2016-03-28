@@ -19,7 +19,11 @@ function retrieveShortenedLink() {
           });
         }
         else{
-          console.log('Error');
+          TerminalActions.printerrln(
+              <div>
+                Could not shorten URL.
+              </div>
+          )
         }
       });
 }

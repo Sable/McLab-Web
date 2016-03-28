@@ -45,6 +45,9 @@ function validateArgs(mlClass, numRows, numCols, realComplex){
   return true;
 }
 
+// Compile files using Mc2For, the McLab Fortran compiler.
+// Creates an archive file with the compiled .f95 files, and returns (through the callback) a link to the archive.
+// The archive can then be download using the serveGen function in userfiles.js
 function applyMc2For(sessionID, body, mainFile, cb){
   let argString;
   try{
@@ -57,6 +60,7 @@ function applyMc2For(sessionID, body, mainFile, cb){
   const mainFilePath = userfile_utils.fileInWorkspace(sessionID, mainFile); // path to entry point file to be compiled
   const mainFileDir = path.dirname(mainFilePath); // directory of this file
   const genRootPath = userfile_utils.genRoot(sessionID);
+  const userRoot = userfile_utils.userRoot(sessionID);
   const fortranRootPath = userfile_utils.fortranRoot(sessionID);
 
   const command = `java -jar ${config.MC2FOR_PATH} ${mainFilePath} -args ${argString} -codegen`;
@@ -75,7 +79,7 @@ function applyMc2For(sessionID, body, mainFile, cb){
               const archiveUUID = sessions.createUUID();
               const archiveName = `fortran-package-${archiveUUID}`;
               const archivePath = path.join(genRootPath, archiveName + '.zip');
-              const relPathToArchive = path.relative(genRootPath, archivePath);
+              const relPathToArchive = path.relative(userRoot, archivePath);
               const package_path = `files/download/${relPathToArchive}`;
 
               // Zip the files and return the path to the zip file (relative to /session, since this is the API call to be made)
@@ -110,6 +114,7 @@ function compileToFortran(req, res) {
   });
 }
 
+// Run the McVM.js compiler to compile the Matlab files into Javascript files.
 function applyMcVMJS(sessionID, fileName, cb){
   const mainFilePath = userfile_utils.fileInWorkspace(sessionID, fileName); // path to entry point file to be compiled
   const userWorkspace = userfile_utils.userWorkspace(sessionID);
@@ -122,13 +127,15 @@ function applyMcVMJS(sessionID, fileName, cb){
       if(!err){
         const mainFileName = path.relative(path.dirname(mainFilePath), mainFilePath);
         const mainFileNameWithoutExtension = mainFileName.substr(0, mainFileName.indexOf('.'));
-        const finalToWrite = 'console.log = function(text){ postMessage(text); } \n \n' + stdout;
+
+        // We add this extra line so that when the web worker uses console.log to print, it instead sends a message to the worker's creator to be printed there.
+        const finalToWrite = `console.log = function(text){ postMessage(JSON.stringify(text)); }\n\ntry {\n${stdout}} \ncatch(err){\n    postMessage({err: err.toString()});\n}`;
         fs.writeFile(path.join(userJSFolder, mainFileNameWithoutExtension + '.js'), finalToWrite, function(err){
           cb(null, path.join(userJSFolder, mainFileNameWithoutExtension + '.js'));
         });
       }
       else {
-        cb({error: 'Failed to compile this project.'}, null);
+        cb({message: err.message}, null);
       }
     });
   });
@@ -143,7 +150,7 @@ function compileToJS(req, res){
       res.sendFile(result);
     }
     else {
-      res.status(400).json({error: "Failed to compile the code into Javascript."});
+      res.status(400).json(err);
     }
   });
 }
