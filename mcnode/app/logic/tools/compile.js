@@ -126,20 +126,15 @@ function applyMcVMJS(sessionID, fileName, cb){
     if(!err){
       // Create a generated-JS folder for the user if one doesn't exist
       fs.mkdir(userJSFolder, (err) => {
-        if(!err) {
-          const mainFileName = path.relative(path.dirname(mainFilePath), mainFilePath);
-          const mainFileNameWithoutExtension = mainFileName.substr(0, mainFileName.indexOf('.'));
+        const mainFileName = path.relative(path.dirname(mainFilePath), mainFilePath);
+        const mainFileNameWithoutExtension = mainFileName.substr(0, mainFileName.indexOf('.'));
+        // Ugly way of adding code to change console.log to postMessage (to send messages to the webworker's creator)
+        // and to wrap the running code in a try/catch, then send the error to the parent if one occurs
+        const finalToWrite = `console.log = function(text){ postMessage(JSON.stringify(text)); }\n\ntry {\n${stdout}} \ncatch(err){\n    postMessage({err: err.toString()});\n}`;
+        fs.writeFile(path.join(userJSFolder, mainFileNameWithoutExtension + '.js'), finalToWrite, (err) => {
+          cb()
+        });
 
-          // Ugly way of adding code to change console.log to postMessage (to send messages to the webworker's creator)
-          // and to wrap the running code in a try/catch, then send the error to the parent if one occurs
-          const finalToWrite = `console.log = function(text){ postMessage(JSON.stringify(text)); }\n\ntry {\n${stdout}} \ncatch(err){\n    postMessage({err: err.toString()});\n}`;
-          fs.writeFile(path.join(userJSFolder, mainFileNameWithoutExtension + '.js'), finalToWrite, (err) => {
-            cb()
-          });
-        }
-        else{
-          cb("Couldn't create folder");
-        }
       });
     }
     else {
@@ -165,4 +160,3 @@ module.exports = {
   compileToFortran,
   compileToJS
 };
-
