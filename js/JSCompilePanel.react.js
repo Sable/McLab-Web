@@ -11,8 +11,10 @@ const { PropTypes, Component } = React;
 class JSCompilePanel extends Component {
 
   render() {
-    if (this.props.fileIsOpen) {
+    // if the file is open and has a type (either javascript or matlab):
+    if (this.props.fileIsOpen && this.props.fileType) {
       switch (this.props.fileType) {
+        // give options to run or download a js file
         case 'js':
           return (
               <SidePanelBase title="Compile to JavaScript">
@@ -38,6 +40,7 @@ class JSCompilePanel extends Component {
               </SidePanelBase>
           );
           break;
+        // give option to compile a matlab file
         case 'matlab':
           return (
               <SidePanelBase title="Compile to JavaScript">
@@ -54,23 +57,14 @@ class JSCompilePanel extends Component {
               </SidePanelBase>
           );
           break;
-        default:
-          return (
-              <SidePanelBase title="Compile to JavaScript">
-                <div className="side-panel-card">
-                  Only Matlab files can be compiled to JavaScript.
-                </div>
-              </SidePanelBase>
-          );
-          break;
-
       }
     }
     else{
+      // if file is either not selected or is not a matlab or js file:
       return (
           <SidePanelBase title="Compile to JavaScript">
             <div className="side-panel-card">
-              Please select a Matlab file using the file explorer on the left.
+              Please select a Matlab or JavaScript file using the file explorer on the left.
             </div>
           </SidePanelBase>
       );

@@ -93,7 +93,7 @@ module.exports = function (app) {
  * If the user does not exist or has not uploaded files, this call will simply return the empty object, i.e. {}.
  *
  * @apiExample {curl} Example usage:
- *     curl localhost:3000/session/example-sessionID/files/filetree/
+ *     curl --header "SessionID: exampleSessionID" localhost:3000/files/filetree/
  *
  * @apiSuccess {Object} filetree Represents the files and directories inside the user's workspace.
  * @apiSuccessExample Success-Response:
@@ -117,7 +117,7 @@ module.exports = function (app) {
  * @apiHeader {String} SessionID User's session ID.
  *
  *  @apiExample {curl} Example usage:
- *     curl localhost:3000/session/example-sessionID/files/readfile/demo_matlab/cholesky.m/
+ *     curl --header "SessionID: exampleSessionID" localhost:3000/files/readfile/demo_matlab/cholesky.m/
  *
  * @apiSuccess {String} data The text of the file.
  * @apiSuccessExample Success-Response:
@@ -142,7 +142,7 @@ module.exports = function (app) {
  */
 
 /**
- * @api {get} /session/:sessionID/files/download/:filepath/ Download a file inside the user's gen directory.
+ * @api {get} /session/:sessionID/files/download/:filepath/ Download a file inside the user's gen directory
  * @apiName Download
  * @apiGroup Files
  * @apiParam {String} sessionID User's session ID.
@@ -165,7 +165,7 @@ module.exports = function (app) {
  * @apiHeader {String} SessionID User's session ID.
  *
  * @apiExample {curl} Example usage:
- *     curl localhost:3000/session/example-sessionID/analysis/kinds/demo_matlab/testMain.m
+ *     curl --header "SessionID: exampleSessionID" localhost:3000/analysis/kinds/demo_matlab/testMain.m
  *
  * @apiSuccess {Object} output The results of kind analysis.
  * @apiSuccessExample Success-Response:
@@ -213,4 +213,14 @@ module.exports = function (app) {
  *     {
  *       "error":"Failed to compile the code into Fortran."
  *     }
+ */
+
+/**
+ * @api {post} /compile/mcvmjs/ Compile the user's files into Javascript code
+ * @apiName McVM.js
+ * @apiGroup Compile
+ * @apiParam {String} fileName The file to be compiled.
+ * @apiHeader {String} SessionID User's session ID.
+ *
+ * @apiSuccess 200 Empty response.
  */

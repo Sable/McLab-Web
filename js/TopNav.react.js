@@ -59,12 +59,6 @@ class TopNav extends Component {
   }
 }
 
-
-
-          //<select value={this.state.selectValue} onChange={this.handleChange}>
-          //  <option value="Compile">Compile to JS</option>
-          //  <option value="Run">Run compiled JS</option>
-          //</select>
 TopNav.propTypes = {
 
 }

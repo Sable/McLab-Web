@@ -14,6 +14,7 @@ function sendCompilationRequest(){
 
   const baseURL = window.location.origin;
   const sessionID = OnLoadActions.getSessionID();
+  // POST request to compile the javascript and print to terminal based on the result
   request.post(baseURL + '/compile/mcvmjs')
       .set({'SessionID': sessionID})
       .send(postBody)
@@ -35,19 +36,23 @@ function sendCompilationRequest(){
       });
 }
 
-//"workspace/generated-JS/mainFile.js";
+// Run the compiled Javascript in a webworker
 function runCompiledJS(){
   let filename = OpenFileStore.getFilePath();
-  let filenameWithoutPath = filename.split('/').slice(-1)[0];
+  let filenameWithoutPath = filename.split('/').slice(-1)[0]; // used later to print output more nicely
+
   if(filename){
+    // Create blob with the contents of the open file
     const contents = FileContentsStore.get(filename).text;
     var blob = new Blob([
       contents
     ]);
 
-    // Obtain a blob URL reference to our worker 'file'.
+    // Create a URL reference to the blob file and create/start the worker using this blob
     var blobURL = window.URL.createObjectURL(blob);
     var worker = new Worker(blobURL);
+
+    // On message from the worker, check if is in error or not and print correspondingly
     worker.onmessage = (message) => {
       let data = message.data;
       if (typeof data === 'object' && 'err' in data){
@@ -61,24 +66,6 @@ function runCompiledJS(){
   }
 }
 
-function downloadCompiledJS(){
-  const fileName = OpenFileStore.getFilePath();
-
-  const baseURL = window.location.origin;
-  const sessionID = OnLoadActions.getSessionID();
-  const stringToDownload = baseURL + '/session/' + sessionID +  '/files/download/' + fileName;
-  request.get(baseURL + '/session/' + sessionID +  '/files/download/' + fileName)
-      .end((err, res) =>{
-        if(!err){
-          console.log('no error')
-        }
-        else{
-          console.log('error'
-          );
-        }
-      });
-}
-
 const openPanel = function() {
   Dispatcher.dispatch({
     action: AT.JS_COMPILE_PANEL.OPEN_PANEL
@@ -88,6 +75,5 @@ const openPanel = function() {
 export default{
   sendCompilationRequest,
   runCompiledJS,
-  downloadCompiledJS,
   openPanel
 }

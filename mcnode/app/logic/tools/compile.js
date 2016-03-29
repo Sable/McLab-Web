@@ -66,16 +66,16 @@ function applyMc2For(sessionID, body, mainFile, cb){
   const command = `java -jar ${config.MC2FOR_PATH} ${mainFilePath} -args ${argString} -codegen`;
 
   // Compile the files; this will produce Fortran (.f95) files in the same directory as the Matlab files
-  child_process.exec(command, function(err){
+  child_process.exec(command, (err) => {
     if(!err){
       // Make a gen folder for the user; if it exists already, just ignore the error
-      fs.mkdir(genRootPath, function(err){
+      fs.mkdir(genRootPath, (err) => {
         // Remove the fortran-code subfolder, if it exists, and make a new one
-        child_process.exec('rm -r ' + fortranRootPath, function (err) {
-          fs.mkdir(fortranRootPath, function(err){
+        child_process.exec('rm -r ' + fortranRootPath, (err) => {
+          fs.mkdir(fortranRootPath, (err) => {
             // Read all the files in the directory where our .f95 files are located
             const toCopy = mainFileDir + '/*.f95'; // pattern of files to copy
-            child_process.exec(`mv ${toCopy} ${fortranRootPath}`, function(err){
+            child_process.exec(`mv ${toCopy} ${fortranRootPath}`, (err) => {
               const archiveUUID = sessions.createUUID();
               const archiveName = `fortran-package-${archiveUUID}`;
               const archivePath = path.join(genRootPath, archiveName + '.zip');
@@ -83,7 +83,7 @@ function applyMc2For(sessionID, body, mainFile, cb){
               const package_path = `files/download/${relPathToArchive}`;
 
               // Zip the files and return the path to the zip file (relative to /session, since this is the API call to be made)
-              child_process.exec(`zip -j ${archivePath} ${fortranRootPath}/*.f95`, function(err){
+              child_process.exec(`zip -j ${archivePath} ${fortranRootPath}/*.f95`, (err) =>{
                 cb(null, {package_path: package_path});
               });
             });
@@ -100,7 +100,6 @@ function applyMc2For(sessionID, body, mainFile, cb){
 // Compile the file at given filepath, and with given arguments, to Fortran
 // Zip the result and return the path to it
 function compileToFortran(req, res) {
-  console.log('compile_to_fortran request');
   const sessionID = req.header('SessionID');
   const body = req.body;
   const mainFile = body.mainFile || '';
@@ -109,7 +108,7 @@ function compileToFortran(req, res) {
       res.json(package_path);
     }
     else{
-      res.status(400).json({error: "Failed to compile the code into Fortran."});
+      res.status(400).json({msg: "Failed to compile the code into Fortran."});
     }
   });
 }
@@ -120,34 +119,41 @@ function applyMcVMJS(sessionID, fileName, cb){
   const userWorkspace = userfile_utils.userWorkspace(sessionID);
   const userJSFolder = path.join(userWorkspace, '/generated-JS');
 
-  fs.mkdir(userJSFolder, function(err){
-    // Compile using McVM.js
-    const command = `${config.MCVM_PATH} ${mainFilePath}`;
-    child_process.exec(command, function(err, stdout){
-      if(!err){
-        const mainFileName = path.relative(path.dirname(mainFilePath), mainFilePath);
-        const mainFileNameWithoutExtension = mainFileName.substr(0, mainFileName.indexOf('.'));
+  // Compile using McVM.js
+  const command = `${config.MCVM_PATH} ${mainFilePath}`;
+  child_process.exec(command, (err, stdout) =>{
+    // If the code compiled, write a new file (with the extension replaced with .js) to the user's generated-JS folder
+    if(!err){
+      // Create a generated-JS folder for the user if one doesn't exist
+      fs.mkdir(userJSFolder, (err) => {
+        if(!err) {
+          const mainFileName = path.relative(path.dirname(mainFilePath), mainFilePath);
+          const mainFileNameWithoutExtension = mainFileName.substr(0, mainFileName.indexOf('.'));
 
-        // We add this extra line so that when the web worker uses console.log to print, it instead sends a message to the worker's creator to be printed there.
-        const finalToWrite = `console.log = function(text){ postMessage(JSON.stringify(text)); }\n\ntry {\n${stdout}} \ncatch(err){\n    postMessage({err: err.toString()});\n}`;
-        fs.writeFile(path.join(userJSFolder, mainFileNameWithoutExtension + '.js'), finalToWrite, function(err){
-          cb(null, path.join(userJSFolder, mainFileNameWithoutExtension + '.js'));
-        });
-      }
-      else {
-        cb({message: err.message}, null);
-      }
-    });
+          // Ugly way of adding code to change console.log to postMessage (to send messages to the webworker's creator)
+          // and to wrap the running code in a try/catch, then send the error to the parent if one occurs
+          const finalToWrite = `console.log = function(text){ postMessage(JSON.stringify(text)); }\n\ntry {\n${stdout}} \ncatch(err){\n    postMessage({err: err.toString()});\n}`;
+          fs.writeFile(path.join(userJSFolder, mainFileNameWithoutExtension + '.js'), finalToWrite, (err) => {
+            cb()
+          });
+        }
+        else{
+          cb("Couldn't create folder");
+        }
+      });
+    }
+    else {
+      cb({message: err.message});
+    }
   });
 }
 
 function compileToJS(req, res){
-  console.log('compileToJS request');
   const sessionID = req.header('SessionID');
   const fileName = req.body.fileName || '';
-  applyMcVMJS(sessionID, fileName, (err, result) => {
+  applyMcVMJS(sessionID, fileName, (err) => {
     if (!err){
-      res.sendFile(result);
+      res.sendStatus(200);
     }
     else {
       res.status(400).json(err);

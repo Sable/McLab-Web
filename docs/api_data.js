@@ -34,7 +34,7 @@ define({ "api": [
     "examples": [
       {
         "title": "Example usage:",
-        "content": "curl localhost:3000/session/example-sessionID/analysis/kinds/demo_matlab/testMain.m",
+        "content": "curl --header \"SessionID: exampleSessionID\" localhost:3000/analysis/kinds/demo_matlab/testMain.m",
         "type": "curl"
       }
     ],
@@ -137,9 +137,57 @@ define({ "api": [
     "groupTitle": "Compile"
   },
   {
+    "type": "post",
+    "url": "/compile/mcvmjs/",
+    "title": "Compile the user's files into Javascript code",
+    "name": "McVM_js",
+    "group": "Compile",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "fileName",
+            "description": "<p>The file to be compiled.</p>"
+          }
+        ]
+      }
+    },
+    "header": {
+      "fields": {
+        "Header": [
+          {
+            "group": "Header",
+            "type": "String",
+            "optional": false,
+            "field": "SessionID",
+            "description": "<p>User's session ID.</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "optional": false,
+            "field": "200",
+            "description": "<p>Empty response.</p>"
+          }
+        ]
+      }
+    },
+    "version": "0.0.0",
+    "filename": "mcnode/app/route/index.js",
+    "groupTitle": "Compile"
+  },
+  {
     "type": "get",
     "url": "/session/:sessionID/files/download/:filepath/",
-    "title": "Download a file inside the user's gen directory.",
+    "title": "Download a file inside the user's gen directory",
     "name": "Download",
     "group": "Files",
     "parameter": {
@@ -211,7 +259,7 @@ define({ "api": [
     "examples": [
       {
         "title": "Example usage:",
-        "content": "curl localhost:3000/session/example-sessionID/files/filetree/",
+        "content": "curl --header \"SessionID: exampleSessionID\" localhost:3000/files/filetree/",
         "type": "curl"
       }
     ],
@@ -274,7 +322,7 @@ define({ "api": [
     "examples": [
       {
         "title": "Example usage:",
-        "content": "curl localhost:3000/session/example-sessionID/files/readfile/demo_matlab/cholesky.m/",
+        "content": "curl --header \"SessionID: exampleSessionID\" localhost:3000/files/readfile/demo_matlab/cholesky.m/",
         "type": "curl"
       }
     ],

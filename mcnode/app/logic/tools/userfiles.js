@@ -9,12 +9,11 @@ var async = require('async');
 
 // Return the contents of a given file (given filepath param)
 function readFile(req, res) {
-  console.log('readfile request');
   const sessionID = req.header('SessionID');
   const filepath = req.params.filepath;
   const fileToRead = userfile_utils.fileInWorkspace(sessionID, filepath);
 
-  fs.readFile(fileToRead, function(err, data) {
+  fs.readFile(fileToRead, (err, data) => {
     if (!err) {
       res.send(data);
     } else {
@@ -34,8 +33,6 @@ function uploadFile(file, sessionID, cb){
     // Attempt to write the zip file to the user's root
     fs.writeFile(pathToZip, file.buffer, (err) =>{
       if(err){
-        console.log("write failed");
-        console.log(err);
         cb({Message: "Write failed"});
       }
       else{
@@ -73,12 +70,11 @@ function uploadFile(file, sessionID, cb){
 
 // Upload a ZIP file to the user's directory
 function upload(req, res) {
-  console.log('upload request');
   const sessionID = req.header('SessionID');
   if (req.files) {
     // Grab the file and the path to the user's directory
     const file = req.files[0];
-    uploadFile(file, sessionID, function(err){
+    uploadFile(file, sessionID, (err) => {
       if(!err){
         res.send('');
       }
@@ -105,14 +101,14 @@ function createFileTree(startPath, dirPath, cb){
 
   // Get the list of files (directories or normal files) in the current folder and use stat to determine file or dir
   // Filter out .DS_STORE and __MACOSX, which are generated on OSX
-  fs.readdir(dirPath, function(err, fileNames){
+  fs.readdir(dirPath, (err, fileNames) => {
 
     let fileNamesWithPath = [];
     for (let fileName of fileNames){
       fileNamesWithPath.push(path.join(dirPath, fileName));
     }
 
-    async.map(fileNamesWithPath, fs.stat, function(err, results){
+    async.map(fileNamesWithPath, fs.stat, (err, results) => {
       let dirNames = [];
       for(let i=0; i<results.length; i++){
         const stat = results[i];
@@ -127,7 +123,7 @@ function createFileTree(startPath, dirPath, cb){
       }
       let createFileTreeBound = createFileTree.bind(null, startPath);
 
-      async.map(dirNames, createFileTreeBound, function(err, results){
+      async.map(dirNames, createFileTreeBound, (err, results) => {
         for (let subFileTree of results){
           fileTree.directories.push(subFileTree);
         }
@@ -139,13 +135,12 @@ function createFileTree(startPath, dirPath, cb){
 
 // Return JSON representing the user's filetree (files and directories)
 function filetree(req, res) {
-  console.log('filetree request');
   const sessionID = req.header('SessionID');
   const userFileRoot = userfile_utils.userWorkspace(sessionID);
   const userRoot = userfile_utils.userRoot(sessionID);
-  fs.access(userFileRoot, function(err) {
+  fs.access(userFileRoot, (err) => {
     if (!err) {
-      createFileTree(userRoot, userFileRoot, function(err, fileTree){
+      createFileTree(userRoot, userFileRoot, (err, fileTree) =>{
         res.json(fileTree);
       });
     } else {
@@ -154,23 +149,32 @@ function filetree(req, res) {
   });
 }
 
-// Return the zip file in the user's folder at the given path.
+// Return the file in the user's folder at the given path.
 function serveGen(req, res) {
-  console.log('serve_gen request');
   //const sessionID = req.header('SessionID');
   const sessionID = req.params.sessionID;
   const filepath = req.params.filepath;
-  const pathToFile = userfile_utils.fileInUserRoot(sessionID, filepath);
-  const fileName = path.relative(userfile_utils.userRoot(sessionID), pathToFile);
-  const fileNameToSend = fileName.replace('gen-', '');
+  const absPathToFile = userfile_utils.fileInUserRoot(sessionID, filepath);
+  const fileName = absPathToFile.split('/').slice(-1)[0]; // separate path into chunks based on /, then get the last chunk
 
-  //res.set({
-  //  'Content-Type': 'application/zip',
-  //  'Content-Disposition': `attachment; filename=${fileNameToSend}`
-  //});
-  fs.exists(pathToFile, (exists) =>{
+  // set headers according to filetype
+  if (fileName.indexOf('zip') > -1){
+    res.set({
+      'Content-Type': 'application/zip',
+      'Content-Disposition': `attachment; filename=${fileName}`
+    });
+  }
+  else {
+    res.set({
+      'Content-Type': 'text/plain',
+      'Content-Disposition': `attachment; filename=${fileName}`
+    });
+  }
+
+  // send file to user if it exists
+  fs.exists(absPathToFile, (exists) =>{
     if(exists){
-      res.sendFile(pathToFile);
+      res.sendFile(absPathToFile);
     }
     else{
       res.status(404).json({error: "Could not find requested file."});
