@@ -1,6 +1,7 @@
 import AT from '../constants/AT';
 import Dispatcher from '../Dispatcher';
 import React from 'react';
+import OpenFileStore from '../stores/OpenFileStore';
 import request from 'superagent';
 import TerminalActions from './TerminalActions';
 
@@ -17,7 +18,7 @@ function profileSparsity() {
   TerminalActions.println("Analyzing array sparsity on " + filePath);
 
   // FIXME: substring(10) is a hack to get rid of 'workspace/'
-  request.get('aspect/sparsity' + filePath.substring(10))
+  request.get('aspect/sparsity/' + filePath.substring(10))
     .end(function(err, res) {
       if (err) {
         try {
@@ -36,9 +37,15 @@ function profileSparsity() {
           );
         }
       } else {
-        //TODO 
+        try{ 
+          const msg = JSON.parse(res.text).msg; 
+          TerminalActions.println(msg);
+        }
+        catch (e){ 
+          TerminalActions.printerrln("error");
+        }
       }
-    },
+    }
   );
 
 }
