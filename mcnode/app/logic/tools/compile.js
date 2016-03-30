@@ -116,8 +116,7 @@ function compileToFortran(req, res) {
 // Run the McVM.js compiler to compile the Matlab files into Javascript files.
 function applyMcVMJS(sessionID, fileName, cb){
   const mainFilePath = userfile_utils.fileInWorkspace(sessionID, fileName); // path to entry point file to be compiled
-  const userWorkspace = userfile_utils.userWorkspace(sessionID);
-  const userJSFolder = path.join(userWorkspace, '/generated-JS');
+  const userJSFolder = userfile_utils.mcvmRoot(sessionID);
 
   // Compile using McVM.js
   const command = `${config.MCVM_PATH} ${mainFilePath}`;

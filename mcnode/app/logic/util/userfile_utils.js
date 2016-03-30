@@ -47,8 +47,8 @@ function fortranRoot(sessionID){
 
 // McLab-Web/user-files/{sessionID}/gen/mcvm-code
 function mcvmRoot(sessionID){
-  const pathToGenRoot = this.genRoot(sessionID);
-  const pathToMcVM = path.join(pathToGenRoot, 'mcvm_code');
+  const pathToWorkspace = this.userWorkspace(sessionID);
+  const pathToMcVM = path.join(pathToWorkspace, '/generated-JS');
   return path.resolve(pathToMcVM);
 }
 
