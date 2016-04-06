@@ -12,12 +12,10 @@
     "immutable": "^3.7.5",
     "key-mirror-nested": "^1.2.4",
     "multer": "^1.1.0",
-    "object-assign": "^1.0.0",
     "react": "^0.14.7",
     "react-bootstrap": "^0.27.2",
     "react-dom": "^0.14.7",
     "react-dropzone": "^2.1.0",
-    "react-select": "^0.8.2",
     "superagent": "^1.7.2"
   },
   "devDependencies": {
