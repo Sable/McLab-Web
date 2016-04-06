@@ -20,7 +20,7 @@ module.exports = function (app) {
     app.post('/files/upload/', multerInstance.any(), userfiles.upload);
     app.get('/files/filetree/', userfiles.filetree);
     app.get('/files/readfile/:filepath([\\w-]*)/?', userfiles.readFile);
-    app.get('^/session/:sessionID/files/download/:filepath([\\w-]*)/?', userfiles.serveGen);
+    app.get('^/files/download/:sessionID/:filepath([\\w-]*)/?', userfiles.serveGen);
 
     app.get('/analysis/kinds/:filepath([\\w-]*)/?', analysis.kindAnalysis);
 
@@ -142,7 +142,7 @@ module.exports = function (app) {
  */
 
 /**
- * @api {get} /session/:sessionID/files/download/:filepath/ Download a file inside the user's gen directory
+ * @api {get} /files/download/:sessionID/:filepath/ Download a file inside the user's gen directory
  * @apiName Download
  * @apiGroup Files
  * @apiParam {String} sessionID User's session ID.

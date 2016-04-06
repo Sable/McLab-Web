@@ -80,11 +80,10 @@ function applyMc2For(sessionID, body, mainFile, cb){
               const archiveName = `fortran-package-${archiveUUID}`;
               const archivePath = path.join(genRootPath, archiveName + '.zip');
               const relPathToArchive = path.relative(userRoot, archivePath);
-              const package_path = `files/download/${relPathToArchive}`;
 
-              // Zip the files and return the path to the zip file (relative to /session, since this is the API call to be made)
+              // Zip the files and return the path to the zip file
               child_process.exec(`zip -j ${archivePath} ${fortranRootPath}/*.f95`, (err) =>{
-                cb(null, {package_path: package_path});
+                cb(null, {package_path: relPathToArchive});
               });
             });
           });
@@ -133,7 +132,6 @@ function applyMcVMJS(sessionID, fileName, cb){
         fs.writeFile(path.join(userJSFolder, mainFileNameWithoutExtension + '.js'), finalToWrite, (err) => {
           cb()
         });
-
       });
     }
     else {
