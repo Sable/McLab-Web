@@ -107,7 +107,7 @@ function compileToFortran(req, res) {
       res.json(package_path);
     }
     else{
-      res.status(400).json({msg: "Failed to compile the code into Fortran."});
+      res.status(404).json({msg: "Failed to compile the code into Fortran."});
     }
   });
 }
@@ -148,7 +148,7 @@ function compileToJS(req, res){
       res.sendStatus(200);
     }
     else {
-      res.status(400).json(err);
+      res.status(404).json(err);
     }
   });
 }

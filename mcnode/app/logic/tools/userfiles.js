@@ -12,7 +12,6 @@ function readFile(req, res) {
   const sessionID = req.header('SessionID');
   const filepath = req.params.filepath;
   const fileToRead = userfile_utils.fileInWorkspace(sessionID, filepath);
-
   fs.readFile(fileToRead, (err, data) => {
     if (!err) {
       res.send(data);
