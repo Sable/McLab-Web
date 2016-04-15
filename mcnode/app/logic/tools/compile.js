@@ -128,8 +128,9 @@ function applyMcVMJS(sessionID, fileName, cb){
         const mainFileNameWithoutExtension = mainFileName.substr(0, mainFileName.indexOf('.'));
         // Ugly way of adding code to change console.log to postMessage (to send messages to the webworker's creator)
         // and to wrap the running code in a try/catch, then send the error to the parent if one occurs
-        const finalToWrite = `console.log = function(text){ postMessage(JSON.stringify(text)); }\n\ntry {\n${stdout}} \ncatch(err){\n    postMessage({err: err.toString()});\n}`;
-        fs.writeFile(path.join(userJSFolder, mainFileNameWithoutExtension + '.js'), finalToWrite, (err) => {
+        //const finalToWrite = `console.log = function(text){ postMessage(JSON.stringify(text)); }\n\ntry {\n${stdout}} \ncatch(err){\n    postMessage({err: err.toString()});\n}`;
+        //fs.writeFile(path.join(userJSFolder, mainFileNameWithoutExtension + '.js'), finalToWrite, (err) => {
+        fs.writeFile(path.join(userJSFolder, mainFileNameWithoutExtension + '.js'), stdout, (err) => {
           cb()
         });
       });
@@ -157,3 +158,4 @@ module.exports = {
   compileToFortran,
   compileToJS
 };
+

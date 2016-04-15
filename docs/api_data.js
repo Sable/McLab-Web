@@ -186,7 +186,7 @@ define({ "api": [
   },
   {
     "type": "get",
-    "url": "/session/:sessionID/files/download/:filepath/",
+    "url": "/files/download/:sessionID/:filepath/",
     "title": "Download a file inside the user's gen directory",
     "name": "Download",
     "group": "Files",
@@ -446,7 +446,7 @@ define({ "api": [
   {
     "type": "get",
     "url": "/shortenURL/:url/",
-    "title": "Shorten URL",
+    "title": "Shorten a URL",
     "name": "GetShortenedURL",
     "group": "Session",
     "parameter": {

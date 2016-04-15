@@ -44,8 +44,9 @@ function runCompiledJS(){
   if(filename){
     // Create blob with the contents of the open file
     const contents = FileContentsStore.get(filename).text;
+    const finalContents = `console.log = function(text){ postMessage(JSON.stringify(text)); }\n\ntry {\n${contents}} \ncatch(err){\n    postMessage({err: err.toString()});\n}`;
     var blob = new Blob([
-      contents
+      finalContents
     ]);
 
     // Create a URL reference to the blob file and create/start the worker using this blob

@@ -53,7 +53,7 @@ module.exports = function (app) {
  */
 
 /**
- * @api {get} /shortenURL/:url/ Shorten URL
+ * @api {get} /shortenURL/:url/ Shorten a URL
  * @apiName GetShortenedURL
  * @apiGroup Session
  * @apiParam {String} url URL to shorten.
