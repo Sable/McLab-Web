@@ -224,3 +224,20 @@ module.exports = function (app) {
  *
  * @apiSuccess 200 Empty response.
  */
+
+/**
+ * @api {get} /compile/mcvmjs/ Compile the user's files into Javascript code
+ * @apiName McVM.js
+ * @apiGroup Compile
+ * @apiParam {String} fileName The file to be compiled.
+ * @apiHeader {String} SessionID User's session ID.
+ *
+ * @apiSuccess 200 Empty response.
+ */
+
+/**
+ * @api {get} /docs/ Docs page
+ * @apiName GetDocs
+ * @apiGroup Docs
+ * @apiSuccess {HTML} index The index.html file that contains the documentation.
+ */

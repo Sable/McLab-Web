@@ -137,6 +137,54 @@ define({ "api": [
     "groupTitle": "Compile"
   },
   {
+    "type": "get",
+    "url": "/compile/mcvmjs/",
+    "title": "Compile the user's files into Javascript code",
+    "name": "McVM_js",
+    "group": "Compile",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "fileName",
+            "description": "<p>The file to be compiled.</p>"
+          }
+        ]
+      }
+    },
+    "header": {
+      "fields": {
+        "Header": [
+          {
+            "group": "Header",
+            "type": "String",
+            "optional": false,
+            "field": "SessionID",
+            "description": "<p>User's session ID.</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "optional": false,
+            "field": "200",
+            "description": "<p>Empty response.</p>"
+          }
+        ]
+      }
+    },
+    "version": "0.0.0",
+    "filename": "mcnode/app/route/index.js",
+    "groupTitle": "Compile"
+  },
+  {
     "type": "post",
     "url": "/compile/mcvmjs/",
     "title": "Compile the user's files into Javascript code",
@@ -183,6 +231,29 @@ define({ "api": [
     "version": "0.0.0",
     "filename": "mcnode/app/route/index.js",
     "groupTitle": "Compile"
+  },
+  {
+    "type": "get",
+    "url": "/docs/",
+    "title": "Docs page",
+    "name": "GetDocs",
+    "group": "Docs",
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "HTML",
+            "optional": false,
+            "field": "index",
+            "description": "<p>The index.html file that contains the documentation.</p>"
+          }
+        ]
+      }
+    },
+    "version": "0.0.0",
+    "filename": "mcnode/app/route/index.js",
+    "groupTitle": "Docs"
   },
   {
     "type": "get",
