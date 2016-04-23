@@ -1,7 +1,9 @@
 import SelectedFileStore from './stores/SelectedFileStore';
 import FileTreeStore from './stores/FileTreeStore'
-import FileExplorerActions from './FileExplorerActions.js'
+import FileExplorerActions from './actions/FileExplorerActions.js'
 import FileExplorerSelectionModeStore from './stores/FileExplorerSelectionModeStore'
+import MiscDataStore from './stores/MiscDataStore';
+import OnLoadActions from './actions/OnLoadActions';
 import {FileExplorer} from './FileExplorer.react';
 import {Container} from 'flux/utils';
 import React from 'react';
@@ -18,6 +20,7 @@ class FileExplorerContainer extends React.Component {
       SelectedFileStore,
       FileTreeStore,
       FileExplorerSelectionModeStore,
+      MiscDataStore
     ];
   }
 
@@ -51,13 +54,14 @@ class FileExplorerContainer extends React.Component {
       loadState: FileTreeStore.getLoadState(),
       tree: FileTreeStore.getFileTree(),
       selection: SelectedFileStore.getSelectionPath(),
-      selectionMode: FileExplorerSelectionModeStore.isInSelectionMode(),
+      selectionMode: FileExplorerSelectionModeStore.isInSelectionMode()
     };
   }
 
   componentWillMount() {
     // Send out an ajax call to fetch the filetree
-    FileExplorerActions.fetchFileTree();
+    const sessionID = OnLoadActions.getSessionID();
+    FileExplorerActions.fetchFileTree(sessionID);
   }
 
   render() {

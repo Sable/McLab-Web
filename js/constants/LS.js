@@ -6,5 +6,5 @@ export default keyMirror({
   NOT_LOADED: '',
   LOADING: '',
   LOADED: '',
-  LOAD_ERROR: '',
+  LOAD_ERROR: ''
 })

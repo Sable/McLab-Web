@@ -2,7 +2,8 @@ import AT from './constants/AT';
 import classnames from 'classnames';
 import Dispatcher from './Dispatcher';
 import KindAnalysisActions from './actions/KindAnalysisActions';
-import TopNavButtonActions from './actions/TopNavButtonsActions';
+import JSCompileActions from './actions/JSCompileActions';
+import OnLoadActions from './actions/OnLoadActions';
 import React from 'react';
 import AspectActions from './actions/AspectActions';
 
@@ -10,11 +11,21 @@ const {PropTypes, Component} = React;
 
 const fortranOnClick = function() {
   Dispatcher.dispatch({
-    action: AT.FORTRAN_COMPILE_PANEL.OPEN_PANEL,
+    action: AT.FORTRAN_COMPILE_PANEL.OPEN_PANEL
   });
-}
+};
 
 class TopNav extends Component {
+  constructor(){
+    super();
+    this.handleChange = this.handleChange.bind(this);
+    this.state = {selectValue: null};
+  }
+
+  handleChange(e) {
+    //console.log(e.target.value);
+  }
+
   render() {
     return (
       <div className="topnav">
@@ -36,22 +47,21 @@ class TopNav extends Component {
             Kind Analysis
           </a>
           <a className="pure-button topnav-button"
-            onClick={TopNavButtonActions.printShortenedLink}>
+            onClick={OnLoadActions.printShortenedLink}>
             Get Short Link
           </a>
           <a className="pure-button topnav-button"
             onClick={AspectActions.profileSparsity}>
             Run Aspect 
           </a> 
+          <a className="pure-button topnav-button"
+            onClick={JSCompileActions.openPanel}>
+            Compile/run Matlab to JS
+          </a>
         </div>
       </div>
     );
   }
-
-  componentDidMount(){
-    TopNavButtonActions.getShortenedLink();
-  }
-
 }
 
 TopNav.propTypes = {

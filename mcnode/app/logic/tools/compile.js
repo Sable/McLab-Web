@@ -1,24 +1,162 @@
 "use strict";
-var tool_usage = require(__base + 'app/logic/util/tool_usage');
+var path = require('path');
+var fs = require('fs');
+var child_process = require('child_process');
+
+var config = require(__base + 'config/config');
+var userfile_utils = require(__base + 'app/logic/util/userfile_utils');
+var sessions = require(__base + 'app/logic/util/session_utils');
+
+// Takes object representing Mc2For command line arguments; returns a formatted argument string.
+// Throws an exception if the arguments are not valid; the compilation would fail anyways, but this protects us against
+// an injection attack.
+function buildFortranArgString(arg){
+  const mlClass = arg.mlClass;
+  const numRows = arg.numRows;
+  const numCols = arg.numCols;
+  const realComplex = arg.realComplex;
+
+  const argsAreValid = validateArgs(mlClass, numRows, numCols, realComplex);
+  if (argsAreValid){
+    return `'${mlClass}&${numRows}*${numCols}&${realComplex}'`;
+  }
+  else{
+    throw "Fortran compilation arguments are invalid.";
+  }
+}
+
+// Checks if arguments for compilation are valid; returns true if they are valid, false otherwise
+function validateArgs(mlClass, numRows, numCols, realComplex){
+  // Confirm that mlClass and realComplex args are within the possible range of values
+  const ML_CLASS_POSSIBLE_VALUES = ['LOGICAL', 'CHAR', 'SINGLE', 'DOUBLE', 'INT8', 'UINT8', 'INT16', 'UINT16', 'INT32',
+  'INT64', 'UINT64'];
+  const REAL_COMPLEX_POSSIBLE_VALUES = ['REAL', 'COMPLEX'];
+  if((ML_CLASS_POSSIBLE_VALUES.indexOf(mlClass) == -1) || (REAL_COMPLEX_POSSIBLE_VALUES.indexOf(realComplex) == -1)){
+    return false;
+  }
+
+  // Confirm that the row/cols arguments are actually numbers; if they are parsed as NaN, they are not numbers
+  const numRowsAsInt = parseInt(numRows);
+  const numColsAsInt = parseInt(numCols);
+  if(isNaN(numRowsAsInt) || isNaN(numColsAsInt)){
+    return false;
+  }
+
+  return true;
+}
+
+// Compile files using Mc2For, the McLab Fortran compiler.
+// Creates an archive file with the compiled .f95 files, and returns (through the callback) a link to the archive.
+// The archive can then be download using the serveGen function in userfiles.js
+function applyMc2For(sessionID, body, mainFile, cb){
+  let argString;
+  try{
+    argString = buildFortranArgString(body.arg);
+  }
+  catch (e){
+    cb({error: e}, null);
+    return;
+  }
+  const mainFilePath = userfile_utils.fileInWorkspace(sessionID, mainFile); // path to entry point file to be compiled
+  const mainFileDir = path.dirname(mainFilePath); // directory of this file
+  const genRootPath = userfile_utils.genRoot(sessionID);
+  const userRoot = userfile_utils.userRoot(sessionID);
+  const fortranRootPath = userfile_utils.fortranRoot(sessionID);
+
+  const command = `java -jar ${config.MC2FOR_PATH} ${mainFilePath} -args ${argString} -codegen`;
+
+  // Compile the files; this will produce Fortran (.f95) files in the same directory as the Matlab files
+  child_process.exec(command, (err) => {
+    if(!err){
+      // Make a gen folder for the user; if it exists already, just ignore the error
+      fs.mkdir(genRootPath, (err) => {
+        // Remove the fortran-code subfolder, if it exists, and make a new one
+        child_process.exec('rm -r ' + fortranRootPath, (err) => {
+          fs.mkdir(fortranRootPath, (err) => {
+            // Read all the files in the directory where our .f95 files are located
+            const toCopy = mainFileDir + '/*.f95'; // pattern of files to copy
+            child_process.exec(`mv ${toCopy} ${fortranRootPath}`, (err) => {
+              const archiveUUID = sessions.createUUID();
+              const archiveName = `fortran-package-${archiveUUID}`;
+              const archivePath = path.join(genRootPath, archiveName + '.zip');
+              const relPathToArchive = path.relative(userRoot, archivePath);
+              const package_path = `files/download/${relPathToArchive}`;
+
+              // Zip the files and return the path to the zip file (relative to /session, since this is the API call to be made)
+              child_process.exec(`zip -j ${archivePath} ${fortranRootPath}/*.f95`, (err) =>{
+                cb(null, {package_path: package_path});
+              });
+            });
+          });
+        });
+      });
+    }
+    else {
+      cb({error: 'Failed to compile this project.'}, null);
+    }
+  });
+}
 
 // Compile the file at given filepath, and with given arguments, to Fortran
 // Zip the result and return the path to it
-// TODO: fix this abomination of a function
 function compileToFortran(req, res) {
-  console.log('compile_to_fortran request');
-  const sessionID = req.params.sessionID;
+  const sessionID = req.header('SessionID');
   const body = req.body;
   const mainFile = body.mainFile || '';
-  tool_usage.compileToFortran(sessionID, body, mainFile, (err, package_path) => {
+  applyMc2For(sessionID, body, mainFile, (err, package_path) => {
     if(!err){
       res.json(package_path);
     }
     else{
+      res.status(400).json({msg: "Failed to compile the code into Fortran."});
+    }
+  });
+}
+
+// Run the McVM.js compiler to compile the Matlab files into Javascript files.
+function applyMcVMJS(sessionID, fileName, cb){
+  const mainFilePath = userfile_utils.fileInWorkspace(sessionID, fileName); // path to entry point file to be compiled
+  const userWorkspace = userfile_utils.userWorkspace(sessionID);
+  const userJSFolder = path.join(userWorkspace, '/generated-JS');
+
+  // Compile using McVM.js
+  const command = `${config.MCVM_PATH} ${mainFilePath}`;
+  child_process.exec(command, (err, stdout) =>{
+    // If the code compiled, write a new file (with the extension replaced with .js) to the user's generated-JS folder
+    if(!err){
+      // Create a generated-JS folder for the user if one doesn't exist
+      fs.mkdir(userJSFolder, (err) => {
+        const mainFileName = path.relative(path.dirname(mainFilePath), mainFilePath);
+        const mainFileNameWithoutExtension = mainFileName.substr(0, mainFileName.indexOf('.'));
+        // Ugly way of adding code to change console.log to postMessage (to send messages to the webworker's creator)
+        // and to wrap the running code in a try/catch, then send the error to the parent if one occurs
+        const finalToWrite = `console.log = function(text){ postMessage(JSON.stringify(text)); }\n\ntry {\n${stdout}} \ncatch(err){\n    postMessage({err: err.toString()});\n}`;
+        fs.writeFile(path.join(userJSFolder, mainFileNameWithoutExtension + '.js'), finalToWrite, (err) => {
+          cb()
+        });
+
+      });
+    }
+    else {
+      cb({message: err.message});
+    }
+  });
+}
+
+function compileToJS(req, res){
+  const sessionID = req.header('SessionID');
+  const fileName = req.body.fileName || '';
+  applyMcVMJS(sessionID, fileName, (err) => {
+    if (!err){
+      res.sendStatus(200);
+    }
+    else {
       res.status(400).json(err);
     }
   });
 }
 
 module.exports = {
-  compileToFortran
+  compileToFortran,
+  compileToJS
 };

@@ -4,6 +4,7 @@ import FortranCompileConfigStore from '../stores/FortranCompileConfigStore';
 import React from 'react';
 import request from 'superagent';
 import TerminalActions from './TerminalActions';
+import OnLoadActions from './OnLoadActions';
 
 function beginCompilation() {
   const mainFile = FortranCompileConfigStore.getMainFilePath();
@@ -19,17 +20,20 @@ function beginCompilation() {
       numRows: arg.numRows,
       numCols: arg.numCols,
       realComplex: arg.realComplex.key,
-      mlClass: arg.mlClass.key,
+      mlClass: arg.mlClass.key
     }
     : null;
 
   // ffs fix the workspace hack
   const postBody = {
     mainFile: mainFile.substring(10),
-    arg: postArg,
-  }
+    arg: postArg
+  };
 
-  request.post('compile/mc2for/')
+  const baseURL = window.location.origin;
+  const sessionID = OnLoadActions.getSessionID();
+    request.post(baseURL + '/compile/mc2for/')
+    .set({'SessionID': sessionID})
     .send(postBody)
     .end(function(err, res) {
       if (err) {
@@ -57,11 +61,11 @@ function beginCompilation() {
           </div>
         );
       }
-    },
+    }
   );
 
 }
 
 export default {
-  beginCompilation,
+  beginCompilation
 }

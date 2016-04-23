@@ -46,6 +46,25 @@ class FileTreeStore extends Store {
   getLoadState() {
     return this._loadState;
   }
+
+  //fileInWorkspace(fileToFind, fileTree){
+  //  if (!fileToFind){
+  //    return false;
+  //  }
+  //  if (fileTree){
+  //    for (let fileName of fileTree.files){
+  //      if (fileName == fileToFind) {
+  //        return true;
+  //      }
+  //    }
+  //    for (let directory of fileTree.directories){
+  //      if (this.fileInWorkspace(fileToFind, directory)){
+  //        return true;
+  //      }
+  //    }
+  //    return false;
+  //  }
+  //}
 }
 
 module.exports = new FileTreeStore(Dispatcher);

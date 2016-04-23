@@ -3,6 +3,7 @@ import Dispatcher from '../Dispatcher';
 import React from 'react';
 import OpenFileStore from '../stores/OpenFileStore';
 import request from 'superagent';
+import OnLoadActions from './OnLoadActions';
 import TerminalActions from './TerminalActions';
 
 function profileSparsity() {
@@ -15,10 +16,13 @@ function profileSparsity() {
     return;
   }
 
-  TerminalActions.println("Analyzing array sparsity on " + filePath);
+  TerminalActions.println("Analyzing array sparsity on." + filePath + ". This might take a minute.");
 
   // FIXME: substring(10) is a hack to get rid of 'workspace/'
-  request.get('aspect/sparsity/' + filePath.substring(10))
+  const baseURL = window.location.origin;
+  const sessionID = OnLoadActions.getSessionID();
+  request.get(baseURL +'/aspect/sparsity/' + filePath.substring(10))
+    .set({SessionID: sessionID})
     .end(function(err, res) {
       if (err) {
         try {
@@ -39,7 +43,10 @@ function profileSparsity() {
       } else {
         try{ 
           const msg = JSON.parse(res.text).msg; 
-          TerminalActions.println(msg);
+          for (var i = 0; i<msg.length; i++){
+            TerminalActions.println(msg[i]);
+          }
+
         }
         catch (e){ 
           TerminalActions.printerrln("error");

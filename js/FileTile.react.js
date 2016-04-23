@@ -3,6 +3,7 @@ import Dispatcher from './Dispatcher';
 import React from 'react';
 import AT from './constants/AT';
 import request from 'superagent';
+import OnLoadActions from './actions/OnLoadActions';
 
 
 const {PropTypes, Component} = React;
@@ -20,7 +21,10 @@ class FileTile extends Component {
     // TODO: This is a hack to get rid of 'workspace/'
     // Fix code to make workspace a proper sandbox
     // TODO: wtf why is this logic here. This should be handled by a smart cache
-    request.get('files/readfile/' + path.substring(10))
+    const baseURL = window.location.origin;
+    const sessionID = OnLoadActions.getSessionID();
+    request.get(baseURL + '/files/readfile/' + path.substring(10))
+        .set({'SessionID': sessionID})
         .end(function(err, res) {
         if (err) {
           Dispatcher.dispatch({
@@ -41,7 +45,7 @@ class FileTile extends Component {
             },
           })
         }
-      },
+      }
     );
 
   }
