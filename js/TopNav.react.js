@@ -51,8 +51,8 @@ class TopNav extends Component {
             Get Short Link
           </a>
           <a className="pure-button topnav-button"
-            onClick={AspectActions.profileSparsity}>
-            Run Aspect 
+            onClick={AspectActions.profileCode("sparsity")}>
+            Run Profiler
           </a> 
           <a className="pure-button topnav-button"
             onClick={JSCompileActions.openPanel}>

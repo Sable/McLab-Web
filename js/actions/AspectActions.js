@@ -6,7 +6,7 @@ import request from 'superagent';
 import OnLoadActions from './OnLoadActions';
 import TerminalActions from './TerminalActions';
 
-function profileSparsity() {
+function profileCode(aspect) {
   const filePath = OpenFileStore.getFilePath();
 
   if (filePath === null) {
@@ -21,8 +21,8 @@ function profileSparsity() {
   // FIXME: substring(10) is a hack to get rid of 'workspace/'
   const baseURL = window.location.origin;
   const sessionID = OnLoadActions.getSessionID();
-  request.get(baseURL +'/aspect/sparsity/' + filePath.substring(10))
-    .set({SessionID: sessionID})
+  request.get(baseURL +'/aspect/' + filePath.substring(10))
+    .set({SessionID: sessionID, AspectName: aspect})
     .end(function(err, res) {
       if (err) {
         try {
@@ -34,8 +34,8 @@ function profileSparsity() {
               { "We failed to profile sparsity on " + filePath + " :( " }
               { "This could be due to a network issue. " }
               { "If you believe this is a bug please send an email to " }
-              <a href="mailto:deepanjan.roy@mail.mcgill.ca">
-                deepanjan.roy@mail.mcgill.ca
+              <a href="mailto:emily.sager@mail.mcgill.ca">
+                emily.sager@mail.mcgill.ca
               </a>
             </div>
           );
@@ -58,5 +58,5 @@ function profileSparsity() {
 }
 
 export default {
-  profileSparsity
+  profileCode
 }

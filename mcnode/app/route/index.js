@@ -24,7 +24,7 @@ module.exports = function (app) {
     app.get('^/session/:sessionID/files/download/:filepath([\\w-]*)/?', userfiles.serveGen);
 
     app.get('/analysis/kinds/:filepath([\\w-]*)/?', analysis.kindAnalysis);
-    app.get('/aspect/sparsity/:filepath([\\w-]*)/?', aspect.profileSparsity);
+    app.get('/aspect/:filepath([\\w-]*)/?', aspect.profileCode);
     app.post('/compile/mc2for/', compile.compileToFortran);
     app.post('/compile/mcvmjs/', compile.compileToJS);
 
