@@ -6,7 +6,7 @@ var str = require('string');
 
 function parse_sparsity(matlab_out, cb){
   var parsed = []; 
-  var lines = str(matlab_out).lines(); 
+  var lines = str(matlab_out).lines();  
   var len = lines.length;  
   var matlab_heading = true; 
   var append = false;  
@@ -19,7 +19,10 @@ function parse_sparsity(matlab_out, cb){
         matlab_heading = false; 
       } 
     }
-    if (str(line).contains("Columns")){
+    if (str(line).contains("computation")){
+      continue;
+    }
+    if (str(line).contains("Column")){
       append = true; 
       logging_info = true;
       j = 0;
@@ -27,18 +30,22 @@ function parse_sparsity(matlab_out, cb){
       logging_info = false;
     }
     if(!matlab_heading && !logging_info){
-      if(str(line).contains("|")){
-        str(line).replaceAll('|', ' ');
+      if(str(line).contains('�')){
+        str(line).replaceAll('�', ' ');
       }
-      if (!append) { 
+      if (!append && line) { 
         parsed.push(line);
-      } else { 
-        parsed[j] += lines[i];
+      } else if (line !== 'undefined'){ 
+        if (parsed[j]){
+          parsed[j] += lines[i];
+        }
+        else{
+          parsed[j] = lines[i];
+        }
         j++;
       }
     } 
   }
-  //console.log(parsed);
   cb(null, parsed);
 }
 

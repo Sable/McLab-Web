@@ -22,6 +22,7 @@ function profileCode(aspect) {
   const baseURL = window.location.origin;
   const sessionID = OnLoadActions.getSessionID();
   request.get(baseURL +'/aspect/' + filePath.substring(10))
+   // .send({aspect_name: aspect})
     .set({SessionID: sessionID, AspectName: aspect})
     .end(function(err, res) {
       if (err) {
