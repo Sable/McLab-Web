@@ -35,7 +35,7 @@ function beginCompilation() {
     request.post(baseURL + '/compile/mc2for/')
     .set({'SessionID': sessionID})
     .send(postBody)
-    .end(function(err, res) {
+    .end((err, res) =>{
       if (err) {
         try {
           const msg = JSON.parse(res.text).msg;
@@ -53,9 +53,10 @@ function beginCompilation() {
         }
       } else {
         const package_path = JSON.parse(res.text)['package_path'];
+        const path_to_print = `${baseURL}/files/download/${sessionID}/${package_path}`;
         TerminalActions.println(
           <div>Compilation complete! {' '}
-            <a href={package_path}>
+            <a href={path_to_print}>
               Click here to download the compiled package
             </a>
           </div>

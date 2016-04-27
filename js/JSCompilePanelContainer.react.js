@@ -31,7 +31,7 @@ class JSCompilePanelContainer extends Component {
 
       const baseURL = window.location.origin;
       const sessionID = OnLoadActions.getSessionID();
-      pathToDownload = baseURL + '/session/' + sessionID +  '/files/download/' + openFile;
+      pathToDownload = baseURL + '/files/download/' + sessionID + '/' + openFile;
     }
     return {fileIsOpen: fileIsOpen, fileType: fileType, pathToDownload: pathToDownload}
   }

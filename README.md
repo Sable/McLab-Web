@@ -2,6 +2,8 @@
 
 Web-based interface to McLab tools
 
+Follow [these instructions](https://github.com/Sable/McLab-Web/wiki/Setting-up-local-dev-environment-for-Node) to install the project.
+
 See the [wiki](https://github.com/Sable/McLab-Web/wiki) for more details.
 
 A live version of McLab Web can be seen at http://132.206.3.105/ if you're on the McGill network.

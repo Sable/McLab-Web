@@ -12,12 +12,10 @@
     "immutable": "^3.7.5",
     "key-mirror-nested": "^1.2.4",
     "multer": "^1.1.0",
-    "object-assign": "^1.0.0",
     "react": "^0.14.7",
     "react-bootstrap": "^0.27.2",
     "react-dom": "^0.14.7",
     "react-dropzone": "^2.1.0",
-    "react-select": "^0.8.2",
     "superagent": "^1.7.2"
   },
   "devDependencies": {
@@ -25,8 +23,10 @@
     "babel-preset-react": "^6.5.0",
     "babelify": "^6.3.0",
     "browserify": "^6.2.0",
+    "chai": "^3.5.0",
     "classnames": "^2.2.0",
     "envify": "^3.0.0",
+    "mocha": "^2.4.5",
     "reactify": "^0.15.2",
     "uglify-js": "~2.4.15",
     "watchify": "^2.1.1"
@@ -36,7 +36,8 @@
     "watch": "watchify -o ./static/bundle.js -v -d ./js/app.js",
     "build": "browserify . -t [envify --NODE_ENV production] [babelify --stage 0]  | uglifyjs -cm > ./static/bundle.min.js",
     "make_docs": "apidoc -i mcnode/ -o docs/",
-    "watch_docs": "watch -n5 apidoc -i mcnode/ -o docs/"
+    "watch_docs": "watch -n5 apidoc -i mcnode/ -o docs/",
+    "test": "./node_modules/.bin/mocha"
   },
   "author": "Deepanjan Roy",
   "browserify": {

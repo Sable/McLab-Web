@@ -80,11 +80,10 @@ function applyMc2For(sessionID, body, mainFile, cb){
               const archiveName = `fortran-package-${archiveUUID}`;
               const archivePath = path.join(genRootPath, archiveName + '.zip');
               const relPathToArchive = path.relative(userRoot, archivePath);
-              const package_path = `files/download/${relPathToArchive}`;
 
-              // Zip the files and return the path to the zip file (relative to /session, since this is the API call to be made)
+              // Zip the files and return the path to the zip file
               child_process.exec(`zip -j ${archivePath} ${fortranRootPath}/*.f95`, (err) =>{
-                cb(null, {package_path: package_path});
+                cb(null, {package_path: relPathToArchive});
               });
             });
           });
@@ -108,7 +107,7 @@ function compileToFortran(req, res) {
       res.json(package_path);
     }
     else{
-      res.status(400).json({msg: "Failed to compile the code into Fortran."});
+      res.status(404).json({msg: "Failed to compile the code into Fortran."});
     }
   });
 }
@@ -116,8 +115,7 @@ function compileToFortran(req, res) {
 // Run the McVM.js compiler to compile the Matlab files into Javascript files.
 function applyMcVMJS(sessionID, fileName, cb){
   const mainFilePath = userfile_utils.fileInWorkspace(sessionID, fileName); // path to entry point file to be compiled
-  const userWorkspace = userfile_utils.userWorkspace(sessionID);
-  const userJSFolder = path.join(userWorkspace, '/generated-JS');
+  const userJSFolder = userfile_utils.mcvmRoot(sessionID);
 
   // Compile using McVM.js
   const command = `${config.MCVM_PATH} ${mainFilePath}`;
@@ -130,11 +128,11 @@ function applyMcVMJS(sessionID, fileName, cb){
         const mainFileNameWithoutExtension = mainFileName.substr(0, mainFileName.indexOf('.'));
         // Ugly way of adding code to change console.log to postMessage (to send messages to the webworker's creator)
         // and to wrap the running code in a try/catch, then send the error to the parent if one occurs
-        const finalToWrite = `console.log = function(text){ postMessage(JSON.stringify(text)); }\n\ntry {\n${stdout}} \ncatch(err){\n    postMessage({err: err.toString()});\n}`;
-        fs.writeFile(path.join(userJSFolder, mainFileNameWithoutExtension + '.js'), finalToWrite, (err) => {
+        //const finalToWrite = `console.log = function(text){ postMessage(JSON.stringify(text)); }\n\ntry {\n${stdout}} \ncatch(err){\n    postMessage({err: err.toString()});\n}`;
+        //fs.writeFile(path.join(userJSFolder, mainFileNameWithoutExtension + '.js'), finalToWrite, (err) => {
+        fs.writeFile(path.join(userJSFolder, mainFileNameWithoutExtension + '.js'), stdout, (err) => {
           cb()
         });
-
       });
     }
     else {
@@ -151,7 +149,7 @@ function compileToJS(req, res){
       res.sendStatus(200);
     }
     else {
-      res.status(400).json(err);
+      res.status(404).json(err);
     }
   });
 }
@@ -160,3 +158,4 @@ module.exports = {
   compileToFortran,
   compileToJS
 };
+

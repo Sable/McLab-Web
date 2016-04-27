@@ -37,9 +37,7 @@ function printShortenedLink(){
 }
 
 function getSessionID(){
-  const endOfURL = window.location.href.slice(-37); // The sessionID plus a / at the end
-  const sessionID = endOfURL.slice(0, 36); // Remove the /
-  return sessionID;
+  return window.location.href.split('/')[4];
 }
 
 export default {

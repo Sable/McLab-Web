@@ -21,7 +21,7 @@ module.exports = function (app) {
     app.post('/files/upload/', multerInstance.any(), userfiles.upload);
     app.get('/files/filetree/', userfiles.filetree);
     app.get('/files/readfile/:filepath([\\w-]*)/?', userfiles.readFile);
-    app.get('^/session/:sessionID/files/download/:filepath([\\w-]*)/?', userfiles.serveGen);
+    app.get('^/files/download/:sessionID/:filepath([\\w-]*)/?', userfiles.serveGen);
 
     app.get('/analysis/kinds/:filepath([\\w-]*)/?', analysis.kindAnalysis);
     app.get('/aspect/:filepath([\\w-]*)/?', aspect.profileCode);
@@ -54,7 +54,7 @@ module.exports = function (app) {
  */
 
 /**
- * @api {get} /shortenURL/:url/ Shorten URL
+ * @api {get} /shortenURL/:url/ Shorten a URL
  * @apiName GetShortenedURL
  * @apiGroup Session
  * @apiParam {String} url URL to shorten.
@@ -143,7 +143,7 @@ module.exports = function (app) {
  */
 
 /**
- * @api {get} /session/:sessionID/files/download/:filepath/ Download a file inside the user's gen directory
+ * @api {get} /files/download/:sessionID/:filepath/ Download a file inside the user's gen directory
  * @apiName Download
  * @apiGroup Files
  * @apiParam {String} sessionID User's session ID.
@@ -224,4 +224,21 @@ module.exports = function (app) {
  * @apiHeader {String} SessionID User's session ID.
  *
  * @apiSuccess 200 Empty response.
+ */
+
+/**
+ * @api {get} /compile/mcvmjs/ Compile the user's files into Javascript code
+ * @apiName McVM.js
+ * @apiGroup Compile
+ * @apiParam {String} fileName The file to be compiled.
+ * @apiHeader {String} SessionID User's session ID.
+ *
+ * @apiSuccess 200 Empty response.
+ */
+
+/**
+ * @api {get} /docs/ Docs page
+ * @apiName GetDocs
+ * @apiGroup Docs
+ * @apiSuccess {HTML} index The index.html file that contains the documentation.
  */
