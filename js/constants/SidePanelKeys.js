@@ -6,5 +6,6 @@ import keyMirror from 'key-mirror-nested'
 export default keyMirror({
   FORTRAN_COMPILE_PANEL: '',
   KIND_ANALYSIS_PANEL: '',
-  JS_COMPILE_PANEL: ''
+  JS_COMPILE_PANEL: '',
+  ASPECT_PANEL: ''
 })

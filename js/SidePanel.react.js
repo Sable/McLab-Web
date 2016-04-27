@@ -3,6 +3,7 @@ import SidePanelKeys from './constants/SidePanelKeys';
 import FortranCompilePanelContainer from './FortranCompilePanelContainer.react';
 import KindAnalysisPanelContainer from './KindAnalysisPanelContainer.react';
 import JSCompilePanelContainer from './JSCompilePanelContainer.react';
+import AspectPanelContainer from './AspectPanelContainer.react'
 
 const {PropTypes, Component} = React;
 
@@ -10,6 +11,7 @@ const keyToModuleMap = new Map([
   [SidePanelKeys.FORTRAN_COMPILE_PANEL, FortranCompilePanelContainer],
   [SidePanelKeys.KIND_ANALYSIS_PANEL, KindAnalysisPanelContainer],
   [SidePanelKeys.JS_COMPILE_PANEL, JSCompilePanelContainer],
+  [SidePanelKeys.ASPECT_PANEL, AspectPanelContainer],
 ]);
 
 class SidePanel extends Component {

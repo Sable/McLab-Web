@@ -9,12 +9,17 @@ import AspectActions from './actions/AspectActions';
 
 const {PropTypes, Component} = React;
 
+const aspectOnClick = function(){
+  console.log("aspectOnClick");
+  Dispatcher.dispatch({
+    action: AT.ASPECT_PANEL.OPEN_PANEL
+  });
+};
 const fortranOnClick = function() {
   Dispatcher.dispatch({
     action: AT.FORTRAN_COMPILE_PANEL.OPEN_PANEL
   });
 };
-
 class TopNav extends Component {
   constructor(){
     super();
@@ -51,8 +56,8 @@ class TopNav extends Component {
             Get Short Link
           </a>
           <a className="pure-button topnav-button"
-            onClick={AspectActions.profileCode("sparsity")}>
-            Run Profiler
+            onClick={aspectOnClick}>
+            Run Profilerrrr
           </a> 
           <a className="pure-button topnav-button"
             onClick={JSCompileActions.openPanel}>

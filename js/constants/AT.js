@@ -47,4 +47,10 @@ export default keyMirror({
   JS_COMPILE_PANEL: {
     OPEN_PANEL: ''
   },
+  ASPECT_PANEL: {
+    OPEN_PANEL: '',
+    CONFIRM_MAIN_FILE: '',
+    OPEN_MAIN_FILE_SELECTION_MODE: '',
+    CLOSE_MAIN_FILE_SELECTION_MODE: ''
+  }
 });
