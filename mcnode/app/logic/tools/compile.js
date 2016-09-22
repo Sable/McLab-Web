@@ -112,50 +112,7 @@ function compileToFortran(req, res) {
   });
 }
 
-// Run the McVM.js compiler to compile the Matlab files into Javascript files.
-function applyMcVMJS(sessionID, fileName, cb){
-  const mainFilePath = userfile_utils.fileInWorkspace(sessionID, fileName); // path to entry point file to be compiled
-  const userJSFolder = userfile_utils.mcvmRoot(sessionID);
-
-  // Compile using McVM.js
-  const command = `${config.MCVM_PATH} ${mainFilePath}`;
-  child_process.exec(command, (err, stdout) =>{
-    // If the code compiled, write a new file (with the extension replaced with .js) to the user's generated-JS folder
-    if(!err){
-      // Create a generated-JS folder for the user if one doesn't exist
-      fs.mkdir(userJSFolder, (err) => {
-        const mainFileName = path.relative(path.dirname(mainFilePath), mainFilePath);
-        const mainFileNameWithoutExtension = mainFileName.substr(0, mainFileName.indexOf('.'));
-        // Ugly way of adding code to change console.log to postMessage (to send messages to the webworker's creator)
-        // and to wrap the running code in a try/catch, then send the error to the parent if one occurs
-        //const finalToWrite = `console.log = function(text){ postMessage(JSON.stringify(text)); }\n\ntry {\n${stdout}} \ncatch(err){\n    postMessage({err: err.toString()});\n}`;
-        //fs.writeFile(path.join(userJSFolder, mainFileNameWithoutExtension + '.js'), finalToWrite, (err) => {
-        fs.writeFile(path.join(userJSFolder, mainFileNameWithoutExtension + '.js'), stdout, (err) => {
-          cb()
-        });
-      });
-    }
-    else {
-      cb({message: err.message});
-    }
-  });
-}
-
-function compileToJS(req, res){
-  const sessionID = req.header('SessionID');
-  const fileName = req.body.fileName || '';
-  applyMcVMJS(sessionID, fileName, (err) => {
-    if (!err){
-      res.sendStatus(200);
-    }
-    else {
-      res.status(404).json(err);
-    }
-  });
-}
-
 module.exports = {
-  compileToFortran,
-  compileToJS
+  compileToFortran
 };
 

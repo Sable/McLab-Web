@@ -182,9 +182,58 @@ function serveGen(req, res) {
 
 }
 
+function saveFile(req, res) {
+    const sessionID = req.header('sessionID');
+    const filepath = req.params.filepath;
+    const write = req.body['write'];
+    let pathToFile = userfile_utils.fileInWorkspace(sessionID, filepath);
+    fs.writeFile(pathToFile, write, (err) => {
+        if (err) {
+            if (err.code === 'EACCES') {
+                res.status(403).json({error: `Could not write '${filepath}' to session ${sessionID}, permission denied.`});
+            }
+            else if (err.code === 'ENOENT') {
+                res.status(404).json({error: `'${filepath}' could not be written to session ${sessionID}`});
+                console.error(`'Attempted to write '${filepath}' for session ${sessionID} but ${pathToFile}' was not found on the server.`);
+            }
+            else {
+                res.status(500).json({error: err.toString()});
+            }
+        }
+        else {
+            res.end();
+        }
+    });
+}
+
+function newFile(req, res) {
+    const sessionID = req.header('sessionID');
+    const filepath = req.params.filepath;
+    const write = req.body['write'];
+    let pathToFile = userfile_utils.fileInWorkspace(sessionID, filepath);
+    fs.writeFile(pathToFile, write, {flag:'wx'}, (err) => {
+        if (err) {
+            if (err.code === 'EACCES') {
+                res.status(403).json({error: `Could not write '${filepath}' to session ${sessionID}, permission denied.`});
+            }
+            if (err.code === 'EEXIST') {
+                res.status(500).json({error: `Could not create '${filepath}', file already exists.`});
+            }
+            else {
+                res.status(500).json({error: err.toString()});
+            }
+        }
+        else {
+            res.end();
+        }
+    });
+}
+
 module.exports = {
     readFile,
     upload,
     filetree,
-    serveGen
+    serveGen,
+    saveFile,
+    newFile
 };

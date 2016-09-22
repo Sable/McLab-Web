@@ -1,55 +1,8 @@
 import {MapStore} from 'flux/utils';
 import Dispatcher from '../Dispatcher';
-import {Record, Map} from 'immutable';
-import LS from '../constants/LS';
 import AT from '../constants/AT';
 
 class KindAnalysisResultStore extends MapStore {
-
-  // action: AT.KIND_ANALYSIS.DATA_LOADED,
-  // data: {
-  //   filePath: "/Workspace/foo/bar",
-  //   variables: [
-  //     {
-  //       position: {
-  //       startRow: 6,
-  //       startColumn: 0,
-  //       endColumn: 1,
-  //       endRow: 6
-  //       },
-  //     name: "m"
-  //     },
-  //     {
-  //     position: {
-  //     startRow: 6,
-  //     startColumn: 7,
-  //     endColumn: 8,
-  //     endRow: 6
-  //     },
-  //     name: "m"
-  //     },
-  //   ],
-  //   functions: [
-  //     {
-  //     position: {
-  //     startRow: 6,
-  //     startColumn: 0,
-  //     endColumn: 1,
-  //     endRow: 6
-  //     },
-  //     name: "m"
-  //     },
-  //     {
-  //     position: {
-  //     startRow: 6,
-  //     startColumn: 7,
-  //     endColumn: 8,
-  //     endRow: 6
-  //     },
-  //     name: "m"
-  //     },
-  //   ],
-  // }
 
   reduce(map, payload) {
 

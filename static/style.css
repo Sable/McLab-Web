@@ -419,7 +419,7 @@ body {
   display: block;
 }
 
-.ace-marker-kind-analysis-function {
+.ace_marker-layer .analysis-function {
   background-color: hsla(80, 64%, 66%, 0.69);
   position: absolute;
   z-index: 4;  /* The marker should be above the current line strip */
@@ -427,12 +427,56 @@ body {
   box-sizing: content-box;
 }
 
-.ace-marker-kind-analysis-variable {
+.ace_marker-layer .analysis-variable {
   background-color: hsla(225, 77%, 64%, 0.22);
   position: absolute;
   z-index: 4;  /* The marker should be above the current line strip */
   border: 1px solid #AAA;
   box-sizing: content-box;
+}
+
+.ace_marker-layer .undefined-function {
+  background-color: hsla(0, 100%, 50%, 0.4);
+  position: absolute;
+  z-index: 4;  /* The marker should be above the current line strip */
+  /*border: 1px solid #AAA;*/
+  box-sizing: content-box;
+}
+
+.react-ace-marker-popup {
+  position: absolute;
+  z-index: 4;
+  font-size: small;
+  width: 250px;
+  padding: 6px;
+  border: 1px solid #AAA;
+  border-radius: 5px;
+  background-color: white;
+  text-align: justify;
+  pointer-events: auto;
+  -webkit-user-select: auto;
+  -moz-user-select: auto;
+  -ms-user-select: auto;
+  user-select: auto;
+  font-family: Source Sans Pro, sans-serif;
+}
+
+.react-ace-marker-popup .message {
+  margin-bottom: 10px;
+}
+
+.react-ace-marker-popup .dropdown {
+  font-size: smaller;
+}
+
+.react-ace-marker-popup .dropdown a {
+  font-size: smaller;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.strip-margins {
+  margin: 0;
 }
 
 .terminal-error-color {

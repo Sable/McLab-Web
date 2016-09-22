@@ -1,16 +1,8 @@
 import {MapStore} from 'flux/utils';
 import Dispatcher from '../Dispatcher'
-import LS from '../constants/LS'
 import AT from '../constants/AT'
 
 class FileContentsStore extends MapStore {
-
-  // data: {
-  //   success: true | false,
-  //   filepath: /* always exists */,
-  //   fileContents: /* only if success is true */
-  //   error: /* only if success is false */
-  // }
 
   reduce(map, payload) {
     switch (payload.action) {

@@ -1,7 +1,6 @@
 import {Store} from 'flux/utils';
 import Dispatcher from '../Dispatcher';
 import SelectedFileStore from './SelectedFileStore';
-import AT from '../constants/AT';
 
 class OpenFileStore extends Store {
 

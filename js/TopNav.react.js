@@ -2,7 +2,6 @@ import AT from './constants/AT';
 import classnames from 'classnames';
 import Dispatcher from './Dispatcher';
 import KindAnalysisActions from './actions/KindAnalysisActions';
-import JSCompileActions from './actions/JSCompileActions';
 import OnLoadActions from './actions/OnLoadActions';
 import React from 'react';
 
@@ -48,10 +47,6 @@ class TopNav extends Component {
           <a className="pure-button topnav-button"
             onClick={OnLoadActions.printShortenedLink}>
             Get Short Link
-          </a>
-          <a className="pure-button topnav-button"
-            onClick={JSCompileActions.openPanel}>
-            Compile/run Matlab to JS
           </a>
         </div>
       </div>

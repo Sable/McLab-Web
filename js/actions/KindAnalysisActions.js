@@ -7,7 +7,8 @@ import OnLoadActions from './OnLoadActions';
 import EditorMarkerActions from './EditorMarkerActions';
 import request from 'superagent';
 import React from 'react';
-
+import BuiltinFuncs from '../constants/MatlabBuiltinFunctions';
+import MT from '../constants/MarkerTypes';
 
 function printKindAnalysisSuccess() {
   Dispatcher.dispatch({
@@ -50,6 +51,7 @@ function runKindAnalysis() {
   // FIXME: substring(10) is a hack to get rid of 'workspace/'
   const baseURL = window.location.origin;
   const sessionID = OnLoadActions.getSessionID();
+    console.log(baseURL + '/analysis/kinds/' + filePath.substring(10));
   request.get(baseURL + '/analysis/kinds/' + filePath.substring(10))
       .set({SessionID: sessionID})
     .end(function(err, res) {
@@ -73,16 +75,13 @@ function runKindAnalysis() {
         const data = JSON.parse(res.text);
         const variables = data['VAR'] || [];
         const functions = data['FUN'] || [];
+        const undefinedFunctions = functions.filter(func => !BuiltinFuncs.includes(func.name));
+
         EditorMarkerActions.setMarkers(
           filePath,
-          Immutable.Map({
-            "ace-marker-kind-analysis-variable": Immutable.List(
-              variables.map(v => v.position)
-            ),
-            "ace-marker-kind-analysis-function": Immutable.List(
-              functions.map(f => f.position)
-            )
-          })
+            Immutable.Map({
+                [MT.FUNC_UNDEFINED]: Immutable.List(undefinedFunctions)
+            })
         );
         EditorMarkerActions.show(filePath);
         Dispatcher.dispatch({

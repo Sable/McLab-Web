@@ -88,7 +88,7 @@ class FortranCompilePanel extends Component {
   }
 
   _getAddArgumentButton() {
-    if (this.props.argumentList.length === 0) {
+    if (this.props.argumentList.isEmpty()) {
       return (
         <a className="fortran-compiler-select-main-file"
           onClick={() => Dispatcher.dispatch({
