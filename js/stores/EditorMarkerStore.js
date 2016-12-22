@@ -1,47 +1,11 @@
 import {MapStore} from 'flux/utils';
 import Dispatcher from '../Dispatcher';
 import {Record, Map} from 'immutable';
-import LS from '../constants/LS';
 import AT from '../constants/AT';
 
 const MarkerRecord = Record({visible: false, markers: Map()})
 
 class EditorMarkerStore extends MapStore {
-
-  // action: AT.EDITOR.SET_MARKERS,
-  // data: {
-  //   filePath: "/Workspace/foo/bar",
-  //   markers: Immutable.Map({
-  //     "ace-code-marker": Immutable.List([
-  //       {
-  //         startRow: 0,
-  //         startColumn: 0,
-  //         endRow: 0,
-  //         endColumn: 5,
-  //       },
-  //       {
-  //         startRow: 0,
-  //         startColumn: 2,
-  //         endRow: 0,
-  //         endColumn: 9,
-  //       },
-  //     ]),
-  //     "ace-code-marker-class2": Immutable.List([
-  //       {
-  //         startRow: 0,
-  //         startColumn: 0,
-  //         endRow: 0,
-  //         endColumn: 5,
-  //       },
-  //       {
-  //         startRow: 0,
-  //         startColumn: 2,
-  //         endRow: 0,
-  //         endColumn: 9,
-  //       },
-  //     ]),
-  //   }),
-  // }
 
   reduce(map, payload) {
 

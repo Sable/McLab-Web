@@ -25,7 +25,8 @@ mcenv/
 deploy.sh
 
 # Same thing for node
-mcnode/config/config.js
+# mcnode/config/config.js
 
 # Jetbrains IDEs
 .idea
+#static/thirdparty/ace-build

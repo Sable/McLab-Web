@@ -11,20 +11,6 @@ class FileTreeStore extends Store {
     this._loadState = LS.LOADING;
   }
 
-  // data {
-  //   success: true | false
-  //   // only if success === true
-  //   contents: {
-  //     slkdjflskjdf
-  //     lskdj flskdjf
-  //     sdlkjf lsdj kf
-
-  //   }
-  //   // only if success === false
-  //   error: {
-  //
-  //   }
-  // }
   __onDispatch(payload) {
     switch (payload.action) {
       case AT.FILE_EXPLORER.DATA_LOADED:
@@ -46,25 +32,6 @@ class FileTreeStore extends Store {
   getLoadState() {
     return this._loadState;
   }
-
-  //fileInWorkspace(fileToFind, fileTree){
-  //  if (!fileToFind){
-  //    return false;
-  //  }
-  //  if (fileTree){
-  //    for (let fileName of fileTree.files){
-  //      if (fileName == fileToFind) {
-  //        return true;
-  //      }
-  //    }
-  //    for (let directory of fileTree.directories){
-  //      if (this.fileInWorkspace(fileToFind, directory)){
-  //        return true;
-  //      }
-  //    }
-  //    return false;
-  //  }
-  //}
 }
 
 module.exports = new FileTreeStore(Dispatcher);

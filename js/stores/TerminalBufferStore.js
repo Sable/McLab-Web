@@ -10,10 +10,6 @@ class TerminalBufferStore extends Store {
     this._buffer = immutable.List();
   }
 
-  // data: {
-  //   newLine: string
-  // }
-
   __onDispatch(payload) {
     switch (payload.action) {
       case AT.TERMINAL.ADD_NEW_LINE:

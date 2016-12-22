@@ -40,7 +40,7 @@ function extractKinds(jsonSubtree, output){
 // Call the kind analysis tool and process the output
 function performKindAnalysis(sessionID, filepath, cb){
   let pathToFile = userfile_utils.fileInWorkspace(sessionID, filepath);
-  const command = `java -jar ${config.MCLAB_CORE_JAR_PATH} --json ${pathToFile}`;
+  const command = `java -jar '${config.MCLAB_CORE_JAR_PATH}' --json '${pathToFile}'`;
 
   child_process.exec(command, (error, stdout) =>{
     try {
